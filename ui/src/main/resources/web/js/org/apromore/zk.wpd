@@ -1,0 +1,4 @@
+<package name="org.apromore" language="xul/html">
+    <script src="bpmn-viewer.development.js"/>
+    <widget name="CustomWidget"/>
+</package>

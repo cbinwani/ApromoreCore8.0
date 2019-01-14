@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>apromore-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../apromore-parent</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apromore</groupId>
+  <artifactId>ui-spi</artifactId>
+  <packaging>bundle</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Apromore :: ui-spi</name>
+  <description>
+     SPI for adding item viewers and menu items to the user interface.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Import-Package>
+              *
+            </Import-Package>
+            <Export-Package>
+              org.apromore.ui.spi
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>item-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+  </dependencies>
+</project>

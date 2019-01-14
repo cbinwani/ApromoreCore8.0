@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+  <preference>
+    <name>org.zkoss.zk.ui.WebApp.name</name>
+    <value>Apromore 2</value>
+  </preference>
+
+  <!-- Note that this is overridden by the value of ui.theme in site.properties -->
+  <library-property>
+    <name>org.zkoss.theme.preferred</name>
+    <value>silvertail</value>  <!-- atlantic, breeze, sapphire, silvertail -->
+  </library-property>
+
+  <language-config>
+    <addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
+  </language-config>
+</zk>

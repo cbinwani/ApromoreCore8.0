@@ -1,0 +1,94 @@
+package org.apromore.item.impl;
+
+import java.security.Principal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import org.apromore.item.Item;
+
+/**
+ * Records the grant to a principal of an item-related permission.
+ */
+@Entity
+@Table(name = "principal_item_permission", uniqueConstraints = { @UniqueConstraint(columnNames = {"id"})})
+public class PrincipalItemPermissionImpl {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
+    
+    @Column(name = "principal_name", unique = false, nullable = false)
+    private String principalName;
+
+    @Column(name = "principal_classname", unique = false, nullable = false)
+    private String principalClassname;
+
+    @Column(name = "item_id", unique = false, nullable = false)
+    private Integer itemId;
+
+    @Column(name = "permission", unique = false, nullable = false)
+    private String permission;
+
+
+    // Accessors
+
+    /** @return primary key */
+    public Integer getId() {
+        return id;
+    }
+
+    void setId(Integer newId) {
+        this.id = newId;
+    }
+
+    /*
+    public Principal getPrincipal() {
+        return new Principal() {
+            public String getName() { return principalName; }
+        };
+    }
+
+    public void setPrincipal(Principal principal) {
+        this.principalName      = principal.getName();
+        this.principalClassname = principal.getClass().getCanonicalName();
+    }
+
+    public void setItem(Item item) {
+        this.itemId = item.getId();
+    }
+    */
+
+    public String getPrincipalName() {
+        return this.principalName;
+    }
+
+    public void setPrincipalName(String newPrincipalName) {
+        this.principalName = newPrincipalName;
+    }
+
+    public String getPrincipalClassname() {
+        return this.principalClassname;
+    }
+
+    public void setPrincipalClassname(String newPrincipalClassname) {
+        this.principalClassname = newPrincipalClassname;
+    }
+
+    public Integer getItemId() {
+        return this.itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+}

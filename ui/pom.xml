@@ -1,0 +1,172 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>apromore-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../apromore-parent</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apromore</groupId>
+  <artifactId>ui</artifactId>
+  <packaging>bundle</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Apromore :: ui</name>
+  <description>
+    Provides a web landing page for the overall system.
+    Presents a desktop for organizing and selecting the various content types (e.g. models, logs) provided by content plugins.
+    Presents a menubar dynamically populated by menu items to access tool plugins.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Import-Package>
+<!--
+              metainfo.mesg,
+              metainfo.xml,
+              metainfo.zk,
+              web.js.zul,
+              web.js.zul.box,
+              web.js.zul.box.less,
+              web.js.zul.box.mold,
+              web.js.zul.db,
+              web.js.zul.db.less,
+              web.js.zul.db.mold,
+              web.js.zul.fud,
+              web.js.zul.grid,
+              web.js.zul.grid.less,
+              web.js.zul.grid.mold,
+              web.js.zul.inp,
+              web.js.zul.inp.less,
+              web.js.zul.inp.mold,
+              web.js.zul.lang,
+              web.js.zul.layout,
+              web.js.zul.layout.less,
+              web.js.zul.layout.mold,
+              web.js.zul.med,
+              web.js.zul.med.mold,
+              web.js.zul.menu,
+              web.js.zul.menu.less,
+              web.js.zul.menu.mold,
+              web.js.zul.mesh,
+              web.js.zul.mesh.less,
+              web.js.zul.mesh.mold,
+              web.js.zul.sel,
+              web.js.zul.sel.less,
+              web.js.zul.sel.mold,
+              web.js.zul.tab,
+              web.js.zul.tab.less,
+              web.js.zul.tab.mold,
+              web.js.zul.utl,
+              web.js.zul.utl.mold,
+              web.js.zul.wgt,
+              web.js.zul.wgt.less,
+              web.js.zul.wgt.mold,
+              web.js.zul.wnd,
+              web.js.zul.wnd.less,
+              web.js.zul.wnd.mold,
+              web.zul.css,
+              web.zul.html,
+              web.zul.img.common,
+              web.zul.img.grid,
+              web.zul.img.misc,
+              web.zul.img.msgbox,
+              web.zul.img.slider,
+              web.zul.less,
+              web.zul.less.font,
+-->
+              *
+            </Import-Package>
+            <DynamicImport-Package>
+              <!-- Packages dynamically referenced by UIPlugins.  TODO: figure out a way for ZK to do dynamic loading in UIPlugins without this -->
+              *
+            </DynamicImport-Package>
+            <Export-Package>
+              metainfo.zk;-split-package:=merge-first,
+              web.js.org.apromore,
+
+              org.apromore.ui,
+              org.apromore.ui.spi
+            </Export-Package>
+            <!--
+            <Web-ContextPath>/</Web-ContextPath>
+            -->
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+          <packagingExcludes>%regex[WEB-INF/lib/.*jar]</packagingExcludes>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>  <!-- This version of the Servlet API is specified by OSGi R6 section 140.1 "HTTP Whiteboard Specification" -->
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>item-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>ui-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>ui-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zcommon</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zkplus</artifactId>
+    </dependency>
+-->
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,12 @@
+<window xmlns:n="http://www.zkoss.org/2005/zk/native"
+        xmlns:w="http://www.zkoss.org/2005/zk/client"
+        xmlns:z="http://www.zkoss.org/2005/zul"
+        id="bpmnUIWindow" closable="true" position="center" title="BPMN editor"> <!-- apply="org.apromore.bpmn_ui.BPMNUIWindowController"-->
+    <vbox width="100%">
+        <custom id="bpmn1" height="700px"/>
+        <hbox>
+            <button id="saveButton" label="Save" />
+            <button id="closeButton" label="Close" />
+        </hbox>
+    </vbox>
+</window>

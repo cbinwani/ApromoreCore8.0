@@ -1,0 +1,24 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+  xmlns:jpa="http://aries.apache.org/xmlns/jpa/v2.0.0"
+  xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.2.0">
+
+  <!-- OSGi service dependencies -->
+  <reference id="itemRepository" interface="org.apromore.item.jpa.ItemRepository"/>
+  <reference id="uiService" interface="org.apromore.ui.UIService"/>
+
+  <!-- Dynamically maintain a list of the available ItemPlugins -->
+  <bean id="itemPluginListener" class="org.apromore.item.impl.ItemPluginListener"/>
+  <reference-list id="itemPlugins" interface="org.apromore.item.spi.ItemPlugin" availability="optional">
+    <reference-listener ref="itemPluginListener" bind-method="onBind" unbind-method="onUnbind"/>
+  </reference-list>
+
+  <!-- Publish the ItemService to clients, and the ItemPluginContext to item providers -->
+  <bean id="itemService" class="org.apromore.item.impl.ItemServiceImpl">
+    <argument ref="itemPlugins"/>
+    <argument ref="uiService"/>
+    <property name="itemRepository" ref="itemRepository"/>
+  </bean>
+  <service ref="itemService" interface="org.apromore.item.spi.ItemPluginContext"/>
+  <service ref="itemService" interface="org.apromore.item.ItemService"/>
+
+</blueprint>

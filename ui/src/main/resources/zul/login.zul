@@ -1,0 +1,28 @@
+<window xmlns:n="http://www.zkoss.org/2005/zk/native"
+        xmlns:w="http://www.zkoss.org/2005/zk/client"
+        xmlns:z="http://www.zkoss.org/2005/zul"
+        width="350px" closable="true" position="center" title="${labels.login.title}">
+    <label id="reasonLabel"/>
+    <grid>
+        <columns>
+            <column width="140px"/>
+            <column width="200px"/>
+        </columns>
+        <rows>
+            <row>
+                <label value="${labels.login.username}"/>
+                <textbox id="username" value="" width="100%" tabindex="1" />
+            </row>
+            <row>
+                <label value="${labels.login.password}"/>
+                <textbox id="password" type="password" value="" width="100%" tabindex="2" />
+            </row>
+            <row>
+               <cell colspan="2" style="text-align: center">
+                   <button id="loginButton" label="${labels.login.login}"/>
+                   <button id="cancelButton" label="${labels.cancel}"/>
+               </cell>
+           </row>
+        </rows>
+    </grid>
+</window>

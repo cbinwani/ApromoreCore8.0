@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apromore</groupId>
+  <artifactId>apromore</artifactId>
+  <packaging>pom</packaging>
+  <version>8.0-SNAPSHOT</version>
+  <name>Apromore</name>
+  <description>A top-level target for building the various Apromore modules.</description>
+
+  <modules>
+    <module>apromore-parent</module>
+<!--
+    <module>bpmn-diagram-importer</module>
+    <module>bpmn-item</module>
+-->
+    <module>bpmn-item-jpa</module>
+    <module>bpmn-item-jpa-eclipselink</module>
+<!--
+    <module>bpmn-ui</module>
+-->
+    <module>features</module>
+    <module>item</module>
+    <module>item-api</module>
+    <module>item-jpa</module>
+    <module>item-jpa-eclipselink</module>
+    <module>item-spi</module>
+    <module>item-ui</module>
+<!--
+    <module>metrics</module>
+    <module>metrics-ui</module>
+-->
+    <module>ui</module>
+    <module>ui-api</module>
+    <module>ui-spi</module>
+    <module>xes-item</module>
+    <module>xes-item-jpa</module>
+    <module>xes-item-jpa-eclipselink</module>
+    <module>zk</module>
+  </modules>
+
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License, Version 3.0</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <distribution>repo</distribution>
+     </license>
+  </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.0.1</version>
+          <executions>
+            <execution>
+            <id>aggregate</id>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+            <phase>site</phase>
+            <configuration>
+              <docfilessubdirs>true</docfilessubdirs>
+              <links>
+                <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+                <link>http://docs.oracle.com/javaee/7/api</link>
+              </links>
+            </configuration>
+          </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
