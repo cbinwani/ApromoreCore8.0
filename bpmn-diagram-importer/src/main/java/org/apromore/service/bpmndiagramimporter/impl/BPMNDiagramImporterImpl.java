@@ -86,23 +86,43 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
         processes = new LinkedList<>();
 
         try {
-
-			/* Creating the JAXBContext from the xsd file */
-            //LOGGER.info("importBPMNDiagram: Creating JAXBcontext...");
+            // Creating the JAXBContext from the xsd file
+            LOGGER.info("importBPMNDiagram: Creating JAXBcontext...");
+/*
             jaxbContext = JAXBContext.newInstance( TDefinitions.class, Configurable.class,
                                                 ConfigurationAnnotationAssociation.class,
                                                 ConfigurationAnnotationShape.class, Variants.class );
-            //LOGGER.info("Created JAXBcontext!");
+*/
+/*
+            Class[] classes = { TDefinitions.class, Configurable.class,
+                                                ConfigurationAnnotationAssociation.class,
+                                                ConfigurationAnnotationShape.class, Variants.class };
+*/
+            //Map<String, String> properties = new HashMap<>();
+            //properties.put(JAXBContext.JAXB_CONTEXT_FACTORY, "org.eclipse.persistence.jaxb.JAXBContextFactory");
+            ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+            try {
+                Thread.currentThread().setContextClassLoader(TDefinitions.class.getClassLoader());
+                jaxbContext = JAXBContext.newInstance(TDefinitions.class, Configurable.class,
+                                                ConfigurationAnnotationAssociation.class,
+                                                ConfigurationAnnotationShape.class, Variants.class);
+
+            } finally {
+                Thread.currentThread().setContextClassLoader(currentClassLoader);
+            }
+            LOGGER.info("Created JAXBcontext!");
 
             //LOGGER.info("importBPMNDiagram: Creating Unmarshaller...");
             unmarshaller = jaxbContext.createUnmarshaller();
             //LOGGER.info("Created Unmarshaller");
 
+/*
             SchemaFactory sf = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
 
-            File schemaFile = new File(classLoader.getResource("./xsd/BPMN20.xsd").getFile());
+            File schemaFile = new File(TDefinitions.class.getClassLoader().getResource("xsd/BPMN20.xsd").getFile());
             Schema schema = sf.newSchema(schemaFile);
             unmarshaller.setSchema(schema);
+*/
 
             //LOGGER.info("importBPMNDiagram: Unmarshalling...");
             Object o = unmarshaller.unmarshal(new StringReader(xmlProcess));

@@ -5,24 +5,31 @@
 
     <feature name="apromore" version="${project.version}" description="Apromore application">
         <feature version="[1,2)">apromore-datasource-h2</feature>
-        <feature version="[1,2)">apromore-zk</feature>
         <feature version="[1,2)">apromore-ui</feature>
 
         <feature version="[1,2)">apromore-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-item</feature>
         <feature version="[1,2)">apromore-item-ui</feature>
 
-        <!--
         <feature version="[1,2)">apromore-bpmn-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-bpmn-item</feature>
         <feature version="[1,2)">apromore-bpmn-ui</feature>
 
         <feature version="[1,2)">apromore-xes-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-xes-item</feature>
-        -->
+
+        <feature version="[1,2)">apromore-metrics-ui</feature>
+    </feature>
+
+    <feature name="apromore-bpmn-diagram-importer" version="2.0" description="Parse BPMN into ProM graph">
+        <feature>apromore-bpmn-schema</feature>
+        <feature>raffaeleconforti</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/bpmndiagramimporter-logic/2.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-bpmn-item" version="${project.version}" description="Apromore BPMN item provider">
+        <feature>apromore-bpmn-diagram-importer</feature>
         <feature>apromore-bpmn-item-jpa</feature>
         <bundle>mvn:org.apromore/bpmn-item/1.0-SNAPSHOT</bundle>
     </feature>
@@ -47,10 +54,18 @@
         <bundle>mvn:org.apromore/bpmn-item-jpa-eclipselink/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-bpmn-schema" version="1.2" description="JAXB object model for BPMN 2.0">
+        <bundle>mvn:org.apromore/bpmn-schema/1.2</bundle>
+    </feature>
+
     <feature name="apromore-bpmn-ui" version="${project.version}" description="Apromore BPMN editor (bpmn.io)">
         <feature>apromore-bpmn-item</feature>
         <feature>apromore-ui-spi</feature>
         <bundle>mvn:org.apromore/bpmn-ui/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-bpmntk" version="${project.version}" description="BPMN toolkit">
+        <bundle>mvn:org.apromore/bpmntk-osgi/1.1</bundle>
     </feature>
 
     <feature name="apromore-datasource-h2" version="${project.version}" description="Apromore database on H2">
@@ -125,6 +140,20 @@
         <bundle>mvn:org.apromore/item-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-metrics" version="${project.version}" description="Measurement service">
+        <feature>apromore-bpmntk</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/metrics-logic/2.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-metrics-ui" version="${project.version}" description="Measurement service user interface plugin">
+        <feature>apromore-metrics</feature>
+        <feature>apromore-bpmn-item</feature>
+        <feature>apromore-xes-item</feature>
+        <feature>apromore-ui-spi</feature>
+        <bundle>mvn:org.apromore/metrics-ui/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-ui" version="${project.version}" description="Apromore web user interface">
         <feature>apromore-item-api</feature>
         <feature>apromore-ui-api</feature>
@@ -147,6 +176,7 @@
 
     <feature name="apromore-xes-item" version="${project.version}" description="Apromore XES item provider">
         <feature>apromore-xes-item-jpa</feature>
+        <feature>xes</feature>
         <bundle>mvn:org.apromore/xes-item/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -172,6 +202,46 @@
 
     <feature name="apromore-zk" version="${project.version}" description="ZK UI toolkit">
         <bundle>mvn:org.apromore/zk/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="eclipse-collections" version="9.2.0" description="Eclipse collections">
+        <bundle>mvn:org.apromore/eclipse-collections-osgi/1.1</bundle>
+    </feature>
+
+    <feature name="guava" version="14.0.1" description="Google Java libraries">
+        <bundle>mvn:com.google.guava/guava/14.0.1</bundle>
+    </feature>
+
+    <!--
+    <feature name="lpsolve" version="1.0" description="Linear programming solver">
+        <bundle>mvn:org.apromore/lpsolve-osgi/1.1</bundle>
+    </feature>
+
+    <feature name="prom" version="6.5.20170418" description="Process mining utilities">
+        <feature>lpsolve</feature>
+        <bundle>mvn:org.apromore/prom6-osgi/6.0</bundle>
+    </feature>
+    -->
+
+    <feature name="raffaeleconforti" version="1.1" description="Process mining utilities">
+        <feature>xes</feature>
+        <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.1</bundle>
+    </feature>
+
+    <feature name="xes" version="6.5.20170418" description="OpenXES log utilities">
+        <feature>eclipse-collections</feature>
+        <feature>guava</feature>
+        <feature>xstream</feature>
+        <bundle>mvn:org.apromore/log-osgi/1.1</bundle>
+    </feature>
+
+    <feature name="xpp" version="1.1.4" description="XML pull parser">
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xpp3/1.1.4c_7</bundle>
+    </feature>
+
+    <feature name="xstream" version="1.4.8" description="Thoughtworks Xstream library">
+        <feature>xpp</feature>
+        <bundle>mvn:com.thoughtworks.xstream/xstream/1.4.8</bundle>
     </feature>
 
 </features>

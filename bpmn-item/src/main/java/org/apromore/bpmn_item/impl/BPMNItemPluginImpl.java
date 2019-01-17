@@ -27,13 +27,13 @@ import org.apromore.item.spi.ItemTypeException;
 import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
-class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem> {
+public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem> {
 
     private BpmnItemRepository  bpmnItemRepository;
     private ItemPluginContext   itemPluginContext;
     private BPMNDiagramImporter importerService;
 
-    BPMNItemPluginImpl(ItemPluginContext itemPluginContext, BPMNDiagramImporter importerService) {
+    public BPMNItemPluginImpl(ItemPluginContext itemPluginContext, BPMNDiagramImporter importerService) {
         if (itemPluginContext == null) {
             throw new IllegalArgumentException("Item plugin context missing");
         }

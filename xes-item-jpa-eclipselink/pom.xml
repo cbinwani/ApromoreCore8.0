@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>org.apromore</groupId>
@@ -44,7 +22,6 @@
         <dependency>
             <groupId>org.apromore</groupId>
             <artifactId>xes-item-jpa</artifactId>
-            <version>${project.version}</version>  <!-- redundant; remove -->
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -54,12 +31,10 @@
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
-            <version>1.2</version>  <!-- redundant; remove -->
         </dependency>
         <dependency>
             <groupId>javax.interceptor</groupId>
             <artifactId>javax.interceptor-api</artifactId>
-            <version>1.2</version>  <!-- redundant; remove -->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

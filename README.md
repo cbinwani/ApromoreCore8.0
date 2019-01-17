@@ -3,7 +3,7 @@
 ## Building
 ### Requirements
 Development has been done on MacOS 10.14.3 "Mojave", but theoretically only the following requirements exist:
-- JDK 9 or later
+- JDK 10 (9 or later)
 - Apache Maven 3.6.0 (https://maven.apache.org/)
 
 ### Procedure
@@ -13,7 +13,7 @@ Assuming the bash shell:
 
 ## Running
 ### Requirements
-- JDK 10 or JDK 9
+- JDK 10 or JDK 9 (Karaf isn't cleared for 11 yet, and bpmn-ui requires JDK 9 methods)
 - Apache Karaf 4.2.2 (https://karaf.apache.org/)
 
 ### Procedure

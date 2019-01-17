@@ -20,7 +20,7 @@
 
 package org.apromore.service.metrics;
 
-import org.apromore.graph.canonical.Canonical;
+//import org.apromore.graph.canonical.Canonical;
 import org.deckfour.xes.model.XLog;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
@@ -36,7 +36,7 @@ public interface MetricsService {
                                        boolean structuredness, boolean separability,
                                        boolean duplicates);
 
-    Map<String, String> computeCanonicalMetrics(Canonical diagram);
+    //Map<String, String> computeCanonicalMetrics(Canonical diagram);
 
     Map<String, String> computeMetrics(XLog log);
 

@@ -2,10 +2,11 @@
 
   <reference id="bpmnItemService" interface="org.apromore.bpmn_item.BPMNItemService"/>
 
-  <!-- Export the UIPlugin -->
-  <bean id="uiPlugin" class="org.apromore.bpmn_ui.BPMNUIPlugin">
-    <argument ref="bpmnItemService"/>
-  </bean>
-  <service ref="uiPlugin" interface="org.apromore.ui.spi.UIPlugin"/>
+  <!-- Item / Edit BPMN -->
+  <service interface="org.apromore.ui.spi.UIPlugin">
+    <bean class="org.apromore.bpmn_ui.BPMNUIPlugin">
+      <argument ref="bpmnItemService"/>
+    </bean>
+  </service>
 
 </blueprint>

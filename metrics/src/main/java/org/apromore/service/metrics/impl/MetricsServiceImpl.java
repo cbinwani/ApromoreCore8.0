@@ -31,10 +31,12 @@ import de.hpi.bpt.graph.algo.tctree.TCType;
 import de.hpi.bpt.hypergraph.abs.IVertex;
 import de.hpi.bpt.hypergraph.abs.Vertex;
 
+/*
 import org.apromore.graph.canonical.CPFEdge;
 import org.apromore.graph.canonical.CPFNode;
 import org.apromore.graph.canonical.Canonical;
 import org.apromore.graph.canonical.NodeTypeEnum;
+*/
 //import org.apromore.plugin.DefaultParameterAwarePlugin;
 import org.apromore.service.metrics.MetricsService;
 import org.deckfour.xes.extension.std.XConceptExtension;
@@ -43,6 +45,7 @@ import org.deckfour.xes.extension.std.XTimeExtension;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
+import org.osgi.service.component.annotations.Component;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,17 +55,18 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static org.apromore.graph.canonical.NodeTypeEnum.*;
+//import static org.apromore.graph.canonical.NodeTypeEnum.*;
 
 /**
  * Created by Adriano Augusto on 18/04/2016.
  */
 //@Service
+@Component
 public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implements MetricsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MetricsServiceImpl.class);
-    private Canonical diagram;
-    private String bonds;
-    private String rigids;
+    //private Canonical diagram;
+    //private String bonds;
+    //private String rigids;
 
     @Override
     public Map<String, String> computeMetrics(BPMNDiagram model, boolean size, boolean cfc, boolean acd,
@@ -75,6 +79,7 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
                                      structuredness, separability, duplicates);
     }
 
+    /*
     @Override
     public Map<String, String> computeCanonicalMetrics(Canonical diagram) {
         Map<String, String> result = new HashMap<>();
@@ -95,6 +100,7 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
 
         return result;
     }
+    */
 
     @Override
     public Map<String, String> computeMetrics(XLog log) {
@@ -162,6 +168,7 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
         return result;
     }
 
+    /*
     private String computeSize() {
         int size = 0;
         if(diagram == null) return "n/a";
@@ -483,5 +490,6 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
 
         return false;
     }
+    */
 
 }

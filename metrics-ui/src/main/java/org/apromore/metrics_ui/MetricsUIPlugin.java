@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 // Third party packages
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.Event;
@@ -44,6 +46,7 @@ import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.item.Item;
 import org.apromore.service.metrics.MetricsService;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.xes_item.XESItem;
 
@@ -52,15 +55,17 @@ import org.apromore.xes_item.XESItem;
  *
  * @author Adriano Augusto 18/04/2016
  */
+@Component(service = {UIPlugin.class})
 public class MetricsUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MetricsUIPlugin.class);
 
+    @Reference
     private MetricsService metricsService;
 
-    public MetricsUIPlugin(MetricsService metricsService) {
+    public MetricsUIPlugin(/* MetricsService metricsService */) {
 
-        this.metricsService  = metricsService;
+        //this.metricsService  = metricsService;
 
         groupLabel = "Analyze";
         label      = "Measure";

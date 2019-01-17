@@ -78,12 +78,6 @@
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zk</artifactId>
     </dependency>
-<!--
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zkplus</artifactId>
-    </dependency>
--->
     <dependency>
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zul</artifactId>
