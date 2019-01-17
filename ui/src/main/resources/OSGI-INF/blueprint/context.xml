@@ -5,16 +5,11 @@
     <cm:property-placeholder persistent-id="org.apromore" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="ui.theme" value="breeze"/>
-<!--
             <cm:property name="ui.menuorder" value="Account,Item,Discover,Analyze,Redesign,Implement,Monitor"/>
--->
         </cm:default-properties>
     </cm:property-placeholder>
 
     <bean id="uiMenuOrder" class="java.lang.String">
-<!--
-        <argument type="java.lang.String" value="Account,Item,Discover,Analyze,Redesign,Implement,Monitor"/>
--->
         <argument type="java.lang.String" value="${ui.menuorder}"/>
     </bean>
 
@@ -33,10 +28,6 @@
         <bean class="org.apromore.ui.impl.UIServiceImpl">
             <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
             <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
-<!--
-            <property name="loginConfigurationName" value="apromore"/>
-            <property name="userPrincipalClass" value="org.apache.karaf.jaas.boot.principal.UserPrincipal"/>
--->
         </bean>
     </service>
 
@@ -67,17 +58,6 @@
         </service-properties>
         <bean class="org.zkoss.zk.au.http.DHtmlUpdateServlet"/>
     </service>
-
-<!--
-    <service interface="javax.servlet.Servlet">
-        <service-properties>
-            <entry key="osgi.http.whiteboard.servlet.pattern" value="/"/>
-            <entry key="osgi.http.whiteboard.servlet.name" value="defaultServlet"/>
-            <entry key="servlet.init.test-init-parameter" value="Default"/>
-        </service-properties>
-        <bean class="org.apromore.ui.impl.TestServlet"/>
-    </service>
--->
 
     <!-- Resource service -->
     <service interface="java.io.Serializable">
