@@ -18,15 +18,26 @@ import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
 import org.apromore.ui.UIService;
+//import org.osgi.service.component.annotations.Component;
+//import org.osgi.service.component.annotations.Reference;
+//import static org.osgi.service.component.annotations.FieldOption.UPDATE;
+//import static org.osgi.service.component.annotations.ReferenceCardinality.MULTIPLE;
+//import static org.osgi.service.component.annotations.ReferencePolicy.DYNAMIC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//@Component(service = {ItemPluginContext.class, ItemService.class})
 public class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
 
-    private List<ItemPlugin> itemPlugins;  // TODO: make this a map from type to ItemPlugin
+    //@Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE, policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
+    private List<ItemPlugin> itemPlugins;
+
+    //@Reference
     private UIService        uiService;
+
+    //@Reference
     private ItemRepository   itemRepository;
 
     public ItemServiceImpl(List<ItemPlugin> itemPlugins, UIService uiService) {
@@ -89,32 +100,25 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     public Item create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException {
 
         LOGGER.debug("Attempting to create item using " + itemPlugins);
-        if (!itemPlugins.isEmpty()) {
 
-            // Materialize the inputStream into memory, since we may need to read it several times
-            byte[] buffer = inputStream.readAllBytes();
-            inputStream.close();
+        // Materialize the inputStream into memory, since we may need to read it several times
+        byte[] buffer = inputStream.readAllBytes();
+        inputStream.close();
 
-            // Try each available ItemPlugin in turn in order to construct a concrete subtype
-            for (ItemPlugin itemPlugin: itemPlugins) {
-                try {
-                    LOGGER.debug("Attempting to create " + itemPlugin.getType());
-                    Item item = itemPlugin.create(new ByteArrayInputStream(buffer));
+        // Try each available ItemPlugin in turn in order to construct a concrete subtype
+        for (ItemPlugin itemPlugin: itemPlugins) {
+            try {
+                LOGGER.debug("Attempting to create " + itemPlugin.getType());
+                Item item = itemPlugin.create(new ByteArrayInputStream(buffer));
 
-                    // TODO: notify observers
+                // TODO: notify observers
 
-                    return item;
+                return item;
 
-                } catch (ItemFormatException e) {
-                    LOGGER.warn("Unable to parse " + itemPlugin.getType());
-                    continue;  // This wasn't the correct type, so skip to trying the next type
-                }
+            } catch (ItemFormatException e) {
+                LOGGER.warn("Unable to parse " + itemPlugin.getType());
+                continue;  // This wasn't the correct type, so skip to trying the next type
             }
-        } else {
-            LOGGER.info("Creating dummy item");
-            Item item = create("Dummy");
-            LOGGER.info("Created dummy item");
-            return item;
         }
 
         List<String> formatNames = itemPlugins.stream()
@@ -152,4 +156,21 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     public Item getById(Long id) {
         return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));
     }
+
+
+    /*
+    // ItemPlugins reference list listener implementation
+
+    public void onBind(ItemPlugin itemPlugin, Map properties) {
+        LOGGER.info("Bind item plugin " + itemPlugin + " with properties " + properties);
+    }
+
+    public void onUnbind(ItemPlugin itemPlugin, Map properties) {
+        LOGGER.info("Unbind item plugin " + itemPlugin + " with properties " + properties);
+    }
+
+    public void onUpdated(ItemPlugin itemPlugin, Map properties) {
+        LOGGER.info("Updated item plugin " + itemPlugin + " with properties " + properties);
+    }
+    */
 }
