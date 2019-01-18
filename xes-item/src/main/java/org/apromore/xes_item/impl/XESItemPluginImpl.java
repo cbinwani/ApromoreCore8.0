@@ -27,16 +27,23 @@ import org.apromore.xes_item.jpa.XesItemDao;
 import org.apromore.xes_item.jpa.XesItemRepository;
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XLog;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Component(service = {ItemPlugin.class, XESItemService.class})
 public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XESItemPluginImpl.class);
 
+    @Reference
     private ItemPluginContext itemPluginContext;
+
+    @Reference
     private XesItemRepository xesItemRepository;
 
+    /*
     public XESItemPluginImpl(ItemPluginContext itemPluginContext) {
         if (itemPluginContext == null) {
             throw new IllegalArgumentException("Item plugin context missing");
@@ -48,6 +55,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     public void setXesItemRepository(XesItemRepository newRepository) {
         this.xesItemRepository = newRepository;
     }
+    */
 
     // ItemPlugin implementation
 

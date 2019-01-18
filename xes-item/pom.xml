@@ -42,6 +42,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.raffaeleconforti</groupId>
+      <artifactId>assembly</artifactId>
+      <version>1.0.20180719</version>
+    </dependency>
+    <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>javax.persistence-api</artifactId>
     </dependency>
@@ -53,6 +58,10 @@
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
@@ -71,14 +80,9 @@
       <artifactId>easymock</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.raffaeleconforti</groupId>
-      <artifactId>assembly</artifactId>
-      <version>1.0.20180719</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+      </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>

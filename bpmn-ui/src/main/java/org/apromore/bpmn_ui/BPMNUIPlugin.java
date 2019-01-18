@@ -7,16 +7,17 @@ import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
 import org.apromore.item.Item;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.zkoss.zul.Messagebox;
 
+@Component(service = {UIPlugin.class})
 public class BPMNUIPlugin extends AbstractUIPlugin {
 
+    @Reference
     private BPMNItemService bpmnItemService;
-
-    public BPMNUIPlugin(BPMNItemService bpmnItemService) {
-        this.bpmnItemService = bpmnItemService;
-    }
 
     @Override
     public String getGroupLabel() {

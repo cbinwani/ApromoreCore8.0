@@ -54,6 +54,10 @@
       <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zul</artifactId>
     </dependency>

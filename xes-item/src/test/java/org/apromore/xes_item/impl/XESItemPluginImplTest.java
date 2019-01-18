@@ -41,7 +41,7 @@ public class XESItemPluginImplTest {
         expect(itemPluginContext.create("XES")).andReturn(nakedItem);
         replay(itemPluginContext);
 
-        XESItemService xesItemService = new XESItemPluginImpl(itemPluginContext);
+        XESItemService xesItemService = new XESItemPluginImpl();
 
         Source source = new StreamSource(XESItemPluginImplTest.class.getClassLoader().getResourceAsStream(filename));
         XESItem xesItem = xesItemService.createXESItem(source);
@@ -71,7 +71,7 @@ public class XESItemPluginImplTest {
         XESItemImpl expectedXESItem = createMock(XESItemImpl.class);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
-        XESItemService xesItemService = new XESItemPluginImpl(itemPluginContext);
+        XESItemService xesItemService = new XESItemPluginImpl();
 
         XESItem xesItem = xesItemService.getById(0L);
         assertEquals(expectedXESItem, xesItem);

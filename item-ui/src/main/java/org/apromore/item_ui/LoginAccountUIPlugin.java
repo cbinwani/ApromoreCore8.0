@@ -12,20 +12,23 @@ import javax.security.auth.login.LoginException;
 import org.apromore.item.User;
 import org.apromore.ui.UIService;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+@Component(service = {UIPlugin.class})
 public class LoginAccountUIPlugin extends AbstractUIPlugin {
 
-    private final UIService uiService;
+    @Reference
+    private UIService uiService;
 
-    public LoginAccountUIPlugin(UIService uiService) {
-        this.uiService = uiService;
-
+    public LoginAccountUIPlugin() {
         this.groupLabel = "Account";
         this.label = "Login";
     }

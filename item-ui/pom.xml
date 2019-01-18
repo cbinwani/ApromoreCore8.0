@@ -58,6 +58,10 @@
       <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.zkoss.common</groupId>
       <artifactId>zcommon</artifactId>
     </dependency>

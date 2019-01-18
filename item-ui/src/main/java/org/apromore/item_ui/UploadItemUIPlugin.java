@@ -6,7 +6,10 @@ import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.ui.UIService;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.media.Media;
@@ -15,17 +18,23 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Messagebox;
 
+@Component(service = {UIPlugin.class})
 public class UploadItemUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadItemUIPlugin.class);
 
+    @Reference
     private ItemService itemService;
+
+    @Reference
     private UIService uiService;
 
+    /*
     public UploadItemUIPlugin(ItemService itemService, UIService uiService) {
         this.itemService = itemService;
         this.uiService = uiService;
     }
+    */
 
     @Override
     public String getGroupLabel() {

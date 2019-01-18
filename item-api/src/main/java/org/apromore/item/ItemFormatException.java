@@ -33,6 +33,10 @@ public class ItemFormatException extends Exception {
     }
 
     public String getMessage() {
+        if (formats.isEmpty()) {
+            return "Unable to interpret the input because the system currently has no supported item formats.";
+        }
+
         String message = "Unable to interpret the input as any of the following formats";
         String separator = ": ";
         for (String format: formats) {

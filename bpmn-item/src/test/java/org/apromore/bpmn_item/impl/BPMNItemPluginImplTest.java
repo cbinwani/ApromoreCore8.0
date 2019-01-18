@@ -31,7 +31,7 @@ public class BPMNItemPluginImplTest {
 
         BPMNDiagramImporter bpmnDiagramImporter = createMock(BPMNDiagramImporter.class);
 
-        BPMNItemService bpmnItemService = new BPMNItemPluginImpl(itemPluginContext, bpmnDiagramImporter);
+        BPMNItemService bpmnItemService = new BPMNItemPluginImpl();
 
         Source source = new StreamSource(BPMNItemPluginImplTest.class.getClassLoader().getResourceAsStream("test.bpmn"));
         //BPMNItem bpmnItem = bpmnItemService.createBPMNItem(source);
@@ -45,7 +45,7 @@ public class BPMNItemPluginImplTest {
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         BPMNDiagramImporter bpmnDiagramImporter = createMock(BPMNDiagramImporter.class);
-        BPMNItemService bpmnItemService = new BPMNItemPluginImpl(itemPluginContext, bpmnDiagramImporter);
+        BPMNItemService bpmnItemService = new BPMNItemPluginImpl();
 
         BPMNItem bpmnItem = bpmnItemService.getById(0L);
         assertEquals(expectedBPMNItem, bpmnItem);

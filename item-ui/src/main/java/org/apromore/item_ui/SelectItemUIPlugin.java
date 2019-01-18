@@ -4,7 +4,10 @@ import java.io.IOException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.Event;
@@ -21,15 +24,19 @@ import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
 
+@Component(service = {UIPlugin.class})
 public class SelectItemUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectItemUIPlugin.class);
 
+    @Reference
     private ItemService itemService;
 
+    /*
     public SelectItemUIPlugin(ItemService itemService) {
         this.itemService = itemService;
     }
+    */
 
     @Override
     public String getGroupLabel() {

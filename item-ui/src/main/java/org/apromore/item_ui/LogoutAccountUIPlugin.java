@@ -1,8 +1,11 @@
 package org.apromore.item_ui;
 
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.osgi.service.component.annotations.Component;
 
+@Component(service = {UIPlugin.class})
 public class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
     @Override

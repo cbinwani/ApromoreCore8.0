@@ -24,15 +24,24 @@ import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
+@Component(service = {BPMNItemService.class, ItemPlugin.class})
 public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem> {
 
+    @Reference
     private BpmnItemRepository  bpmnItemRepository;
+
+    @Reference
     private ItemPluginContext   itemPluginContext;
+
+    @Reference
     private BPMNDiagramImporter importerService;
 
+    /*
     public BPMNItemPluginImpl(ItemPluginContext itemPluginContext, BPMNDiagramImporter importerService) {
         if (itemPluginContext == null) {
             throw new IllegalArgumentException("Item plugin context missing");
@@ -48,6 +57,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
     public void setBpmnItemRepository(BpmnItemRepository newRepository) {
         this.bpmnItemRepository = newRepository;
     }
+    */
 
     // ItemPlugin implementation
 
