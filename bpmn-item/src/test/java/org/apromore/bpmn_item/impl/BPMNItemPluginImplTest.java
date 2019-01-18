@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-/** Test suite for {@link BpmnItemPluginImpl}. */
+/** Test suite for {@link BPMNItemPluginImpl}. */
 public class BPMNItemPluginImplTest {
 
     @Before

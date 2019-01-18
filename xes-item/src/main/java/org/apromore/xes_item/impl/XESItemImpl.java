@@ -8,7 +8,7 @@ import javax.persistence.UniqueConstraint;
 import org.apromore.item.Item;
 import org.apromore.item.spi.ItemWrapper;
 import org.apromore.xes_item.XESItem;
-import org.apromore.xes_item.jpa.XesItemDao;
+import org.apromore.xes_item.jpa.XESItemDAO;
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XLog;
 
@@ -22,7 +22,7 @@ class XESItemImpl extends ItemWrapper implements XESItem {
 
     private byte[] xmlSerialization;
 
-    XESItemImpl(XesItemDao dao) {
+    XESItemImpl(XESItemDAO dao) {
         this.id = dao.getId();
         this.xmlSerialization = dao.getXmlSerialization();
     }

@@ -1,23 +1,7 @@
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
 package org.apromore.xes_item.jpa.eclipselink;
 
-import org.apromore.xes_item.jpa.XesItemDao;
-import org.apromore.xes_item.jpa.XesItemRepository;
+import org.apromore.xes_item.jpa.XESItemDAO;
+import org.apromore.xes_item.jpa.XESItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +16,9 @@ import java.util.List;
 
  */
 @Transactional
-public class XesItemRepositoryImpl implements XesItemRepository {
+public class XESItemRepositoryImpl implements XESItemRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XesItemRepositoryImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(XESItemRepositoryImpl.class);
 
     @PersistenceContext(unitName = "xes-item-eclipselink")
     private EntityManager entityManager;
@@ -44,28 +28,28 @@ public class XesItemRepositoryImpl implements XesItemRepository {
     }
     
 
-    // XesItemRepository implementation
+    // XESItemRepository implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void add(XesItemDao dao) {
+    public void add(XESItemDAO dao) {
         entityManager.persist(dao);
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public List<XesItemDao> list() {
-        return entityManager.createQuery("SELECT i FROM XesItemDao i", XesItemDao.class).getResultList();
+    public List<XESItemDAO> list() {
+        return entityManager.createQuery("SELECT i FROM XESItemDAO i", XESItemDAO.class).getResultList();
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public XesItemDao get(Long id) {
-        //return entityManager.find(XesItemDao.class, id);
+    public XESItemDAO get(Long id) {
+        //return entityManager.find(XESItemDAO.class, id);
 
-        TypedQuery<XesItemDao> query = entityManager.createQuery("SELECT i FROM XesItemDao i WHERE i.id=:id", XesItemDao.class);
+        TypedQuery<XESItemDAO> query = entityManager.createQuery("SELECT i FROM XESItemDAO i WHERE i.id=:id", XESItemDAO.class);
         query.setParameter("id", id);
-        XesItemDao dao = null;
+        XESItemDAO dao = null;
         try {
             dao = query.getSingleResult();
         } catch (NoResultException e) {
@@ -77,7 +61,7 @@ public class XesItemRepositoryImpl implements XesItemRepository {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
     public void remove(Long id) {
-        XesItemDao dao = get(id);
+        XESItemDAO dao = get(id);
         entityManager.remove(dao);
     }
 }

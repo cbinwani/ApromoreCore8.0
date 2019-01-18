@@ -7,9 +7,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "XES_ITEM")
-public class XesItemDao {
+public class XESItemDAO {
 
-    @Id  // Note that this isn't @Generated; the id must be supplied by an ItemDao
+    @Id  // Note that this isn't @Generated; the id must be supplied by an ItemDAO
     private Long id;
 
     @Column(name="XML_SERIALIZATION", unique = false, nullable = false)

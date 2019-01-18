@@ -2,13 +2,13 @@ package org.apromore.bpmn_item.jpa;
 
 import java.util.List;
 
-public interface BpmnItemRepository {
+public interface BPMNItemRepository {
 
-    List<BpmnItemDao> list();
+    List<BPMNItemDAO> list();
 
-    BpmnItemDao get(Long id);
+    BPMNItemDAO get(Long id);
 
-    void add(BpmnItemDao newDao);
+    void add(BPMNItemDAO newDao);
 
     void remove(Long id);
 }

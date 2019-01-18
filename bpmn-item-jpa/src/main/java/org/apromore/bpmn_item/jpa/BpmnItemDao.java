@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "BPMN_ITEM")
-public class BpmnItemDao {
+public class BPMNItemDAO {
 
     @Id  // Note that this isn't @Generated; the id must be supplied by an ItemDao
     private Long id;

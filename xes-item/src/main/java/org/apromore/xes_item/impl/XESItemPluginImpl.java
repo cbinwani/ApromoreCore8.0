@@ -23,8 +23,8 @@ import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
 import org.apromore.xes_item.XESItem;
 import org.apromore.xes_item.XESItemService;
-import org.apromore.xes_item.jpa.XesItemDao;
-import org.apromore.xes_item.jpa.XesItemRepository;
+import org.apromore.xes_item.jpa.XESItemDAO;
+import org.apromore.xes_item.jpa.XESItemRepository;
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XLog;
 import org.osgi.service.component.annotations.Component;
@@ -41,7 +41,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     private ItemPluginContext itemPluginContext;
 
     @Reference
-    private XesItemRepository xesItemRepository;
+    private XESItemRepository xesItemRepository;
 
     /*
     public XESItemPluginImpl(ItemPluginContext itemPluginContext) {
@@ -68,7 +68,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     }
 
     public XESItem toConcreteItem(Item item) throws ItemTypeException {
-        XesItemDao dao = xesItemRepository.get(item.getId());
+        XESItemDAO dao = xesItemRepository.get(item.getId());
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());
         }
@@ -106,7 +106,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
 
             Item item = this.itemPluginContext.create(getType());
 
-            XesItemDao dao = new XesItemDao();
+            XESItemDAO dao = new XESItemDAO();
             dao.setId(item.getId());
             dao.setXmlSerialization(baos.toByteArray());
             xesItemRepository.add(dao);
@@ -125,7 +125,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     }
 
     public XESItem getById(Long id) throws NotAuthorizedException {
-        XesItemDao dao = xesItemRepository.get(id);
+        XESItemDAO dao = xesItemRepository.get(id);
         XESItemImpl xesItemImpl = new XESItemImpl(dao);
         xesItemImpl.item = this.itemPluginContext.getById(id);
         return xesItemImpl;

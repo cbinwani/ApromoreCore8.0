@@ -8,7 +8,7 @@
     <jpa:enable />
     <tx:enable-annotations />
 
-    <service ref="xesItemRepository" interface="org.apromore.xes_item.jpa.XesItemRepository"/>
-    <bean id="xesItemRepository" class="org.apromore.xes_item.jpa.eclipselink.XesItemRepositoryImpl"/>
+    <service ref="xesItemRepository" interface="org.apromore.xes_item.jpa.XESItemRepository"/>
+    <bean id="xesItemRepository" class="org.apromore.xes_item.jpa.eclipselink.XESItemRepositoryImpl"/>
 
 </blueprint>

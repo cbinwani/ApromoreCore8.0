@@ -2,13 +2,13 @@ package org.apromore.xes_item.jpa;
 
 import java.util.List;
 
-public interface XesItemRepository {
+public interface XESItemRepository {
 
-    List<XesItemDao> list();
+    List<XESItemDAO> list();
 
-    XesItemDao get(Long id);
+    XESItemDAO get(Long id);
 
-    void add(XesItemDao newDao);
+    void add(XESItemDAO newDao);
 
     void remove(Long id);
 }

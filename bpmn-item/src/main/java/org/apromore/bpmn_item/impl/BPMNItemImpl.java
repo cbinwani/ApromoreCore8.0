@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import org.apromore.bpmn_item.BPMNItem;
-import org.apromore.bpmn_item.jpa.BpmnItemDao;
+import org.apromore.bpmn_item.jpa.BPMNItemDAO;
 import org.apromore.item.Item;
 import org.apromore.item.spi.ItemWrapper;
 import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
@@ -22,7 +22,7 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     transient BPMNDiagramImporter importerService;
 
-    BPMNItemImpl(BpmnItemDao dao) {
+    BPMNItemImpl(BPMNItemDAO dao) {
         this.id = dao.getId();
         this.xmlSerialization = dao.getXmlSerialization();
     }

@@ -16,8 +16,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
-import org.apromore.bpmn_item.jpa.BpmnItemDao;
-import org.apromore.bpmn_item.jpa.BpmnItemRepository;
+import org.apromore.bpmn_item.jpa.BPMNItemDAO;
+import org.apromore.bpmn_item.jpa.BPMNItemRepository;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -33,7 +33,7 @@ import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem> {
 
     @Reference
-    private BpmnItemRepository  bpmnItemRepository;
+    private BPMNItemRepository  bpmnItemRepository;
 
     @Reference
     private ItemPluginContext   itemPluginContext;
@@ -54,7 +54,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
         this.importerService   = importerService;
     }
 
-    public void setBpmnItemRepository(BpmnItemRepository newRepository) {
+    public void setBpmnItemRepository(BPMNItemRepository newRepository) {
         this.bpmnItemRepository = newRepository;
     }
     */
@@ -70,7 +70,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
     }
 
     public BPMNItem toConcreteItem(Item item) throws ItemTypeException {
-        BpmnItemDao dao = bpmnItemRepository.get(item.getId());
+        BPMNItemDAO dao = bpmnItemRepository.get(item.getId());
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());
         }
@@ -97,7 +97,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
 
             Item item = this.itemPluginContext.create(getType());
 
-            BpmnItemDao dao = new BpmnItemDao();
+            BPMNItemDAO dao = new BPMNItemDAO();
             dao.setId(item.getId());
             dao.setXmlSerialization(baos.toByteArray());
             bpmnItemRepository.add(dao);
@@ -118,7 +118,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public BPMNItem getById(Long id) throws NotAuthorizedException {
-        BpmnItemDao dao = bpmnItemRepository.get(id);
+        BPMNItemDAO dao = bpmnItemRepository.get(id);
         BPMNItemImpl bpmnItemImpl = new BPMNItemImpl(dao);
         bpmnItemImpl.item            = this.itemPluginContext.getById(id);
         bpmnItemImpl.importerService = this.importerService;

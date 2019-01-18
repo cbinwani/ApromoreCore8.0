@@ -1,23 +1,7 @@
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
 package org.apromore.bpmn_item.jpa.eclipselink;
 
-import org.apromore.bpmn_item.jpa.BpmnItemDao;
-import org.apromore.bpmn_item.jpa.BpmnItemRepository;
+import org.apromore.bpmn_item.jpa.BPMNItemDAO;
+import org.apromore.bpmn_item.jpa.BPMNItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +16,9 @@ import java.util.List;
 
  */
 @Transactional
-public class BpmnItemRepositoryImpl implements BpmnItemRepository {
+public class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BpmnItemRepositoryImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BPMNItemRepositoryImpl.class);
 
     @PersistenceContext(unitName = "bpmn-item-eclipselink")
     private EntityManager entityManager;
@@ -48,24 +32,24 @@ public class BpmnItemRepositoryImpl implements BpmnItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void add(BpmnItemDao dao) {
+    public void add(BPMNItemDAO dao) {
         entityManager.persist(dao);
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public List<BpmnItemDao> list() {
-        return entityManager.createQuery("SELECT i FROM BpmnItemDao i", BpmnItemDao.class).getResultList();
+    public List<BPMNItemDAO> list() {
+        return entityManager.createQuery("SELECT i FROM BPMNItemDAO i", BPMNItemDAO.class).getResultList();
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public BpmnItemDao get(Long id) {
-        //return entityManager.find(BpmnItemDao.class, id);
+    public BPMNItemDAO get(Long id) {
+        //return entityManager.find(BPMNItemDAO.class, id);
 
-        TypedQuery<BpmnItemDao> query = entityManager.createQuery("SELECT i FROM BpmnItemDao i WHERE i.id=:id", BpmnItemDao.class);
+        TypedQuery<BPMNItemDAO> query = entityManager.createQuery("SELECT i FROM BPMNItemDAO i WHERE i.id=:id", BPMNItemDAO.class);
         query.setParameter("id", id);
-        BpmnItemDao dao = null;
+        BPMNItemDAO dao = null;
         try {
             dao = query.getSingleResult();
         } catch (NoResultException e) {
@@ -77,7 +61,7 @@ public class BpmnItemRepositoryImpl implements BpmnItemRepository {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
     public void remove(Long id) {
-        BpmnItemDao dao = get(id);
+        BPMNItemDAO dao = get(id);
         entityManager.remove(dao);
     }
 }
