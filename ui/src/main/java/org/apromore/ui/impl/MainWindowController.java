@@ -162,6 +162,7 @@ public final class MainWindowController extends SelectorComposer<Component>
                    ).getAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
             }
 
+            @SuppressWarnings("checkstyle:AvoidInlineConditionals")
             public void setUser(final User newUser) {
                 LOGGER.debug(newUser == null
                     ? "User logged out"

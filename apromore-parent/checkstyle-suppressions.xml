@@ -5,9 +5,6 @@
      "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
  
 <suppressions>
-  <!-- I personally think inline conditionals are concise and elegant. -->
-  <suppress checks="AvoidInlineConditionals" files="MainWindowController.java" lines="167"/>
-
   <!-- The following classes are designed to be subclassed. -->
   <suppress checks="DesignForExtension" files="AbstractUIPlugin.java"/>
   <suppress checks="DesignForExtension" files="ItemWrapper.java"/>

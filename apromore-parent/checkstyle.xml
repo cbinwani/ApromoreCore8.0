@@ -77,7 +77,15 @@
     <!--   <property name="fileExtensions" value="java"/> -->
     <!-- </module> -->
 
+    <!-- Respond to @SuppressWarnings annotations -->
+    <!-- See http://checkstyle.sf.net/config_filters.html#SuppressWarningsFilter -->
+    <module name="SuppressWarningsFilter"/>
+
     <module name="TreeWalker">
+
+        <!-- Respond to @SuppressWarnings annotations -->
+        <!-- See http://checkstyle.sf.net/config_filters.html#SuppressWarningsFilter -->
+        <module name="SuppressWarningsHolder" />
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
