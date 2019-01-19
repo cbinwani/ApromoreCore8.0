@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractUIPlugin implements UIPlugin {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractUIPlugin.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(AbstractUIPlugin.class);
 
     protected String groupLabel = "Default";
     protected String label = "Default";
@@ -24,14 +25,17 @@ public abstract class AbstractUIPlugin implements UIPlugin {
 
     /** {@inheritDoc}
      *
-     * Default implementation is to return the resource <code>/icon.png</code> from the classpath.
+     * Default implementation is to return the resource <code>/icon.png</code>
+     * from the classpath.
      */
     public RenderedImage getIcon() {
         try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("/icon.png");
+            InputStream in = getClass().getClassLoader()
+                                       .getResourceAsStream("/icon.png");
             if (in == null) {
                 // Fall back to a default icon
-                in = AbstractUIPlugin.class.getClassLoader().getResourceAsStream("/icon.png");
+                in = AbstractUIPlugin.class.getClassLoader()
+                                           .getResourceAsStream("/icon.png");
             }
             BufferedImage icon = ImageIO.read(in);
             in.close();
@@ -57,9 +61,11 @@ public abstract class AbstractUIPlugin implements UIPlugin {
 
     /** {@inheritDoc}
      *
-     * If not overidden by concrete implementations, defaults to doing nothing and logging a warning message.
+     * If not overidden by concrete implementations, defaults to doing nothing
+     * and logging a warning message.
      */
     public void execute(final UIPluginContext context) {
-        LOGGER.warn("Executed UI plugin with missing implementation: " + getClass());
+        LOGGER.warn("Executed UI plugin with missing implementation: "
+            + getClass());
     }
 }

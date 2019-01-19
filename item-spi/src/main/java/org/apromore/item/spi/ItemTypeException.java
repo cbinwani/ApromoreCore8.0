@@ -1,6 +1,9 @@
 package org.apromore.item.spi;
 
-/** Required a particular subtype of {@link org.apromore.item.Item}, but received another. */
+/**
+ * Required a particular subtype of {@link org.apromore.item.Item}, but received
+ * another.
+ */
 public class ItemTypeException extends Exception {
 
     /** The unexpected type identifier that was encountered. */
@@ -9,7 +12,8 @@ public class ItemTypeException extends Exception {
     /** The required type identifier. */
     private final String expectedType;
 
-    public ItemTypeException(final String newExpectedType, final String newActualType) {
+    public ItemTypeException(final String newExpectedType,
+                             final String newActualType) {
         this.actualType   = newActualType;
         this.expectedType = newExpectedType;
     }
@@ -24,6 +28,7 @@ public class ItemTypeException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Required item type " + expectedType + " but instead received " + actualType;
+        return "Required item type " + expectedType + " but instead received "
+            + actualType;
     }
 }

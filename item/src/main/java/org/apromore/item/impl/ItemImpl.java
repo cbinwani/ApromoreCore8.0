@@ -25,7 +25,11 @@ class ItemImpl implements Item {
         return id;
     }
 
-    /** @return a MIME- or UTI-like identifier that associates this Item with an appropriate ItemPlugin inplementation */
+    /**
+     * @return a MIME- or UTI-like identifier that associates this Item with
+     *     an appropriate {@link org.apromore.item.spi.ItemPlugin}
+     *     implementation
+     */
     public String getType() {
         return type;
     }

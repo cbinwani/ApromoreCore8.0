@@ -8,5 +8,7 @@ package org.apromore.item;
  */
 public class NotAuthorizedException extends Exception {
 
-    // To be continued
+    public NotAuthorizedException(final String newPermission) {
+        super("Missing permission: " + newPermission);
+    }
 }

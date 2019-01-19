@@ -14,13 +14,19 @@ import org.zkoss.zk.ui.Component;
 public interface UIPluginContext {
 
     /**
-     * @param bundleClassLoader  the classloader for the bundle containing the ZUL markup
-     * @param uri  location within the <var>bundleClassLoader</var> of ZUL markup to create this component
+     * @param bundleClassLoader  the classloader for the bundle containing the
+     *     ZUL markup
+     * @param uri  location within the <var>bundleClassLoader</var> of ZUL
+     *     markup to create this component
      * @param arguments  -
      * @return a ZK component corresponding to the ZUL markup
-     * @throws Error  if the ZUL markup isn't available; this is considered programming error (rather than an I/O exception) since ZUL access is a linking issue
+     * @throws Error  if the ZUL markup isn't available; this is considered a
+     *     programming error (rather than an I/O exception) since ZUL access is
+     *     a linking issue
      */
-    Component createComponent(ClassLoader bundleClassLoader, String uri, Map<?, ?> arguments);
+    Component createComponent(ClassLoader bundleClassLoader,
+                              String      uri,
+                              Map<?, ?>   arguments);
 
     Component getParentComponent();
 
@@ -31,12 +37,14 @@ public interface UIPluginContext {
     void setSelection(Set<Item> newSelection);
 
     /**
-     * @return the currently authenticated user, or <code>NULL</code> for an anonymous user session
+     * @return the currently authenticated user, or <code>NULL</code> for an
+     *     anonymous user session
      */
     User getUser();
 
     /**
-     * @param newUser  the new authenticated user, or <code>NULL</code> to de-authenticate the current user session (i.e. log out).
+     * @param newUser  the new authenticated user, or <code>NULL</code> to
+     *     de-authenticate the current user session (i.e. log out).
      */
     void setUser(User newUser);
 }

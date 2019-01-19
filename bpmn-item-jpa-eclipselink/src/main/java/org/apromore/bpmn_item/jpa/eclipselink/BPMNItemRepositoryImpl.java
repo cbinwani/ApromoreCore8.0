@@ -18,7 +18,8 @@ import java.util.List;
 @Transactional
 public class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BPMNItemRepositoryImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(BPMNItemRepositoryImpl.class);
 
     @PersistenceContext(unitName = "bpmn-item-eclipselink")
     private EntityManager entityManager;
@@ -39,7 +40,8 @@ public class BPMNItemRepositoryImpl implements BPMNItemRepository {
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
     public List<BPMNItemDAO> list() {
-        return entityManager.createQuery("SELECT i FROM BPMNItemDAO i", BPMNItemDAO.class).getResultList();
+        return entityManager.createQuery("SELECT i FROM BPMNItemDAO i",
+            BPMNItemDAO.class).getResultList();
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -47,7 +49,8 @@ public class BPMNItemRepositoryImpl implements BPMNItemRepository {
     public BPMNItemDAO get(final Long id) {
         //return entityManager.find(BPMNItemDAO.class, id);
 
-        TypedQuery<BPMNItemDAO> query = entityManager.createQuery("SELECT i FROM BPMNItemDAO i WHERE i.id=:id", BPMNItemDAO.class);
+        TypedQuery<BPMNItemDAO> query = entityManager.createQuery(
+            "SELECT i FROM BPMNItemDAO i WHERE i.id=:id", BPMNItemDAO.class);
         query.setParameter("id", id);
         BPMNItemDAO dao = null;
         try {

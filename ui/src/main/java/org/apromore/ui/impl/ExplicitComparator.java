@@ -5,7 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Define an ordering by supplying an explicit list of elements in the desired order.
+ * Define an ordering by supplying an explicit list of elements in the desired
+ * order.
  */
 class ExplicitComparator implements Comparator<String> {
 

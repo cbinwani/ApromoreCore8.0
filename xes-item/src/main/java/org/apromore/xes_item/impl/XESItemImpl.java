@@ -36,7 +36,8 @@ class XESItemImpl extends ItemWrapper implements XESItem {
             return logs.get(0);
 
         } catch (Exception e) {
-            throw new Error("Internal error: validated XES failed to re-parse", e);
+            throw new Error("Internal error: validated XES failed to re-parse",
+                e);
         }
     }
 

@@ -13,7 +13,8 @@ import org.zkoss.zk.ui.event.EventQueues;
 
 public class UIPluginListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UIPluginListener.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(UIPluginListener.class);
 
     private final Set<Component> components = new HashSet<>();
 
@@ -30,7 +31,8 @@ public class UIPluginListener {
         for (Component component: components) {
             Desktop desktop = component.getDesktop();
             if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no desktop: " + component);
+                LOGGER.warn("Not notifying component because it has no "
+                    + "desktop: " + component);
 
             } else {
                 LOGGER.debug("Notifying component " + component);
@@ -46,7 +48,8 @@ public class UIPluginListener {
         for (Component component: components) {
             Desktop desktop = component.getDesktop();
             if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no desktop: " + component);
+                LOGGER.warn("Not notifying component because it has no "
+                    + "desktop: " + component);
 
             } else {
                 LOGGER.debug("Notifying component " + component);

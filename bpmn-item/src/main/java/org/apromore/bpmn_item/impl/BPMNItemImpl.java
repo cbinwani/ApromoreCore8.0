@@ -20,7 +20,9 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     private BPMNDiagramImporter importerService;
 
-    BPMNItemImpl(final Item item, final BPMNItemDAO dao, final BPMNDiagramImporter newImporterService) {
+    BPMNItemImpl(final Item                item,
+                 final BPMNItemDAO         dao,
+                 final BPMNDiagramImporter newImporterService) {
         super(item);
 
         assert item.getId() == dao.getId();
@@ -33,10 +35,12 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     public BPMNDiagram getBPMNDiagram() {
         try {
-            return importerService.importBPMNDiagram(new String(xmlSerialization, Charset.forName("UTF-8")));
+            return importerService.importBPMNDiagram(
+                new String(xmlSerialization, Charset.forName("UTF-8")));
 
         } catch (Exception e) {
-            throw new Error("Internal error: validated BPMN 2.0 failed to re-parse", e);
+            throw new Error("Internal error: validated BPMN 2.0 failed to "
+                + "re-parse", e);
         }
     }
 

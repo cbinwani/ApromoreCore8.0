@@ -28,9 +28,13 @@ import org.zkoss.zul.Window;
 
 public class UIServiceImpl implements UIService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UIServiceImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(UIServiceImpl.class);
 
-    /** Attribute key on the ZK {@link org.zkoss.zk.ui.Session} containing the authenticated user as a username {@link String}. */
+    /**
+     * Attribute key on the ZK {@link org.zkoss.zk.ui.Session} containing the
+     * authenticated user as a username {@link String}.
+     */
     public static final String ZK_SESSION_USER_ATTRIBUTE = "user";
 
     /** @see {@link javax.security.auth.login.Configuration} */
@@ -40,8 +44,10 @@ public class UIServiceImpl implements UIService {
      *
      * These classes are typically proprietary to the login module.
      * There may be more than one reasonable choice, e.g.
-     * <code>com.sun.security.auth.UserPrincipal</code> with name <code>jsmith</code> versus
-     * <code>com.sun.security.auth.LdapPrincipal</code> with name <code>uid=jsmith,ou=staff,o=acme</code>.
+     * <code>com.sun.security.auth.UserPrincipal</code> with name
+     * <code>jsmith</code> versus
+     * <code>com.sun.security.auth.LdapPrincipal</code> with name
+     * <code>uid=jsmith,ou=staff,o=acme</code>.
      */
     private Class userPrincipalClass;
 
@@ -59,7 +65,9 @@ public class UIServiceImpl implements UIService {
 
     // Implementation of UIService
 
-    public void authenticate(String reason, Runnable success, Runnable failure) {
+    public void authenticate(String reason, Runnable success,
+        Runnable failure) {
+
         Window window;
 
         if (getUser() != null) {
@@ -70,33 +78,49 @@ public class UIServiceImpl implements UIService {
         }
 
         try {
-            Reader reader = new InputStreamReader(UIServiceImpl.class.getClassLoader().getResourceAsStream("zul/login.zul"), "UTF-8");
-            window = (Window) Executions.createComponentsDirectly(reader, "zul", null, null);
+            Reader reader = new InputStreamReader(
+                UIServiceImpl.class
+                             .getClassLoader()
+                             .getResourceAsStream("zul/login.zul"), "UTF-8");
+            window = (Window) Executions.createComponentsDirectly(reader, "zul",
+                null, null);
 
         } catch (IOException e) {
-            throw new Error("ZUL resource login.zul could not be created as as ZK component", e);
+            throw new Error("ZUL resource login.zul could not be created as as "
+                + "ZK component", e);
         }
         assert window != null;
 
         ((Label) window.getFellow("reasonLabel")).setValue(reason);
 
-        window.getFellow("loginButton").addEventListener("onClick", new EventListener<Event>() {
+        window.getFellow("loginButton").addEventListener("onClick",
+            new EventListener<Event>() {
+
             public void onEvent(Event event) throws LoginException {
-                String username = ((Textbox) window.getFellow("username")).getValue();
-                String password = ((Textbox) window.getFellow("password")).getValue();
+                String username =
+                    ((Textbox) window.getFellow("username")).getValue();
+                String password =
+                    ((Textbox) window.getFellow("password")).getValue();
                 LOGGER.debug("Login user " + username);
 
-                LoginContext loginContext = new LoginContext(loginConfigurationName, new CallbackHandler() {
-                    public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
+                LoginContext loginContext = new LoginContext(
+                    loginConfigurationName, new CallbackHandler() {
+
+                    public void handle(Callback[] callbacks)
+                        throws UnsupportedCallbackException {
+
                         for (Callback callback: callbacks) {
                             if (callback instanceof NameCallback) {
                                 ((NameCallback) callback).setName(username);
 
                             } else if (callback instanceof PasswordCallback) {
-                                ((PasswordCallback) callback).setPassword(password.toCharArray());
+                                ((PasswordCallback) callback).setPassword(
+                                    password.toCharArray()
+                                );
 
                             } else {
-                                throw new UnsupportedCallbackException(callback, "Unimplemented callback");
+                                throw new UnsupportedCallbackException(callback,
+                                    "Unimplemented callback");
                             }
                         }
                     }
@@ -104,22 +128,26 @@ public class UIServiceImpl implements UIService {
 
                 loginContext.login();
                 try {
-                    for (Principal principal: loginContext.getSubject().getPrincipals()) {
-                        LOGGER.debug("Principal: " + principal + "  class: " + principal.getClass());
+                    for (Principal principal: loginContext.getSubject()
+                                                          .getPrincipals()) {
+                        LOGGER.debug("Principal: " + principal + "  class: "
+                            + principal.getClass());
                     }
 
                     final String user = loginContext
                         .getSubject()
                         .getPrincipals()
                         .stream()
-                        .filter(principal -> userPrincipalClass.isAssignableFrom(principal.getClass()))
-                        .findAny()  // TODO: validate that there's a unique result
+                        .filter(principal -> userPrincipalClass
+                            .isAssignableFrom(principal.getClass()))
+                        .findAny()  // TODO: validate a unique result
                         .get()
                         .getName();
                     window.detach();
                     setUser(user);
 
-                    // TODO: failure isn't invoked in the case of a LoginException
+                    // TODO: failure isn't invoked in the case of a
+                    // LoginException
 
                 } finally {
                     loginContext.logout();
@@ -131,7 +159,9 @@ public class UIServiceImpl implements UIService {
             }
         });
 
-        window.getFellow("cancelButton").addEventListener("onClick", new EventListener<Event>() {
+        window.getFellow("cancelButton").addEventListener("onClick",
+            new EventListener<Event>() {
+
             public void onEvent(Event event) throws Exception {
                 window.detach();
                 if (failure != null) {
@@ -145,16 +175,19 @@ public class UIServiceImpl implements UIService {
 
     public void authorize(String permission) throws NotAuthorizedException {
         if (getUser() == null) {
-            throw new NotAuthorizedException();  //"Missing permission: " + permission);
+            throw new NotAuthorizedException(permission);
         }
     }
 
     public User getUser() {
-        return (User) Sessions.getCurrent().getAttribute(ZK_SESSION_USER_ATTRIBUTE);
+        return (User) Sessions.getCurrent()
+                              .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
     }
 
     private void setUser(String userId) {
-        Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE, new User() {
+        Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE,
+            new User() {
+
             public String getId() {
                 return userId;
             }

@@ -16,7 +16,8 @@ public class XESItemDAO {
      * Primary key.
      *
      * Note that this isn't automatically @Generated.
-     * The id must be obtained from this XES item's corresponding {@link org.apromore.item.jpa.ItemDAO}.
+     * The id must be obtained from this XES item's corresponding
+     * {@link org.apromore.item.jpa.ItemDAO}.
      */
     @Id
     private Long id;
@@ -24,8 +25,8 @@ public class XESItemDAO {
     /**
      * The XES 1.0 XML document text.
      *
-     * This is stored as bytes rather than characters because technically XML is binary and contains its
-     * own character encoding information.
+     * This is stored as bytes rather than characters because technically XML is
+     * binary and contains its own character encoding information.
      */
     @Column(name = "XML_SERIALIZATION", unique = false, nullable = false)
     private byte[] xmlSerialization;

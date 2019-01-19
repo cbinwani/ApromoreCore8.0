@@ -21,7 +21,8 @@ import org.zkoss.zul.Messagebox;
 @Component(service = {UIPlugin.class})
 public class UploadItemUIPlugin extends AbstractUIPlugin {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UploadItemUIPlugin.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(UploadItemUIPlugin.class);
 
     @Reference
     private ItemService itemService;
@@ -56,10 +57,12 @@ public class UploadItemUIPlugin extends AbstractUIPlugin {
     /** Invoked when the menu item is selected */
     @Override
     public void execute(UIPluginContext context) {
-        uiService.authenticate("All uploads must be have an owner.", new Runnable() {
+        uiService.authenticate("All uploads must be have an owner.",
+            new Runnable() {
 
             /**
-             * The maximal allowed number of files that an user can upload at once.
+             * The maximal allowed number of files that an user can upload at
+             * once.
              * If non-positive, 1 is assumed.
              *
              * @see {@link org.zkoss.zul.Fileupload#get(int)}
@@ -67,16 +70,23 @@ public class UploadItemUIPlugin extends AbstractUIPlugin {
             static final int  MAX_ALLOWED_FILES = 100;
 
             public void run() {  // perform the upload if login is successful
-                Fileupload.get(MAX_ALLOWED_FILES, new EventListener<UploadEvent>() {
+                Fileupload.get(MAX_ALLOWED_FILES,
+                    new EventListener<UploadEvent>() {
+
                     public void onEvent(UploadEvent uploadEvent) {
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());
                             try {
                                 itemService.create(media.getStreamData());
 
-                            } catch (IOException | ItemFormatException | NotAuthorizedException e) {
+                            } catch (IOException | ItemFormatException
+                                | NotAuthorizedException e) {
                                 e.printStackTrace();
-                                Messagebox.show("Upload failed for " + media.getName() + "\n" + e.getMessage(), "Attention", Messagebox.OK, Messagebox.ERROR);
+                                Messagebox.show("Upload failed for "
+                                    + media.getName() + "\n" + e.getMessage(),
+                                    "Attention",
+                                    Messagebox.OK,
+                                    Messagebox.ERROR);
                             }
                         }
                     }

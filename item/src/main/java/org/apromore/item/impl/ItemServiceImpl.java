@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
@@ -19,7 +20,8 @@ import org.apromore.ui.UIService;
 //import org.osgi.service.component.annotations.Component;
 //import org.osgi.service.component.annotations.Reference;
 //import static org.osgi.service.component.annotations.FieldOption.UPDATE;
-//import static org.osgi.service.component.annotations.ReferenceCardinality.MULTIPLE;
+//import static
+//    org.osgi.service.component.annotations.ReferenceCardinality.MULTIPLE;
 //import static org.osgi.service.component.annotations.ReferencePolicy.DYNAMIC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +29,11 @@ import org.slf4j.LoggerFactory;
 //@Component(service = {ItemPluginContext.class, ItemService.class})
 public class ItemServiceImpl implements ItemPluginContext, ItemService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(ItemServiceImpl.class);
 
-    //@Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE, policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
+    //@Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE,
+    //    policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
     private List<ItemPlugin> itemPlugins;
 
     //@Reference
@@ -38,7 +42,8 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     //@Reference
     private ItemRepository   itemRepository;
 
-    public ItemServiceImpl(final List<ItemPlugin> newItemPlugins, final UIService newUIService) {
+    public ItemServiceImpl(final List<ItemPlugin> newItemPlugins,
+                           final UIService newUIService) {
         this.itemPlugins   = newItemPlugins;
         this.uiService     = newUIService;
     }
@@ -65,7 +70,8 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
 
         //entityManager.getTransaction().begin();
 
-        //PrincipalItemPermissionImpl permission = new PrincipalItemPermissionImpl();
+        //PrincipalItemPermissionImpl permission =
+        //    new PrincipalItemPermissionImpl();
         //permission.setItemId(item.getId());
         //permission.setPrincipalName(user.getId());
         //permission.setPrincipalClassname("dummy classname");
@@ -75,35 +81,22 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
         //entityManager.getTransaction().commit();
     }
 
-    /*
-    // Broken out into a sub-transaction in order to get access to the automatically generated primary key
-    private Item createNakedItem(String type) {
-        //entityManager.getTransaction().begin();
-
-        ItemImpl item = new ItemImpl();
-        item.setType(type);
-        //entityManager.persist(item);
-
-        LOGGER.debug("Persisted, id " + item.getId());
-        //entityManager.getTransaction().commit();
-        LOGGER.debug("Committed, id " + item.getId());
-        return item;
-    }
-    */
-
 
     // ItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public Item create(final InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException {
+    public Item create(final InputStream inputStream) throws IOException,
+        ItemFormatException, NotAuthorizedException {
 
         LOGGER.debug("Attempting to create item using " + itemPlugins);
 
-        // Materialize the inputStream into memory, since we may need to read it several times
+        // Materialize the inputStream into memory, since we may need to read it
+        // several times
         byte[] buffer = inputStream.readAllBytes();
         inputStream.close();
 
-        // Try each available ItemPlugin in turn in order to construct a concrete subtype
+        // Try each available ItemPlugin in turn in order to construct a
+        // concrete subtype
         for (ItemPlugin itemPlugin: itemPlugins) {
             try {
                 LOGGER.debug("Attempting to create " + itemPlugin.getType());
@@ -115,22 +108,26 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
 
             } catch (ItemFormatException e) {
                 LOGGER.warn("Unable to parse " + itemPlugin.getType());
-                continue;  // This wasn't the correct type, so skip to trying the next type
+                continue;  // This wasn't the correct type, so skip to trying
+                           // the next type
             }
         }
 
-        List<String> formatNames = itemPlugins.stream()
-                                              .map(itemPlugin -> itemPlugin.getType())
-                                              .collect(java.util.stream.Collectors.toList());
-        throw new ItemFormatException(formatNames);  // None of the ItemPlugins could interpret this input
+        // None of the ItemPlugins could interpret this input
+        List<String> formatNames = itemPlugins
+            .stream()
+            .map(itemPlugin -> itemPlugin.getType())
+            .collect(Collectors.toList());
+        throw new ItemFormatException(formatNames);
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Item> getAll() {
-        return itemRepository.list()
-                             .stream()
-                             .map(itemDao -> toConcreteSubtype(new ItemImpl(itemDao)))
-                             .collect(java.util.stream.Collectors.toList());
+        return itemRepository
+            .list()
+            .stream()
+            .map(itemDao -> toConcreteSubtype(new ItemImpl(itemDao)))
+            .collect(Collectors.toList());
     }
 
     public Item toConcreteSubtype(final Item item) {
@@ -146,7 +143,8 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
             }
         }
 
-        LOGGER.warn("Encountered item type " + item.getType() + " without a corresponding item plugin.");
+        LOGGER.warn("Encountered item type " + item.getType()
+            + " without a corresponding item plugin.");
         return item;
     }
 
@@ -160,15 +158,18 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     // ItemPlugins reference list listener implementation
 
     public void onBind(ItemPlugin itemPlugin, Map properties) {
-        LOGGER.info("Bind item plugin " + itemPlugin + " with properties " + properties);
+        LOGGER.info("Bind item plugin " + itemPlugin + " with properties " +
+                    properties);
     }
 
     public void onUnbind(ItemPlugin itemPlugin, Map properties) {
-        LOGGER.info("Unbind item plugin " + itemPlugin + " with properties " + properties);
+        LOGGER.info("Unbind item plugin " + itemPlugin + " with properties " +
+                    properties);
     }
 
     public void onUpdated(ItemPlugin itemPlugin, Map properties) {
-        LOGGER.info("Updated item plugin " + itemPlugin + " with properties " + properties);
+        LOGGER.info("Updated item plugin " + itemPlugin + " with properties " +
+                    properties);
     }
     */
 }

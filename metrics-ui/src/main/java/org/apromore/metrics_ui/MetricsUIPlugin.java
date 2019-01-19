@@ -56,7 +56,8 @@ import org.apromore.xes_item.XESItem;
 @Component(service = {UIPlugin.class})
 public class MetricsUIPlugin extends AbstractUIPlugin {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MetricsUIPlugin.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(MetricsUIPlugin.class);
 
     @Reference
     private MetricsService metricsService;
@@ -74,7 +75,8 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
     public boolean isEnabled(UIPluginContext context) {
         return context.getSelection()
                       .stream()
-                      .filter(item -> Arrays.asList("BPMN 2.0", "XES").contains(item.getType()))
+                      .filter(item -> Arrays.asList("BPMN 2.0", "XES")
+                                            .contains(item.getType()))
                       .count() == 1;
     }
 
@@ -83,7 +85,8 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
 
         Set<Item> selection = context.getSelection();
         if (selection.size() != 1) {
-            Messagebox.show("Please select just one item", "Attention", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("Please select just one item", "Attention",
+                Messagebox.OK, Messagebox.ERROR);
             return;
         }
 
@@ -98,25 +101,32 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
             break;
 
         default:
-            Messagebox.show("Unsupported item type: " + item.getType(), "Attention", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("Unsupported item type: " + item.getType(),
+                "Attention", Messagebox.OK, Messagebox.ERROR);
         }
     }
 
     /**
      * Controller for the settings popup window.
      */
-    private void configureProcessComputation(BPMNItem bpmnItem, UIPluginContext context) {
+    private void configureProcessComputation(BPMNItem bpmnItem,
+                                             UIPluginContext context) {
 
-        Window window = (Window) context.createComponent(MetricsUIPlugin.class.getClassLoader(), "zul/metrics.zul", null);
+        Window window = (Window) context.createComponent(
+            MetricsUIPlugin.class.getClassLoader(), "zul/metrics.zul", null);
 
-        ((Button) window.getFellow("OKButton")).addEventListener("onClick", new EventListener<Event>() {
+        ((Button) window.getFellow("OKButton")).addEventListener("onClick",
+            new EventListener<Event>() {
+
             public void onEvent(Event event) throws Exception {
                 runProcessComputation(bpmnItem, context, window);
                 window.detach();
             }
         });
 
-        ((Button) window.getFellow("CancelButton")).addEventListener("onClick", new EventListener<Event>() {
+        ((Button) window.getFellow("CancelButton")).addEventListener("onClick",
+            new EventListener<Event>() {
+
             public void onEvent(Event event) throws Exception {
                 window.detach();
             }
@@ -128,40 +138,50 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
     /**
      * Create a window to display the measurements.
      *
-     * @param w  the settings window, containing the various radio buttons which determine which measurements to calculate
+     * @param w  the settings window, containing the various radio buttons which
+     *     determine which measurements to calculate
      */
-    private void runProcessComputation(BPMNItem bpmnItem, UIPluginContext context, Window w) {
+    private void runProcessComputation(BPMNItem        bpmnItem,
+                                       UIPluginContext context,
+                                       Window          w) {
 
-        Map<String, String> bpmnMetrics = metricsService.computeMetrics(bpmnItem.getBPMNDiagram(), f(w, "size"), f(w, "cfc"),
-                                              f(w, "acd"), f(w, "mcd"), f(w, "cnc"), f(w, "density"),
-                                              f(w, "structuredness"), f(w, "separability"), f(w, "duplicates"));
+        Map<String, String> bpmnMetrics = metricsService.computeMetrics(
+            bpmnItem.getBPMNDiagram(), f(w, "size"), f(w, "cfc"), f(w, "acd"),
+            f(w, "mcd"), f(w, "cnc"), f(w, "density"), f(w, "structuredness"),
+            f(w, "separability"), f(w, "duplicates"));
 
         if (bpmnMetrics == null) {
-            Messagebox.show("Unable to compute metrics", "Attention", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("Unable to compute metrics", "Attention",
+                Messagebox.OK, Messagebox.ERROR);
             return;
         }
 
         // Present the map of results in a window
-        Window window = (Window) context.createComponent(MetricsUIPlugin.class.getClassLoader(), "zul/metrics2.zul", null);
+        Window window = (Window) context.createComponent(
+            MetricsUIPlugin.class.getClassLoader(), "zul/metrics2.zul", null);
         Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setModel(new ListModelMap(bpmnMetrics));
     }
 
     private static boolean f(Window settings, String metricName) {
-        return ((Radiogroup) settings.getFellow(metricName)).getSelectedIndex() == 0;
+        return ((Radiogroup) settings.getFellow(metricName))
+                   .getSelectedIndex() == 0;
     }
 
     private void runLogComputation(XESItem xesItem, UIPluginContext context) {
 
-        Map<String, String> xesMetrics = metricsService.computeMetrics(xesItem.getXLog());
+        Map<String, String> xesMetrics =
+            metricsService.computeMetrics(xesItem.getXLog());
 
         if (xesMetrics == null) {
-            Messagebox.show("Unable to compute metrics", "Attention", Messagebox.OK, Messagebox.ERROR);
+            Messagebox.show("Unable to compute metrics", "Attention",
+                Messagebox.OK, Messagebox.ERROR);
             return;
         }
 
         // Present the map of results in a window
-        Window window = (Window) context.createComponent(MetricsUIPlugin.class.getClassLoader(), "zul/metrics2.zul", null);
+        Window window = (Window) context.createComponent(
+            MetricsUIPlugin.class.getClassLoader(), "zul/metrics2.zul", null);
         Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setModel(new ListModelMap(xesMetrics));
     }

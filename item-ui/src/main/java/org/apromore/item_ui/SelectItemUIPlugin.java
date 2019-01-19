@@ -24,7 +24,8 @@ import org.zkoss.zul.ext.Selectable;
 @Component(service = {UIPlugin.class})
 public class SelectItemUIPlugin extends AbstractUIPlugin {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SelectItemUIPlugin.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(SelectItemUIPlugin.class);
 
     @Reference
     private ItemService itemService;
@@ -55,12 +56,16 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
     /** Invoked when the menu item is selected */
     @Override
     public void execute(UIPluginContext context) {
-        Window window = (Window) context.createComponent(SelectItemUIPlugin.class.getClassLoader(), "zul/selectItem.zul", null);
+        Window window = (Window) context.createComponent(
+            SelectItemUIPlugin.class.getClassLoader(),
+            "zul/selectItem.zul",
+            null);
         Listbox listbox = (Listbox) window.getFellow("listbox");
 
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
             public void render(Listitem listitem, Item item, int index) {
-                listitem.appendChild(new Listcell(Integer.valueOf(index).toString()));
+                listitem.appendChild(new Listcell(Integer.valueOf(index)
+                                                         .toString()));
                 listitem.appendChild(new Listcell("" + item.getId()));
                 listitem.appendChild(new Listcell(item.getType()));
                 listitem.appendChild(new Listcell("-"));
@@ -90,7 +95,9 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
 
         listbox.addEventListener("onSelect", new EventListener<SelectEvent>() {
             public void onEvent(SelectEvent selectEvent) throws Exception {
-                context.setSelection(((Selectable<Item>) listbox.getModel()).getSelection());
+                context.setSelection(
+                   ((Selectable<Item>) listbox.getModel()).getSelection()
+                );
             }
         });
     }

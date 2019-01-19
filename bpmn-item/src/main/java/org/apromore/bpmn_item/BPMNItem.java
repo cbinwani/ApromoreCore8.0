@@ -16,7 +16,8 @@ public interface BPMNItem extends Item {
     BPMNDiagram getBPMNDiagram();
 
     /**
-     * @return a stream containing the XML serialization of the BPMN process model
+     * @return a stream containing the XML serialization of the BPMN process
+     *     model
      */
     InputStream getXMLSerialization();
 }

@@ -18,7 +18,8 @@ import java.util.List;
 @Transactional
 public class XESItemRepositoryImpl implements XESItemRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XESItemRepositoryImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(XESItemRepositoryImpl.class);
 
     @PersistenceContext(unitName = "xes-item-eclipselink")
     private EntityManager entityManager;
@@ -39,7 +40,8 @@ public class XESItemRepositoryImpl implements XESItemRepository {
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
     public List<XESItemDAO> list() {
-        return entityManager.createQuery("SELECT i FROM XESItemDAO i", XESItemDAO.class).getResultList();
+        return entityManager.createQuery("SELECT i FROM XESItemDAO i",
+            XESItemDAO.class).getResultList();
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
@@ -47,7 +49,8 @@ public class XESItemRepositoryImpl implements XESItemRepository {
     public XESItemDAO get(Long id) {
         //return entityManager.find(XESItemDAO.class, id);
 
-        TypedQuery<XESItemDAO> query = entityManager.createQuery("SELECT i FROM XESItemDAO i WHERE i.id=:id", XESItemDAO.class);
+        TypedQuery<XESItemDAO> query = entityManager.createQuery(
+            "SELECT i FROM XESItemDAO i WHERE i.id=:id", XESItemDAO.class);
         query.setParameter("id", id);
         XESItemDAO dao = null;
         try {

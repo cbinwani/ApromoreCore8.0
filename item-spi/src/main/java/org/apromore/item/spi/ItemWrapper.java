@@ -5,7 +5,8 @@ import org.apromore.item.Item;
 /**
  * Class that wraps an {@link Item}.
  *
- * This is a convenience for plugin providers needing to implement concrete subtypes of {@link Item}.
+ * This is a convenience for plugin providers needing to implement concrete
+ * subtypes of {@link Item}.
  */
 public class ItemWrapper implements Item {
 

@@ -26,7 +26,8 @@ import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
 @Component(service = {BPMNItemService.class, ItemPlugin.class})
-public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem> {
+public class BPMNItemPluginImpl implements BPMNItemService,
+    ItemPlugin<BPMNItem> {
 
     @Reference
     private BPMNItemRepository  bpmnItemRepository;
@@ -38,12 +39,14 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
     private BPMNDiagramImporter importerService;
 
     /*
-    public BPMNItemPluginImpl(ItemPluginContext itemPluginContext, BPMNDiagramImporter importerService) {
+    public BPMNItemPluginImpl(ItemPluginContext itemPluginContext,
+                              BPMNDiagramImporter importerService) {
         if (itemPluginContext == null) {
             throw new IllegalArgumentException("Item plugin context missing");
         }
         if (importerService == null) {
-            throw new IllegalArgumentException("BPMN diagram importer service missing");
+            throw new IllegalArgumentException("BPMN diagram importer service "
+                + missing");
         }
 
         this.itemPluginContext = itemPluginContext;
@@ -57,7 +60,9 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
 
     // ItemPlugin implementation
 
-    public BPMNItem create(final InputStream inputStream) throws ItemFormatException, NotAuthorizedException {
+    public BPMNItem create(final InputStream inputStream)
+        throws ItemFormatException, NotAuthorizedException {
+
         return createBPMNItem(new StreamSource(inputStream));
     }
 
@@ -76,14 +81,19 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
     // BPMNItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public BPMNItem createBPMNItem(final Source source) throws ItemFormatException, NotAuthorizedException {
+    public BPMNItem createBPMNItem(final Source source)
+        throws ItemFormatException, NotAuthorizedException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            TransformerFactory.newInstance().newTransformer().transform(source, new StreamResult(baos));
+            TransformerFactory.newInstance()
+                              .newTransformer()
+                              .transform(source, new StreamResult(baos));
 
             // Validate
             try {
-                BPMNDiagram validated = importerService.importBPMNDiagram(baos.toString("UTF-8"));
+                BPMNDiagram validated =
+                    importerService.importBPMNDiagram(baos.toString("UTF-8"));
+
             } catch (Exception e) {
                 throw new ItemFormatException(getType(), e);
             }

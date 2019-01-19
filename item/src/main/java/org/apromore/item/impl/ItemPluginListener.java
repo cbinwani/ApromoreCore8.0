@@ -7,15 +7,18 @@ import org.slf4j.LoggerFactory;
 
 public class ItemPluginListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemPluginListener.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(ItemPluginListener.class);
 
     public void onBind(final ItemPlugin itemPlugin, final Map properties) {
-        LOGGER.debug("Bind item plugin " + itemPlugin + " with properties " + properties);
+        LOGGER.debug("Bind item plugin " + itemPlugin + " with properties "
+                     + properties);
         /*
         for (Component component: components) {
             Desktop desktop = component.getDesktop();
             if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no desktop: " + component);
+                LOGGER.warn("Not notifying component because it has no "
+                            "desktop: " + component);
 
             } else {
                 LOGGER.debug("Notifying component " + component);
@@ -28,12 +31,14 @@ public class ItemPluginListener {
     }
 
     public void onUnbind(final ItemPlugin itemPlugin, final Map properties) {
-        LOGGER.debug("Unbind item plugin " + itemPlugin + " with properties " + properties);
+        LOGGER.debug("Unbind item plugin " + itemPlugin + " with properties "
+                     + properties);
         /*
         for (Component component: components) {
             Desktop desktop = component.getDesktop();
             if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no desktop: " + component);
+                LOGGER.warn("Not notifying component because it has no "
+                            "desktop: " + component);
 
             } else {
                 LOGGER.debug("Notifying component " + component);

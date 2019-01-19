@@ -32,7 +32,8 @@ import org.slf4j.LoggerFactory;
 @Component(service = {ItemPlugin.class, XESItemService.class})
 public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XESItemPluginImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(XESItemPluginImpl.class);
 
     @Reference
     private ItemPluginContext itemPluginContext;
@@ -56,7 +57,9 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
 
     // ItemPlugin implementation
 
-    public XESItem create(InputStream inputStream) throws ItemFormatException, NotAuthorizedException {
+    public XESItem create(InputStream inputStream) throws ItemFormatException,
+        NotAuthorizedException {
+
         return createXESItem(new StreamSource(inputStream));
     }
 
@@ -75,21 +78,28 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     // XESItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public XESItem createXESItem(Source source) throws ItemFormatException, NotAuthorizedException {  // TODO: make transactional
+    public XESItem createXESItem(Source source) throws ItemFormatException,
+        NotAuthorizedException {
+
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            TransformerFactory.newInstance().newTransformer().transform(source, new StreamResult(baos));
+            TransformerFactory.newInstance()
+                              .newTransformer()
+                              .transform(source, new StreamResult(baos));
 
             // Validate
             try {
                 XesXmlParser parser = new XesXmlParser();
-                List<XLog> validated = parser.parse(new ByteArrayInputStream(baos.toByteArray()));
+                List<XLog> validated =
+                    parser.parse(new ByteArrayInputStream(baos.toByteArray()));
                 if (validated.size() != 1) {
-                    throw new Exception("File contained " + validated.size() + " XES event logs");
+                    throw new Exception("File contained " + validated.size()
+                        + " XES event logs");
                 }
                 XLog log = validated.get(0);
                 if (log == null) {
-                    throw new Exception("File contained 1 XES event log, but it was null (which makes no sense, so rejecting)");
+                    throw new Exception("File contained 1 XES event log, but "
+                        + "it was null (which makes no sense, so rejecting)");
                 }
                 LOGGER.debug("Successfully parsed XES log");
 

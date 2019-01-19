@@ -43,12 +43,14 @@ public class BPMNUIPlugin extends AbstractUIPlugin {
         try {
             Iterator<Item> i = context.getSelection().iterator();
             if (!i.hasNext()) {
-                Messagebox.show("Please select one BPMN model", "Attention", Messagebox.OK, Messagebox.ERROR);
+                Messagebox.show("Please select one BPMN model", "Attention",
+                    Messagebox.OK, Messagebox.ERROR);
                 return;
             }
             Item item = i.next();
             if (i.hasNext() || !(item instanceof BPMNItem)) {
-                Messagebox.show("Please select just one BPMN model", "Attention", Messagebox.OK, Messagebox.ERROR);
+                Messagebox.show("Please select just one BPMN model",
+                    "Attention", Messagebox.OK, Messagebox.ERROR);
 
             } else {
                 new BPMNUIWindowController(context, (BPMNItem) item);
