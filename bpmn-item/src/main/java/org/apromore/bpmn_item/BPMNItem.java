@@ -13,10 +13,10 @@ public interface BPMNItem extends Item {
     /**
      * @return a Java object model for the BPMN process model
      */
-    public BPMNDiagram getBPMNDiagram();
+    BPMNDiagram getBPMNDiagram();
 
     /**
      * @return a stream containing the XML serialization of the BPMN process model
      */
-    public InputStream getXMLSerialization();
+    InputStream getXMLSerialization();
 }

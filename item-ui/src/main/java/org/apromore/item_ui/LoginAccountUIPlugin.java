@@ -1,26 +1,11 @@
 package org.apromore.item_ui;
 
-import java.security.Principal;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-
-import org.apromore.item.User;
 import org.apromore.ui.UIService;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Button;
-import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Window;
 
 @Component(service = {UIPlugin.class})
 public class LoginAccountUIPlugin extends AbstractUIPlugin {
@@ -38,13 +23,13 @@ public class LoginAccountUIPlugin extends AbstractUIPlugin {
 
     /** @return whether the plugin is applicable to the given selection */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return context.getUser() == null;
     }
 
     /** Invoked when the menu item is selected */
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         uiService.authenticate(null, null, null);
     }
 }

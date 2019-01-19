@@ -51,7 +51,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
      *
      * If not overidden by concrete implementations, defaults to always enabled.
      */
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return true;
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
      *
      * If not overidden by concrete implementations, defaults to doing nothing and logging a warning message.
      */
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         LOGGER.warn("Executed UI plugin with missing implementation: " + getClass());
     }
 }

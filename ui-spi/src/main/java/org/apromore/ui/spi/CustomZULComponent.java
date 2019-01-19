@@ -9,21 +9,21 @@ import org.zkoss.zk.ui.sys.ContentRenderer;
  */
 public class CustomZULComponent extends HtmlBasedComponent {
 
-    private String _value = "component uninitialized";
+    private String value = "component uninitialized";
 
     public String getValue() {
-        return _value;
+        return value;
     }
 
-    public void setValue(String newValue) {
-        if (!_value.equals(newValue)) {
-            _value = newValue;
-            smartUpdate("value", _value);
+    public void setValue(final String newValue) {
+        if (!value.equals(newValue)) {
+            value = newValue;
+            smartUpdate("value", value);
         }
     }
 
-    protected void renderProperties(ContentRenderer renderer) throws IOException {
+    protected void renderProperties(final ContentRenderer renderer) throws IOException {
         super.renderProperties(renderer);
-        render(renderer, "value", _value);
+        render(renderer, "value", value);
     }
 }

@@ -1,6 +1,5 @@
 package org.apromore.item.spi;
 
-import java.security.Principal;
 import org.apromore.item.Item;
 
 /**
@@ -10,7 +9,12 @@ import org.apromore.item.Item;
  */
 public class ItemWrapper implements Item {
 
-    public Item item;
+    /** The wrapped instance. */
+    private Item item;
+
+    public ItemWrapper(final Item wrappedItem) {
+        this.item = wrappedItem;
+    }
 
 
     // Implementation of Item

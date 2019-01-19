@@ -12,7 +12,7 @@ class ItemImpl implements Item {
 
     private String type;
 
-    ItemImpl(ItemDao dao) {
+    ItemImpl(final ItemDao dao) {
         this.id = dao.getId();
         this.type = dao.getType();
     }

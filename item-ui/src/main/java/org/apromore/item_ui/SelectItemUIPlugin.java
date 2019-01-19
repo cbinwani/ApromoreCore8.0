@@ -1,6 +1,5 @@
 package org.apromore.item_ui;
 
-import java.io.IOException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.ui.spi.AbstractUIPlugin;
@@ -10,7 +9,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
@@ -19,7 +17,6 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
@@ -80,7 +77,7 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
         listbox.addEventListener("onKeyPress", new EventListener<KeyEvent>() {
             public void onEvent(KeyEvent keyEvent) throws Exception {
                 LOGGER.debug("Key press " + keyEvent);
-                if ((keyEvent.isCtrlKey() && keyEvent.getKeyCode() == 65)) {
+                if ((keyEvent.isCtrlKey() && keyEvent.getKeyCode() == 'a')) {
                     if (listbox.getSelectedCount() > 0) {
                         listbox.selectAll();
 

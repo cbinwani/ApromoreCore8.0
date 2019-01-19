@@ -20,7 +20,7 @@ public class ItemDao {
         return id;
     }
 
-    public void setId(Long newId) {
+    public void setId(final Long newId) {
         this.id = newId;
     }
 
@@ -28,7 +28,7 @@ public class ItemDao {
         return type;
     }
 
-    public void setType(String newType) {
+    public void setType(final String newType) {
         this.type = newType;
     }
 }

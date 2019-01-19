@@ -21,7 +21,6 @@
 package org.apromore.metrics_ui;
 
 // Java 2 Standard Edition packages
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +34,6 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelMap;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radiogroup;
@@ -138,7 +136,7 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
                                               f(w, "acd"), f(w, "mcd"), f(w, "cnc"), f(w, "density"),
                                               f(w, "structuredness"), f(w, "separability"), f(w, "duplicates"));
 
-        if(bpmnMetrics == null) {
+        if (bpmnMetrics == null) {
             Messagebox.show("Unable to compute metrics", "Attention", Messagebox.OK, Messagebox.ERROR);
             return;
         }
@@ -157,7 +155,7 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
 
         Map<String, String> xesMetrics = metricsService.computeMetrics(xesItem.getXLog());
 
-        if(xesMetrics == null) {
+        if (xesMetrics == null) {
             Messagebox.show("Unable to compute metrics", "Attention", Messagebox.OK, Messagebox.ERROR);
             return;
         }

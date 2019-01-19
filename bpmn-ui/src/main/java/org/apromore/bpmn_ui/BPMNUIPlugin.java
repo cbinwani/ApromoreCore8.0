@@ -2,7 +2,6 @@ package org.apromore.bpmn_ui;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
 import org.apromore.item.Item;
@@ -31,7 +30,7 @@ public class BPMNUIPlugin extends AbstractUIPlugin {
 
     /** @return whether the selection is a single BPMN process model */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return context.getSelection()
                       .stream()
                       .filter(item -> "BPMN 2.0".equals(item.getType()))
@@ -40,7 +39,7 @@ public class BPMNUIPlugin extends AbstractUIPlugin {
 
     /** Invoked when the menu item is selected */
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         try {
             Iterator<Item> i = context.getSelection().iterator();
             if (!i.hasNext()) {

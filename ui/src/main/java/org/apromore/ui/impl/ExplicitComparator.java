@@ -10,7 +10,7 @@ import java.util.List;
 class ExplicitComparator implements Comparator<String> {
 
     protected List<String> examples;
-    
+
 
     // Constructor
 

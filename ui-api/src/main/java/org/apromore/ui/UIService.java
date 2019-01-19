@@ -12,7 +12,7 @@ public interface UIService {
      * @param success  executed after the user successfully logs in
      * @param failure  executed after the login is cancelled
      */
-    public void authenticate(String reason, Runnable success, Runnable failure);
+    void authenticate(String reason, Runnable success, Runnable failure);
 
     /**
      * Verify that a given permission is granted to the current user session.
@@ -20,10 +20,10 @@ public interface UIService {
      * @param permission  a named permission, e.g. <code>"create"</code> authorizing item storage
      * @throws NotAuthorizedException if the <var>permission</var> is not granted to the current user session
      */
-    public void authorize(String permission) throws NotAuthorizedException;
+    void authorize(String permission) throws NotAuthorizedException;
 
     /**
      * @return the authenticated user, or <code>null</code> if the user hasn't logged in
      */
-    public User getUser();
+    User getUser();
 }

@@ -9,7 +9,7 @@ public class ItemPluginListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemPluginListener.class);
 
-    public void onBind(ItemPlugin itemPlugin, Map properties) {
+    public void onBind(final ItemPlugin itemPlugin, final Map properties) {
         LOGGER.debug("Bind item plugin " + itemPlugin + " with properties " + properties);
         /*
         for (Component component: components) {
@@ -27,7 +27,7 @@ public class ItemPluginListener {
         */
     }
 
-    public void onUnbind(ItemPlugin itemPlugin, Map properties) {
+    public void onUnbind(final ItemPlugin itemPlugin, final Map properties) {
         LOGGER.debug("Unbind item plugin " + itemPlugin + " with properties " + properties);
         /*
         for (Component component: components) {

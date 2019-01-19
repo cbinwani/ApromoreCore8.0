@@ -57,8 +57,17 @@ public class UploadItemUIPlugin extends AbstractUIPlugin {
     @Override
     public void execute(UIPluginContext context) {
         uiService.authenticate("All uploads must be have an owner.", new Runnable() {
+
+            /**
+             * The maximal allowed number of files that an user can upload at once.
+             * If non-positive, 1 is assumed.
+             *
+             * @see {@link org.zkoss.zul.Fileupload#get(int)}
+             */
+            static final int  MAX_ALLOWED_FILES = 100;
+
             public void run() {  // perform the upload if login is successful
-                Fileupload.get(100, new EventListener<UploadEvent>() {
+                Fileupload.get(MAX_ALLOWED_FILES, new EventListener<UploadEvent>() {
                     public void onEvent(UploadEvent uploadEvent) {
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());

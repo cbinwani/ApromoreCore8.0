@@ -3,15 +3,13 @@ package org.apromore.item.impl;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
-import org.apromore.item.User;
+//import org.apromore.item.User;
 import org.apromore.item.jpa.ItemDao;
 import org.apromore.item.jpa.ItemRepository;
 import org.apromore.item.spi.ItemPlugin;
@@ -40,12 +38,12 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     //@Reference
     private ItemRepository   itemRepository;
 
-    public ItemServiceImpl(List<ItemPlugin> itemPlugins, UIService uiService) {
-        this.itemPlugins   = itemPlugins;
-        this.uiService     = uiService;
+    public ItemServiceImpl(final List<ItemPlugin> newItemPlugins, final UIService newUIService) {
+        this.itemPlugins   = newItemPlugins;
+        this.uiService     = newUIService;
     }
 
-    public void setItemRepository(ItemRepository newRepository) {
+    public void setItemRepository(final ItemRepository newRepository) {
         this.itemRepository = newRepository;
     }
 
@@ -53,7 +51,7 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     // ItemPluginContext implementation
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public Item create(String type) throws NotAuthorizedException {
+    public Item create(final String type) throws NotAuthorizedException {
 
         uiService.authorize("create");
         //User user = uiService.getUser();
@@ -97,7 +95,7 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     // ItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRED)
-    public Item create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException {
+    public Item create(final InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException {
 
         LOGGER.debug("Attempting to create item using " + itemPlugins);
 
@@ -132,10 +130,10 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
         return itemRepository.list()
                              .stream()
                              .map(itemDao -> toConcreteSubtype(new ItemImpl(itemDao)))
-                             .collect(java.util.stream.Collectors.toList()); 
+                             .collect(java.util.stream.Collectors.toList());
     }
 
-    public Item toConcreteSubtype(Item item) {
+    public Item toConcreteSubtype(final Item item) {
         for (ItemPlugin itemPlugin: itemPlugins) {
             if (itemPlugin.getType().equals(item.getType())) {
                 try {
@@ -153,7 +151,7 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public Item getById(Long id) {
+    public Item getById(final Long id) {
         return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));
     }
 

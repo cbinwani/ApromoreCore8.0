@@ -5,5 +5,5 @@ package org.apromore.item;
  */
 public interface User {
 
-    public String getId();
+    String getId();
 }

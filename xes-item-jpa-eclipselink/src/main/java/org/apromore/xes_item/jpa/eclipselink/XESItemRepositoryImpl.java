@@ -23,10 +23,10 @@ public class XESItemRepositoryImpl implements XESItemRepository {
     @PersistenceContext(unitName = "xes-item-eclipselink")
     private EntityManager entityManager;
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public void setEntityManager(EntityManager newEntityManager) {
+        this.entityManager = newEntityManager;
     }
-    
+
 
     // XESItemRepository implementation
 

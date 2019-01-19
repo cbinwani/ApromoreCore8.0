@@ -16,15 +16,16 @@ import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
  */
 class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
-    private Long id;
-
     private byte[] xmlSerialization;
 
-    transient BPMNDiagramImporter importerService;
+    private BPMNDiagramImporter importerService;
 
-    BPMNItemImpl(BPMNItemDAO dao) {
-        this.id = dao.getId();
+    BPMNItemImpl(final Item item, final BPMNItemDAO dao, final BPMNDiagramImporter newImporterService) {
+        super(item);
+
+        assert item.getId() == dao.getId();
         this.xmlSerialization = dao.getXmlSerialization();
+        this.importerService = newImporterService;
     }
 
 
@@ -42,20 +43,7 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     // Accessors
 
-    /** @return primary key */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long newId) {
-        this.id = newId;
-    }
-
     public InputStream getXMLSerialization() {
         return new ByteArrayInputStream(xmlSerialization);
-    }
-
-    public void setXMLSerialization(byte[] newXMLSerialization) {
-        this.xmlSerialization = newXMLSerialization;
     }
 }

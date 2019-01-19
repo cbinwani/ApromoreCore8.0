@@ -1,19 +1,3 @@
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
 package org.apromore.item.jpa.eclipselink;
 
 import org.apromore.item.jpa.ItemDao;
@@ -39,16 +23,16 @@ public class ItemRepositoryImpl implements ItemRepository {
     @PersistenceContext(unitName = "item-eclipselink")
     private EntityManager entityManager;
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public void setEntityManager(EntityManager newEntityManager) {
+        this.entityManager = newEntityManager;
     }
-    
+
 
     // ItemDaoService implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void add(ItemDao newItemDao) {
+    public void add(final ItemDao newItemDao) {
         LOGGER.debug("EclipseLink provider adding item with type " + newItemDao.getType() + "; entity manager is " + entityManager);
         entityManager.persist(newItemDao);
     }
@@ -62,7 +46,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public ItemDao get(Long id) {
+    public ItemDao get(final Long id) {
         LOGGER.debug("EclipseLink provider getting item with id " + id + "; entity manager is " + entityManager);
         //return entityManager.find(ItemDao.class, id);
 
@@ -79,7 +63,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(Long id) {
+    public void remove(final Long id) {
         ItemDao dao = get(id);
         entityManager.remove(dao);
     }

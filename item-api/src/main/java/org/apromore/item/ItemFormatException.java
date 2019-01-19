@@ -12,23 +12,24 @@ import java.util.Set;
  */
 public class ItemFormatException extends Exception {
 
+    /** The type identifiers for the formats which failed to match the serialized data. */
     private Set<String> formats = new HashSet<>();
 
-    public ItemFormatException(Collection<String> formats, Throwable cause) {
+    public ItemFormatException(final Collection<String> newFormats, final Throwable cause) {
         super(cause);
-        this.formats.addAll(formats);
+        this.formats.addAll(newFormats);
     }
 
-    public ItemFormatException(Collection<String> formats) {
-        this.formats.addAll(formats);
+    public ItemFormatException(final Collection<String> newFormats) {
+        this.formats.addAll(newFormats);
     }
 
-    public ItemFormatException(String format, Throwable cause) {
+    public ItemFormatException(final String format, final Throwable cause) {
         super(cause);
         this.formats.add(format);
     }
 
-    public ItemFormatException(String format) {
+    public ItemFormatException(final String format) {
         this.formats.add(format);
     }
 

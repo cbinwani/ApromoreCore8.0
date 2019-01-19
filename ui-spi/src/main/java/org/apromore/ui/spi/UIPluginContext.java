@@ -1,6 +1,5 @@
 package org.apromore.ui.spi;
 
-import javax.security.auth.Subject;
 import java.util.Map;
 import java.util.Set;
 import org.apromore.item.Item;
@@ -21,23 +20,23 @@ public interface UIPluginContext {
      * @return a ZK component corresponding to the ZUL markup
      * @throws Error  if the ZUL markup isn't available; this is considered programming error (rather than an I/O exception) since ZUL access is a linking issue
      */
-    public Component createComponent(ClassLoader bundleClassLoader, String uri, Map<?, ?> arguments);
+    Component createComponent(ClassLoader bundleClassLoader, String uri, Map<?, ?> arguments);
 
-    public Component getParentComponent();
+    Component getParentComponent();
 
-    public void setComponent(Component component);
+    void setComponent(Component component);
 
-    public Set<Item> getSelection();
+    Set<Item> getSelection();
 
-    public void setSelection(Set<Item> newSelection);
+    void setSelection(Set<Item> newSelection);
 
     /**
      * @return the currently authenticated user, or <code>NULL</code> for an anonymous user session
      */
-    public User getUser();
+    User getUser();
 
     /**
      * @param newUser  the new authenticated user, or <code>NULL</code> to de-authenticate the current user session (i.e. log out).
      */
-    public void setUser(User newUser);
+    void setUser(User newUser);
 }

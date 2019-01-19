@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 //import java.nio.charset.Charset;
 import java.util.List;
-import javax.persistence.UniqueConstraint;
 import org.apromore.item.Item;
 import org.apromore.item.spi.ItemWrapper;
 import org.apromore.xes_item.XESItem;
@@ -18,12 +17,12 @@ import org.deckfour.xes.model.XLog;
  */
 class XESItemImpl extends ItemWrapper implements XESItem {
 
-    private Long id;
-
     private byte[] xmlSerialization;
 
-    XESItemImpl(XESItemDAO dao) {
-        this.id = dao.getId();
+    XESItemImpl(final Item item, XESItemDAO dao) {
+        super(item);
+
+        assert item.getId() == dao.getId();
         this.xmlSerialization = dao.getXmlSerialization();
     }
 
@@ -44,20 +43,7 @@ class XESItemImpl extends ItemWrapper implements XESItem {
 
     // Accessors
 
-    /** @return primary key */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long newId) {
-        this.id = newId;
-    }
-
     public InputStream getXMLSerialization() {
         return new ByteArrayInputStream(xmlSerialization);
-    }
-
-    public void setXMLSerialization(byte[] newXMLSerialization) {
-        this.xmlSerialization = newXMLSerialization;
     }
 }

@@ -23,16 +23,16 @@ public class BPMNItemRepositoryImpl implements BPMNItemRepository {
     @PersistenceContext(unitName = "bpmn-item-eclipselink")
     private EntityManager entityManager;
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public void setEntityManager(final EntityManager newEntityManager) {
+        this.entityManager = newEntityManager;
     }
-    
+
 
     // BpmnItemRepository implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void add(BPMNItemDAO dao) {
+    public void add(final BPMNItemDAO dao) {
         entityManager.persist(dao);
     }
 
@@ -44,7 +44,7 @@ public class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public BPMNItemDAO get(Long id) {
+    public BPMNItemDAO get(final Long id) {
         //return entityManager.find(BPMNItemDAO.class, id);
 
         TypedQuery<BPMNItemDAO> query = entityManager.createQuery("SELECT i FROM BPMNItemDAO i WHERE i.id=:id", BPMNItemDAO.class);
@@ -60,7 +60,7 @@ public class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(Long id) {
+    public void remove(final Long id) {
         BPMNItemDAO dao = get(id);
         entityManager.remove(dao);
     }

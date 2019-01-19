@@ -1,7 +1,5 @@
 package org.apromore.item;
 
-import java.security.Principal;
-
 /**
  * An item is any entity stored within the Apromore repository, such as an event log or a process model.
  *

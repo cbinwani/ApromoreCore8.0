@@ -1,6 +1,5 @@
 package org.apromore.bpmn_item;
 
-import java.io.Writer;
 import javax.xml.transform.Source;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -13,7 +12,12 @@ public interface BPMNItemService {
      * @throws ItemFormatException if the <var>source</var> can't be interpreted as BPMN 2.0
      * @throws NotAuthorizedException if the caller's credentials do not permit item creation
      */
-    public BPMNItem createBPMNItem(Source source) throws ItemFormatException, NotAuthorizedException;
+    BPMNItem createBPMNItem(Source source) throws ItemFormatException, NotAuthorizedException;
 
-    public BPMNItem getById(Long id) throws NotAuthorizedException;
+    /**
+     * @param id  primary key
+     * @return the corresponding BPMN item if one exists, <code>null</code> otherwise (which includes the case of a
+     *     non-BPMN item existing with that id)
+     */
+    BPMNItem getById(Long id) throws NotAuthorizedException;
 }

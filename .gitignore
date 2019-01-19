@@ -8,3 +8,6 @@
 
 # MacOS Finder artifacts
 **/.DS_Store
+
+# vi editor swap files
+*.swp

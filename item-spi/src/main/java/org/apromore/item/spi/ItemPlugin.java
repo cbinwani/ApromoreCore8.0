@@ -8,6 +8,8 @@ import org.apromore.item.NotAuthorizedException;
 
 /**
  * Services required to provide a concrete subtype of {@link Item}.
+ *
+ * @param <T>  the interface of the cpncrete subtype
  */
 public interface ItemPlugin<T extends Item> {  // TODO: Generic parameter
 
@@ -18,9 +20,9 @@ public interface ItemPlugin<T extends Item> {  // TODO: Generic parameter
      * @throws ItemFormatException  if the <var>inputStream</var> cannot be parsed
      * @throws NotAuthorizedException  if the caller isn't authorized to create the {@link Item}
      */
-    public T create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException;  // TODO: return type should be expressed generically as "some extension of Item"
+    T create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException;  // TODO: return type should be expressed generically as "some extension of Item"
 
-    public String getType();
+    String getType();
 
     /**
      * Used to convert instances of {@link Item} to their particular concrete subtype (e.g. BPMNItem)
@@ -29,5 +31,5 @@ public interface ItemPlugin<T extends Item> {  // TODO: Generic parameter
      * @return the corresponding instance of a concrete subclass of {@link Item}
      * @throws ItemTypeException  if the <var>item</var> is not an instance of the subtype managed by this plugin
      */
-    public T toConcreteItem(Item item) throws ItemTypeException;  // TODO: return type should be expressed generically as "some extension of Item"
+    T toConcreteItem(Item item) throws ItemTypeException;  // TODO: return type should be expressed generically as "some extension of Item"
 }

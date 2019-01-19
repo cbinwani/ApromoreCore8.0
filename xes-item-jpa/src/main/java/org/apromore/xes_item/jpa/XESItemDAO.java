@@ -5,29 +5,48 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Data access object for {@link org.apromore.xes_item.XESItem}.
+ */
 @Entity
 @Table(name = "XES_ITEM")
 public class XESItemDAO {
 
-    @Id  // Note that this isn't @Generated; the id must be supplied by an ItemDAO
+    /**
+     * Primary key.
+     *
+     * Note that this isn't automatically @Generated.
+     * The id must be obtained from this XES item's corresponding {@link org.apromore.item.jpa.ItemDAO}.
+     */
+    @Id
     private Long id;
 
-    @Column(name="XML_SERIALIZATION", unique = false, nullable = false)
+    /**
+     * The XES 1.0 XML document text.
+     *
+     * This is stored as bytes rather than characters because technically XML is binary and contains its
+     * own character encoding information.
+     */
+    @Column(name = "XML_SERIALIZATION", unique = false, nullable = false)
     private byte[] xmlSerialization;
 
+    /** @return primary key */
     public Long getId() {
         return id;
     }
 
-    public void setId(Long newId) {
+    /** @param newId  primary key */
+    public void setId(final Long newId) {
         this.id = newId;
     }
 
+    /** @return XES 1.0 document text */
     public byte[] getXmlSerialization() {
         return xmlSerialization;
     }
 
-    public void setXmlSerialization(byte[] newXmlSerialization) {
+    /** @param newXmlSerialization  XES 1.0 document text */
+    public void setXmlSerialization(final byte[] newXmlSerialization) {
         this.xmlSerialization = newXmlSerialization;
     }
 }

@@ -3,10 +3,7 @@ package org.apromore.xes_item.impl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
@@ -72,9 +69,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());
         }
-        XESItemImpl xesItemImpl = new XESItemImpl(dao);
-        xesItemImpl.item = item;
-        return xesItemImpl;
+        return new XESItemImpl(item, dao);
     }
 
     // XESItemService implementation
@@ -96,7 +91,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
                 if (log == null) {
                     throw new Exception("File contained 1 XES event log, but it was null (which makes no sense, so rejecting)");
                 }
-                LOGGER.debug("Successfully parsed XES log"); 
+                LOGGER.debug("Successfully parsed XES log");
 
             } catch (Exception e) {
                 throw new ItemFormatException(getType(), e);
@@ -111,10 +106,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
             dao.setXmlSerialization(baos.toByteArray());
             xesItemRepository.add(dao);
 
-            XESItemImpl xesItem = new XESItemImpl(dao);
-            xesItem.item = item;
-
-            return xesItem;
+            return new XESItemImpl(item, dao);
 
         } catch (TransformerConfigurationException e) {
             throw new Error("Server configuration error", e);
@@ -125,9 +117,8 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     }
 
     public XESItem getById(Long id) throws NotAuthorizedException {
+        Item item = this.itemPluginContext.getById(id);
         XESItemDAO dao = xesItemRepository.get(id);
-        XESItemImpl xesItemImpl = new XESItemImpl(dao);
-        xesItemImpl.item = this.itemPluginContext.getById(id);
-        return xesItemImpl;
+        return new XESItemImpl(item, dao);
     }
 }

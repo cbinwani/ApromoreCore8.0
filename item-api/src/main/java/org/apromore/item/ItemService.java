@@ -20,24 +20,17 @@ public interface ItemService {
      * @throws ItemFormatException if the serialized data cannot be interpreted as the expected type
      * @throws NotAuthorizedException if a lack of authorization prevents the item from being created
      */
-    public Item create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException;
-
-    /**
-     * This method should only be used by service providers, who are responsible for creating a concrete subtype of the given <var>type</var>.
-     *
-     * @return NotAuthorizedException if a lack of authorization prevents the item from being created
-     */
-    //public Item create(String type) throws NotAuthorizedException;
+    Item create(InputStream inputStream) throws IOException, ItemFormatException, NotAuthorizedException;
 
     /**
      * @return every {@link Item} in the repository which the caller is authorized to know about, in no guaranteed order
      */
-    public List<Item> getAll();
+    List<Item> getAll();
 
     /**
      * @param id  the primary key identifier of an existing {@link Item}, never <code>null</code>
      * @return either the unique {@link Item} with the given <var>id</var>, or <code>null</code> if no such item exists
      * @throws NotAuthorizedException if a lack of authorization prevents the item from being created
      */
-    public Item getById(Long id) throws NotAuthorizedException;
+    Item getById(Long id) throws NotAuthorizedException;
 }

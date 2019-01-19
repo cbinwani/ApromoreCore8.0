@@ -2,10 +2,6 @@ package org.apromore.bpmn_item.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
@@ -61,7 +57,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
 
     // ItemPlugin implementation
 
-    public BPMNItem create(InputStream inputStream) throws ItemFormatException, NotAuthorizedException {
+    public BPMNItem create(final InputStream inputStream) throws ItemFormatException, NotAuthorizedException {
         return createBPMNItem(new StreamSource(inputStream));
     }
 
@@ -69,21 +65,18 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
         return "BPMN 2.0";  // TODO: make this a constant
     }
 
-    public BPMNItem toConcreteItem(Item item) throws ItemTypeException {
+    public BPMNItem toConcreteItem(final Item item) throws ItemTypeException {
         BPMNItemDAO dao = bpmnItemRepository.get(item.getId());
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());
         }
-        BPMNItemImpl bpmnItemImpl = new BPMNItemImpl(dao);
-        bpmnItemImpl.item = item;
-        bpmnItemImpl.importerService = this.importerService;
-        return bpmnItemImpl;
+        return new BPMNItemImpl(item, dao, this.importerService);
     }
 
     // BPMNItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public BPMNItem createBPMNItem(Source source) throws ItemFormatException, NotAuthorizedException {
+    public BPMNItem createBPMNItem(final Source source) throws ItemFormatException, NotAuthorizedException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             TransformerFactory.newInstance().newTransformer().transform(source, new StreamResult(baos));
@@ -102,11 +95,7 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
             dao.setXmlSerialization(baos.toByteArray());
             bpmnItemRepository.add(dao);
 
-            BPMNItemImpl bpmnItem = new BPMNItemImpl(dao);
-            bpmnItem.item            = item;
-            bpmnItem.importerService = this.importerService;
-
-            return bpmnItem;
+            return new BPMNItemImpl(item, dao, this.importerService);
 
         } catch (TransformerConfigurationException e) {
             throw new Error("Server configuration error", e);
@@ -117,11 +106,9 @@ public class BPMNItemPluginImpl implements BPMNItemService, ItemPlugin<BPMNItem>
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
-    public BPMNItem getById(Long id) throws NotAuthorizedException {
-        BPMNItemDAO dao = bpmnItemRepository.get(id);
-        BPMNItemImpl bpmnItemImpl = new BPMNItemImpl(dao);
-        bpmnItemImpl.item            = this.itemPluginContext.getById(id);
-        bpmnItemImpl.importerService = this.importerService;
-        return bpmnItemImpl;
+    public BPMNItem getById(final Long id) throws NotAuthorizedException {
+        Item        item = this.itemPluginContext.getById(id);
+        BPMNItemDAO dao  = bpmnItemRepository.get(id);
+        return new BPMNItemImpl(item, dao, this.importerService);
     }
 }

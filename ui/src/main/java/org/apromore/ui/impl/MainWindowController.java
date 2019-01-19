@@ -3,7 +3,6 @@ package org.apromore.ui.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -11,14 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import javax.security.auth.Subject;
 import org.apromore.item.Item;
 import org.apromore.item.User;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.blueprint.container.BlueprintContainer;
-import org.osgi.service.blueprint.container.NoSuchComponentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.lang.Library;
@@ -147,7 +144,7 @@ public class MainWindowController extends SelectorComposer<Component> implements
       };
   }
 
-  private void generateMenubar(Menubar menubar, Component parent, Set<Item> selection, UIPluginContext uiPluginContext) {
+  private void generateMenubar(Menubar newMenubar, Component newParent, Set<Item> newSelection, UIPluginContext uiPluginContext) {
 
       // If present, this comparator expresses the preferred ordering for menus along the the menu bar
       Comparator<String> ordering = new ExplicitComparator((String) blueprintContainer().getComponentInstance("uiMenuOrder"));
@@ -195,7 +192,7 @@ public class MainWindowController extends SelectorComposer<Component> implements
       }
 
       // Replace the existing menubar contents
-      menubar.getChildren().clear();
-      menubar.getChildren().addAll(menuMap.values());
+      newMenubar.getChildren().clear();
+      newMenubar.getChildren().addAll(menuMap.values());
   }
 }

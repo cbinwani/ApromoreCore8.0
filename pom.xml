@@ -8,6 +8,8 @@
   <name>Apromore</name>
   <description>A top-level target for building the various Apromore modules.</description>
 
+  <inceptionYear>2018</inceptionYear>
+
   <modules>
     <module>apromore-parent</module>
     <module>bpmn-diagram-importer</module>
@@ -39,8 +41,22 @@
       <name>GNU Lesser General Public License, Version 3.0</name>
       <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
       <distribution>repo</distribution>
-     </license>
+    </license>
   </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/apromore/ApromoreCore8.0.git</connection>
+    <developerConnection>scm:git:https://github.com/apromore/ApromoreCore8.0.git</developerConnection>
+    <url>https://github.com/apromore/ApromoreCore8.0</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <mailingLists>
+    <mailingList>
+      <name>Apromore mailing list</name>
+      <post>apromore@lists.unimelb.edu.au</post>
+    </mailingList>
+  </mailingLists>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

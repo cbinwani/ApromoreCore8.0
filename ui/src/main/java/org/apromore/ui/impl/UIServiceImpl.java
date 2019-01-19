@@ -16,7 +16,7 @@ import org.apromore.item.User;
 import org.apromore.ui.UIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.zk.ui.Component;
+//import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -28,7 +28,7 @@ import org.zkoss.zul.Window;
 
 public class UIServiceImpl implements UIService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(UIServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UIServiceImpl.class);
 
     /** Attribute key on the ZK {@link org.zkoss.zk.ui.Session} containing the authenticated user as a username {@link String}. */
     public static final String ZK_SESSION_USER_ATTRIBUTE = "user";
@@ -91,11 +91,11 @@ public class UIServiceImpl implements UIService {
                         for (Callback callback: callbacks) {
                             if (callback instanceof NameCallback) {
                                 ((NameCallback) callback).setName(username);
-                            }
-                            else if (callback instanceof PasswordCallback) {
+
+                            } else if (callback instanceof PasswordCallback) {
                                 ((PasswordCallback) callback).setPassword(password.toCharArray());
-                            }
-                            else {
+
+                            } else {
                                 throw new UnsupportedCallbackException(callback, "Unimplemented callback");
                             }
                         }
@@ -155,7 +155,9 @@ public class UIServiceImpl implements UIService {
 
     private void setUser(String userId) {
         Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE, new User() {
-            public String getId() { return userId; }
+            public String getId() {
+                return userId;
+            }
         });
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onLogin"));

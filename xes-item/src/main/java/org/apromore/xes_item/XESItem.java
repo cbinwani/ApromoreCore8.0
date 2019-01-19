@@ -13,10 +13,10 @@ public interface XESItem extends Item {
     /**
      * @return a Java object model for the XES event log
      */
-    public XLog getXLog();
+    XLog getXLog();
 
     /**
      * @return a stream containing the XML serialization of the XES event log
      */
-    public InputStream getXMLSerialization();
+    InputStream getXMLSerialization();
 }
