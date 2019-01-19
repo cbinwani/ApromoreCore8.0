@@ -11,6 +11,11 @@ import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 public interface BPMNItem extends Item {
 
     /**
+     * Type identifier for BPMN items.
+     */
+    String TYPE = "BPMN 2.0";
+
+    /**
      * @return a Java object model for the BPMN process model
      */
     BPMNDiagram getBPMNDiagram();

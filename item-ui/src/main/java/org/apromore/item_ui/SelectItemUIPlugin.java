@@ -49,13 +49,13 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
 
     /** @return whether the plugin is applicable to the given selection */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return true;
     }
 
     /** Invoked when the menu item is selected */
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         Window window = (Window) context.createComponent(
             SelectItemUIPlugin.class.getClassLoader(),
             "zul/selectItem.zul",
@@ -63,7 +63,10 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
         Listbox listbox = (Listbox) window.getFellow("listbox");
 
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
-            public void render(Listitem listitem, Item item, int index) {
+            public void render(final Listitem listitem,
+                               final Item     item,
+                               final int      index) {
+
                 listitem.appendChild(new Listcell(Integer.valueOf(index)
                                                          .toString()));
                 listitem.appendChild(new Listcell("" + item.getId()));
@@ -80,7 +83,7 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
         listbox.setPaginal((Paging) window.getFellow("paging"));
 
         listbox.addEventListener("onKeyPress", new EventListener<KeyEvent>() {
-            public void onEvent(KeyEvent keyEvent) throws Exception {
+            public void onEvent(final KeyEvent keyEvent) throws Exception {
                 LOGGER.debug("Key press " + keyEvent);
                 if ((keyEvent.isCtrlKey() && keyEvent.getKeyCode() == 'a')) {
                     if (listbox.getSelectedCount() > 0) {
@@ -94,7 +97,9 @@ public class SelectItemUIPlugin extends AbstractUIPlugin {
         });
 
         listbox.addEventListener("onSelect", new EventListener<SelectEvent>() {
-            public void onEvent(SelectEvent selectEvent) throws Exception {
+            public void onEvent(final SelectEvent selectEvent)
+                throws Exception {
+
                 context.setSelection(
                    ((Selectable<Item>) listbox.getModel()).getSelection()
                 );

@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 /**
-
+ * Factory service for {@link BPMNItemDAO}s.
  */
 @Transactional
 public class BPMNItemRepositoryImpl implements BPMNItemRepository {

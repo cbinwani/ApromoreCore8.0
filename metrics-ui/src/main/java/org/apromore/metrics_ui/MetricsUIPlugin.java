@@ -72,16 +72,16 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
 
     /** @return whether the selection is a single BPMN process model */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return context.getSelection()
                       .stream()
-                      .filter(item -> Arrays.asList("BPMN 2.0", "XES")
+                      .filter(item -> Arrays.asList(BPMNItem.TYPE, XESItem.TYPE)
                                             .contains(item.getType()))
                       .count() == 1;
     }
 
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
 
         Set<Item> selection = context.getSelection();
         if (selection.size() != 1) {
@@ -92,11 +92,11 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
 
         Item item = selection.stream().findAny().get();
         switch (item.getType()) {
-        case "BPMN 2.0":
+        case BPMNItem.TYPE:
             configureProcessComputation((BPMNItem) item, context);
             break;
 
-        case "XES":
+        case XESItem.TYPE:
             runLogComputation((XESItem) item, context);
             break;
 
@@ -109,8 +109,8 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
     /**
      * Controller for the settings popup window.
      */
-    private void configureProcessComputation(BPMNItem bpmnItem,
-                                             UIPluginContext context) {
+    private void configureProcessComputation(final BPMNItem bpmnItem,
+                                             final UIPluginContext context) {
 
         Window window = (Window) context.createComponent(
             MetricsUIPlugin.class.getClassLoader(), "zul/metrics.zul", null);
@@ -118,7 +118,7 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
         ((Button) window.getFellow("OKButton")).addEventListener("onClick",
             new EventListener<Event>() {
 
-            public void onEvent(Event event) throws Exception {
+            public void onEvent(final Event event) throws Exception {
                 runProcessComputation(bpmnItem, context, window);
                 window.detach();
             }
@@ -127,7 +127,7 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
         ((Button) window.getFellow("CancelButton")).addEventListener("onClick",
             new EventListener<Event>() {
 
-            public void onEvent(Event event) throws Exception {
+            public void onEvent(final Event event) throws Exception {
                 window.detach();
             }
         });
@@ -141,9 +141,9 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
      * @param w  the settings window, containing the various radio buttons which
      *     determine which measurements to calculate
      */
-    private void runProcessComputation(BPMNItem        bpmnItem,
-                                       UIPluginContext context,
-                                       Window          w) {
+    private void runProcessComputation(final BPMNItem        bpmnItem,
+                                       final UIPluginContext context,
+                                       final Window          w) {
 
         Map<String, String> bpmnMetrics = metricsService.computeMetrics(
             bpmnItem.getBPMNDiagram(), f(w, "size"), f(w, "cfc"), f(w, "acd"),
@@ -163,12 +163,13 @@ public class MetricsUIPlugin extends AbstractUIPlugin {
         listbox.setModel(new ListModelMap(bpmnMetrics));
     }
 
-    private static boolean f(Window settings, String metricName) {
+    private static boolean f(final Window settings, final String metricName) {
         return ((Radiogroup) settings.getFellow(metricName))
                    .getSelectedIndex() == 0;
     }
 
-    private void runLogComputation(XESItem xesItem, UIPluginContext context) {
+    private void runLogComputation(final XESItem xesItem,
+                                   final UIPluginContext context) {
 
         Map<String, String> xesMetrics =
             metricsService.computeMetrics(xesItem.getXLog());

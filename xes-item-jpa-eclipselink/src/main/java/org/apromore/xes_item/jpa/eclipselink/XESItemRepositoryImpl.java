@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 /**
-
+ * Factory service for {@link XESItemDAO}s.
  */
 @Transactional
 public class XESItemRepositoryImpl implements XESItemRepository {
@@ -24,7 +24,7 @@ public class XESItemRepositoryImpl implements XESItemRepository {
     @PersistenceContext(unitName = "xes-item-eclipselink")
     private EntityManager entityManager;
 
-    public void setEntityManager(EntityManager newEntityManager) {
+    public void setEntityManager(final EntityManager newEntityManager) {
         this.entityManager = newEntityManager;
     }
 
@@ -33,7 +33,7 @@ public class XESItemRepositoryImpl implements XESItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void add(XESItemDAO dao) {
+    public void add(final XESItemDAO dao) {
         entityManager.persist(dao);
     }
 
@@ -46,7 +46,7 @@ public class XESItemRepositoryImpl implements XESItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public XESItemDAO get(Long id) {
+    public XESItemDAO get(final Long id) {
         //return entityManager.find(XESItemDAO.class, id);
 
         TypedQuery<XESItemDAO> query = entityManager.createQuery(
@@ -63,7 +63,7 @@ public class XESItemRepositoryImpl implements XESItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(Long id) {
+    public void remove(final Long id) {
         XESItemDAO dao = get(id);
         entityManager.remove(dao);
     }

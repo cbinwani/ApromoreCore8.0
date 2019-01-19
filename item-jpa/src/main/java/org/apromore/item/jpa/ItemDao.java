@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ITEM")
-public class ItemDao {
+public class ItemDAO {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

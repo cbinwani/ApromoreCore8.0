@@ -11,7 +11,7 @@ import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
 //import org.apromore.item.User;
-import org.apromore.item.jpa.ItemDao;
+import org.apromore.item.jpa.ItemDAO;
 import org.apromore.item.jpa.ItemRepository;
 import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
@@ -61,7 +61,7 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
         uiService.authorize("create");
         //User user = uiService.getUser();
 
-        ItemDao dao = new ItemDao();
+        ItemDAO dao = new ItemDAO();
         dao.setType(type);
         itemRepository.add(dao);
         return new ItemImpl(dao);
@@ -126,7 +126,7 @@ public class ItemServiceImpl implements ItemPluginContext, ItemService {
         return itemRepository
             .list()
             .stream()
-            .map(itemDao -> toConcreteSubtype(new ItemImpl(itemDao)))
+            .map(itemDAO -> toConcreteSubtype(new ItemImpl(itemDAO)))
             .collect(Collectors.toList());
     }
 

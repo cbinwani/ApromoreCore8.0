@@ -18,7 +18,7 @@ class ExplicitComparator implements Comparator<String> {
     /**
      * @param csv  Comma-separated list of strings in the desired order
      */
-    ExplicitComparator(String csv) {
+    ExplicitComparator(final String csv) {
         examples = Arrays.asList(csv.split(","));
     }
 
@@ -26,7 +26,7 @@ class ExplicitComparator implements Comparator<String> {
     // Implementation of the Comparator interface
 
     @Override
-    public int compare(String o1, String o2) {
+    public int compare(final String o1, final String o2) {
         return examples.indexOf(o1) - examples.indexOf(o2);
     }
 }

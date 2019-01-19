@@ -1,7 +1,7 @@
 package org.apromore.item.impl;
 
 import org.apromore.item.Item;
-import org.apromore.item.jpa.ItemDao;
+import org.apromore.item.jpa.ItemDAO;
 
 /**
  * Implementation of {@link Item}.
@@ -12,7 +12,7 @@ class ItemImpl implements Item {
 
     private String type;
 
-    ItemImpl(final ItemDao dao) {
+    ItemImpl(final ItemDAO dao) {
         this.id = dao.getId();
         this.type = dao.getType();
     }

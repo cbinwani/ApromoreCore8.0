@@ -50,13 +50,13 @@ public class UploadItemUIPlugin extends AbstractUIPlugin {
 
     /** @return uploads are enabled as long as the user is logged in */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return true; //context.getUser() != null;
     }
 
     /** Invoked when the menu item is selected */
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         uiService.authenticate("All uploads must be have an owner.",
             new Runnable() {
 
@@ -73,7 +73,7 @@ public class UploadItemUIPlugin extends AbstractUIPlugin {
                 Fileupload.get(MAX_ALLOWED_FILES,
                     new EventListener<UploadEvent>() {
 
-                    public void onEvent(UploadEvent uploadEvent) {
+                    public void onEvent(final UploadEvent uploadEvent) {
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());
                             try {

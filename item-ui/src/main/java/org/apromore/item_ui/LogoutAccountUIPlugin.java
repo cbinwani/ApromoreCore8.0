@@ -21,13 +21,13 @@ public class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
     /** @return whether the plugin is applicable to the given selection */
     @Override
-    public boolean isEnabled(UIPluginContext context) {
+    public boolean isEnabled(final UIPluginContext context) {
         return context.getUser() != null;
     }
 
     /** Invoked when the menu item is selected */
     @Override
-    public void execute(UIPluginContext context) {
+    public void execute(final UIPluginContext context) {
         context.setUser(null);
     }
 }

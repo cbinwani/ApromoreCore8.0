@@ -11,7 +11,7 @@ import org.apromore.item.NotAuthorizedException;
  *
  * @param <T>  the interface of the cpncrete subtype
  */
-public interface ItemPlugin<T extends Item> {  // TODO: Generic parameter
+public interface ItemPlugin<T extends Item> {
 
     /**
      * @param inputStream  no guarantee is made as to whether the stream will be

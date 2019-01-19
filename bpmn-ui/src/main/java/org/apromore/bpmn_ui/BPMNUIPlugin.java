@@ -33,7 +33,7 @@ public class BPMNUIPlugin extends AbstractUIPlugin {
     public boolean isEnabled(final UIPluginContext context) {
         return context.getSelection()
                       .stream()
-                      .filter(item -> "BPMN 2.0".equals(item.getType()))
+                      .filter(item -> BPMNItem.TYPE.equals(item.getType()))
                       .count() == 1;
     }
 

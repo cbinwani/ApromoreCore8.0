@@ -18,7 +18,7 @@ public class UIPluginListener {
 
     private final Set<Component> components = new HashSet<>();
 
-    void addListener(Component component) {
+    void addListener(final Component component) {
         LOGGER.debug("Add listener " + component);
         if (component == null) {
             throw new IllegalArgumentException("Component cannot be null");
@@ -26,7 +26,7 @@ public class UIPluginListener {
         components.add(component);
     }
 
-    public void onBind(UIPlugin uiPlugin, Map properties) {
+    public void onBind(final UIPlugin uiPlugin, final Map properties) {
         LOGGER.debug("Bind " + uiPlugin + " with properties " + properties);
         for (Component component: components) {
             Desktop desktop = component.getDesktop();
@@ -43,7 +43,7 @@ public class UIPluginListener {
         }
     }
 
-    public void onUnbind(UIPlugin uiPlugin, Map properties) {
+    public void onUnbind(final UIPlugin uiPlugin, final Map properties) {
         LOGGER.debug("Unbind " + uiPlugin + " with properties " + properties);
         for (Component component: components) {
             Desktop desktop = component.getDesktop();

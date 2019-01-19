@@ -14,8 +14,8 @@ public interface BPMNItemRepository {
      */
     BPMNItemDAO get(Long id);
 
-    /** @param newDao */
-    void add(BPMNItemDAO newDao);
+    /** @param newDAO */
+    void add(BPMNItemDAO newDAO);
 
     /** @param id */
     void remove(Long id);

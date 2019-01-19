@@ -57,17 +57,17 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
 
     // ItemPlugin implementation
 
-    public XESItem create(InputStream inputStream) throws ItemFormatException,
-        NotAuthorizedException {
+    public XESItem create(final InputStream inputStream)
+        throws ItemFormatException, NotAuthorizedException {
 
         return createXESItem(new StreamSource(inputStream));
     }
 
     public String getType() {
-        return "XES";  // TODO: make this a constant
+        return XESItem.TYPE;  // TODO: make this a constant
     }
 
-    public XESItem toConcreteItem(Item item) throws ItemTypeException {
+    public XESItem toConcreteItem(final Item item) throws ItemTypeException {
         XESItemDAO dao = xesItemRepository.get(item.getId());
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());
@@ -78,8 +78,8 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     // XESItemService implementation
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public XESItem createXESItem(Source source) throws ItemFormatException,
-        NotAuthorizedException {
+    public XESItem createXESItem(final Source source)
+        throws ItemFormatException, NotAuthorizedException {
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -126,7 +126,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
         }
     }
 
-    public XESItem getById(Long id) throws NotAuthorizedException {
+    public XESItem getById(final Long id) throws NotAuthorizedException {
         Item item = this.itemPluginContext.getById(id);
         XESItemDAO dao = xesItemRepository.get(id);
         return new XESItemImpl(item, dao);

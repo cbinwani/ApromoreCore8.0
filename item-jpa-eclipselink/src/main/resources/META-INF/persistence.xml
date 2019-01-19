@@ -11,7 +11,7 @@
 
         <!-- Only used when transaction-type=RESOURCE_LOCAL -->
         <non-jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=apromore)</non-jta-data-source>
-        <class>org.apromore.item.jpa.ItemDao</class>
+        <class>org.apromore.item.jpa.ItemDAO</class>
         <properties>
             <property name="eclipselink.target-database" value="HSQL" />  <!-- HSQL, MySQL -->
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />

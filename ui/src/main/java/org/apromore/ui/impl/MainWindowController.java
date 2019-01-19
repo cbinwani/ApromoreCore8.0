@@ -59,7 +59,7 @@ public class MainWindowController extends SelectorComposer<Component>
     private final Set<Item> selection = new HashSet<>();
 
     @Override
-    public void doAfterCompose(Component component) throws Exception {
+    public void doAfterCompose(final Component component) throws Exception {
         super.doAfterCompose(component);
 
         Library.setProperty("org.zkoss.theme.preferred",
@@ -96,7 +96,7 @@ public class MainWindowController extends SelectorComposer<Component>
         throw new Error("No blueprint context");
     }
 
-    public void onEvent(Event event) {
+    public void onEvent(final Event event) {
         switch (event.getName()) {
         case "onBind":    // new UIPlugin appeared
         case "onLogin":   // User property changed
@@ -113,11 +113,11 @@ public class MainWindowController extends SelectorComposer<Component>
 
         return new UIPluginContext() {
 
-            public Component createComponent(ClassLoader bundleClassLoader,
-                                             String      uri,
-                                             Map<?, ?>   arguments) {
+            public Component createComponent(final ClassLoader classLoader,
+                                             final String      uri,
+                                             final Map<?, ?>   arguments) {
                 try {
-                    InputStream in = bundleClassLoader.getResourceAsStream(uri);
+                    InputStream in = classLoader.getResourceAsStream(uri);
                     if (in == null) {
                         throw new IOException("No resource " + uri
                             + " found in bundle classpath");
@@ -139,7 +139,7 @@ public class MainWindowController extends SelectorComposer<Component>
                 return parent;
             }
 
-            public void setComponent(Component component) {
+            public void setComponent(final Component component) {
                 parent.getChildren().clear();
                 parent.getChildren().add(component);
             }
@@ -148,7 +148,7 @@ public class MainWindowController extends SelectorComposer<Component>
                 return selection;  // TODO: wrap for immutability
             }
 
-            public void setSelection(Set<Item> newSelection) {
+            public void setSelection(final Set<Item> newSelection) {
                 LOGGER.debug("Setting selection to " + newSelection);
                 selection.clear();
                 selection.addAll(newSelection);
@@ -161,7 +161,7 @@ public class MainWindowController extends SelectorComposer<Component>
                    ).getAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
             }
 
-            public void setUser(User newUser) {
+            public void setUser(final User newUser) {
                 LOGGER.debug(newUser == null
                     ? "User logged out"
                     : "User logged in: " + newUser.getId());
@@ -174,8 +174,10 @@ public class MainWindowController extends SelectorComposer<Component>
         };
     }
 
-    private void generateMenubar(Menubar newMenubar, Component newParent,
-        Set<Item> newSelection, UIPluginContext uiPluginContext) {
+    private void generateMenubar(final Menubar newMenubar,
+                                 final Component newParent,
+                                 final Set<Item> newSelection,
+                                 final UIPluginContext uiPluginContext) {
 
         // If present, this comparator expresses the preferred ordering for
         // menus along the the menu bar
@@ -222,7 +224,7 @@ public class MainWindowController extends SelectorComposer<Component>
 
             menuitem.addEventListener("onClick", new EventListener<Event>() {
                 @Override
-                public void onEvent(Event event) throws Exception {
+                public void onEvent(final Event event) throws Exception {
                     plugin.execute(uiPluginContext);
                 }
             });

@@ -19,7 +19,7 @@ class XESItemImpl extends ItemWrapper implements XESItem {
 
     private byte[] xmlSerialization;
 
-    XESItemImpl(final Item item, XESItemDAO dao) {
+    XESItemImpl(final Item item, final XESItemDAO dao) {
         super(item);
 
         assert item.getId() == dao.getId();

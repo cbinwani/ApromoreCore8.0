@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ItemRepository {
 
-    List<ItemDao> list();
+    List<ItemDAO> list();
 
-    ItemDao get(Long id);
+    ItemDAO get(Long id);
 
-    void add(ItemDao newDao);
+    void add(ItemDAO newDAO);
 
     void remove(Long id);
 }

@@ -38,7 +38,7 @@ public class XESItemPluginImplTest {
         replay(nakedItem);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
-        expect(itemPluginContext.create("XES")).andReturn(nakedItem);
+        expect(itemPluginContext.create(XESItem.TYPE)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         XESItemService xesItemService = new XESItemPluginImpl();

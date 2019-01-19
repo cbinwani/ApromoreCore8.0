@@ -11,6 +11,11 @@ import org.deckfour.xes.model.XLog;
 public interface XESItem extends Item {
 
     /**
+     * Type identifier for BPMN items.
+     */
+    String TYPE = "XES 1.0";
+
+    /**
      * @return a Java object model for the XES event log
      */
     XLog getXLog();

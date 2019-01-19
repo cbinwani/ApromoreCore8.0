@@ -67,7 +67,7 @@ public class BPMNItemPluginImpl implements BPMNItemService,
     }
 
     public String getType() {
-        return "BPMN 2.0";  // TODO: make this a constant
+        return BPMNItem.TYPE;
     }
 
     public BPMNItem toConcreteItem(final Item item) throws ItemTypeException {

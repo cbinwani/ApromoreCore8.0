@@ -8,7 +8,7 @@ public interface XESItemRepository {
 
     XESItemDAO get(Long id);
 
-    void add(XESItemDAO newDao);
+    void add(XESItemDAO newDAO);
 
     void remove(Long id);
 }

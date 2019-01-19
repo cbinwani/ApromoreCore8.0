@@ -54,19 +54,20 @@ public class UIServiceImpl implements UIService {
 
     // Property accessors
 
-    public void setLoginConfigurationName(String newLoginConfigurationName) {
+    public void setLoginConfigurationName(
+        final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
     }
 
-    public void setUserPrincipalClass(Class newUserPrincipalClass) {
+    public void setUserPrincipalClass(final Class newUserPrincipalClass) {
         this.userPrincipalClass = newUserPrincipalClass;
     }
 
 
     // Implementation of UIService
 
-    public void authenticate(String reason, Runnable success,
-        Runnable failure) {
+    public void authenticate(final String reason, final Runnable success,
+        final Runnable failure) {
 
         Window window;
 
@@ -96,7 +97,7 @@ public class UIServiceImpl implements UIService {
         window.getFellow("loginButton").addEventListener("onClick",
             new EventListener<Event>() {
 
-            public void onEvent(Event event) throws LoginException {
+            public void onEvent(final Event event) throws LoginException {
                 String username =
                     ((Textbox) window.getFellow("username")).getValue();
                 String password =
@@ -106,7 +107,7 @@ public class UIServiceImpl implements UIService {
                 LoginContext loginContext = new LoginContext(
                     loginConfigurationName, new CallbackHandler() {
 
-                    public void handle(Callback[] callbacks)
+                    public void handle(final Callback[] callbacks)
                         throws UnsupportedCallbackException {
 
                         for (Callback callback: callbacks) {
@@ -162,7 +163,7 @@ public class UIServiceImpl implements UIService {
         window.getFellow("cancelButton").addEventListener("onClick",
             new EventListener<Event>() {
 
-            public void onEvent(Event event) throws Exception {
+            public void onEvent(final Event event) throws Exception {
                 window.detach();
                 if (failure != null) {
                     failure.run();
@@ -173,7 +174,9 @@ public class UIServiceImpl implements UIService {
         window.doModal();
     }
 
-    public void authorize(String permission) throws NotAuthorizedException {
+    public void authorize(final String permission)
+        throws NotAuthorizedException {
+
         if (getUser() == null) {
             throw new NotAuthorizedException(permission);
         }
@@ -184,7 +187,7 @@ public class UIServiceImpl implements UIService {
                               .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
     }
 
-    private void setUser(String userId) {
+    private void setUser(final String userId) {
         Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE,
             new User() {
 
