@@ -11,7 +11,7 @@ import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
 
-public class UIPluginListener {
+public final class UIPluginListener {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UIPluginListener.class);

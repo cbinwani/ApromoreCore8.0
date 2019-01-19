@@ -13,7 +13,7 @@ import java.util.Set;
  * When this exception is thrown we're giving up on helping the user fix their
  * data.
  */
-public class ItemFormatException extends Exception {
+public final class ItemFormatException extends Exception {
 
     /**
      * The type identifiers for the formats which failed to match the serialized
@@ -40,6 +40,7 @@ public class ItemFormatException extends Exception {
         this.formats.add(format);
     }
 
+    @Override
     public String getMessage() {
         if (formats.isEmpty()) {
             return "Unable to interpret the input because the system currently "

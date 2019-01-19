@@ -5,12 +5,18 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Define an ordering by supplying an explicit list of elements in the desired
- * order.
+ * Define an ordering by supplying an explicit list of elements defining the
+ * desired order.
+ *
+ * Items not in the explicit list precede ones that are.  For example,
+ * <code>ExplicitComparator("one,two,three,four,five")</code>
+ * would sort the set <code>{ "three", "six", "one" }<code> into the order
+ * <code>"six", "one", "three"</code>.
  */
 class ExplicitComparator implements Comparator<String> {
 
-    protected List<String> examples;
+    /** The explicit order. */
+    private List<String> examples;
 
 
     // Constructor

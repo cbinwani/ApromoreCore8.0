@@ -16,7 +16,7 @@ import java.util.List;
  * Factory service for {@link ItemDAO}s.
  */
 @Transactional
-public class ItemRepositoryImpl implements ItemRepository {
+public final class ItemRepositoryImpl implements ItemRepository {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(ItemRepositoryImpl.class);

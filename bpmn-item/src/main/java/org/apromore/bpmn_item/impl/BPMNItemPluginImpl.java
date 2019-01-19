@@ -26,7 +26,7 @@ import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
 @Component(service = {BPMNItemService.class, ItemPlugin.class})
-public class BPMNItemPluginImpl implements BPMNItemService,
+public final class BPMNItemPluginImpl implements BPMNItemService,
     ItemPlugin<BPMNItem> {
 
     @Reference
@@ -70,7 +70,9 @@ public class BPMNItemPluginImpl implements BPMNItemService,
         return BPMNItem.TYPE;
     }
 
-    public BPMNItem toConcreteItem(final Item item) throws ItemTypeException {
+    public BPMNItem toConcreteItem(final Item item)
+        throws ItemTypeException {
+
         BPMNItemDAO dao = bpmnItemRepository.get(item.getId());
         if (dao == null) {
              throw new ItemTypeException(getType(), item.getType());

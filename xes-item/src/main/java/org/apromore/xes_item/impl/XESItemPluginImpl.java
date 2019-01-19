@@ -30,7 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component(service = {ItemPlugin.class, XESItemService.class})
-public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
+public final class XESItemPluginImpl
+    implements ItemPlugin<XESItem>, XESItemService {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(XESItemPluginImpl.class);
@@ -64,7 +65,7 @@ public class XESItemPluginImpl implements ItemPlugin<XESItem>, XESItemService {
     }
 
     public String getType() {
-        return XESItem.TYPE;  // TODO: make this a constant
+        return XESItem.TYPE;
     }
 
     public XESItem toConcreteItem(final Item item) throws ItemTypeException {

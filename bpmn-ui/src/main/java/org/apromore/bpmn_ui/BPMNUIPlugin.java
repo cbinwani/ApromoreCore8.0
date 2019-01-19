@@ -13,7 +13,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.zkoss.zul.Messagebox;
 
 @Component(service = {UIPlugin.class})
-public class BPMNUIPlugin extends AbstractUIPlugin {
+public final class BPMNUIPlugin extends AbstractUIPlugin {
 
     @Reference
     private BPMNItemService bpmnItemService;

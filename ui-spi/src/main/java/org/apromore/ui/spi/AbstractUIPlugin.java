@@ -17,7 +17,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
         LoggerFactory.getLogger(AbstractUIPlugin.class);
 
     protected String groupLabel = "Default";
-    protected String label = "Default";
+    protected String label      = "Default";
 
     public String getGroupLabel() {
         return groupLabel;

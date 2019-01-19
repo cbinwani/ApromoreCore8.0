@@ -16,7 +16,7 @@ import java.util.List;
  * Factory service for {@link BPMNItemDAO}s.
  */
 @Transactional
-public class BPMNItemRepositoryImpl implements BPMNItemRepository {
+public final class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(BPMNItemRepositoryImpl.class);

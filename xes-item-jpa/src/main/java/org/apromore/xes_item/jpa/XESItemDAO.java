@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "XES_ITEM")
-public class XESItemDAO {
+public final class XESItemDAO {
 
     /**
      * Primary key.

@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //@Component(service = {ItemPluginContext.class, ItemService.class})
-public class ItemServiceImpl implements ItemPluginContext, ItemService {
+public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(ItemServiceImpl.class);

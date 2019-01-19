@@ -16,7 +16,7 @@ import java.util.List;
  * Factory service for {@link XESItemDAO}s.
  */
 @Transactional
-public class XESItemRepositoryImpl implements XESItemRepository {
+public final class XESItemRepositoryImpl implements XESItemRepository {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(XESItemRepositoryImpl.class);

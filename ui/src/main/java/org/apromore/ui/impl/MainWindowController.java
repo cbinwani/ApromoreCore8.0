@@ -3,6 +3,7 @@ package org.apromore.ui.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -35,20 +36,20 @@ import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 
-public class MainWindowController extends SelectorComposer<Component>
+public final class MainWindowController extends SelectorComposer<Component>
     implements EventListener<Event> {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MainWindowController.class);
 
     @Wire
-    public Menubar menubar;
+    private Menubar menubar;
 
     @Wire("#parent")
-    public Component parent;
+    private Component parent;
 
     @Wire("#status")
-    public Label status;
+    private Label status;
 
     /**
      * Keeps track of the current selection provided to {@link UIPlugin}s via
@@ -145,7 +146,7 @@ public class MainWindowController extends SelectorComposer<Component>
             }
 
             public Set<Item> getSelection() {
-                return selection;  // TODO: wrap for immutability
+                return Collections.unmodifiableSet(selection);
             }
 
             public void setSelection(final Set<Item> newSelection) {

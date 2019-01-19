@@ -15,7 +15,7 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-public class BPMNUIWindowController extends SelectorComposer<Component> {
+public final class BPMNUIWindowController extends SelectorComposer<Component> {
 
     //@Wire("#bpmnUIWindow")
     //public Window window;

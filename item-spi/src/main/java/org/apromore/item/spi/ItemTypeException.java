@@ -4,7 +4,7 @@ package org.apromore.item.spi;
  * Required a particular subtype of {@link org.apromore.item.Item}, but received
  * another.
  */
-public class ItemTypeException extends Exception {
+public final class ItemTypeException extends Exception {
 
     /** The unexpected type identifier that was encountered. */
     private final String actualType;

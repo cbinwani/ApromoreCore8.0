@@ -22,7 +22,7 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
 
 @Component(service = {UIPlugin.class})
-public class SelectItemUIPlugin extends AbstractUIPlugin {
+public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(SelectItemUIPlugin.class);

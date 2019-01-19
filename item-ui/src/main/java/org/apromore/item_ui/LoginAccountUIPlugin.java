@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(service = {UIPlugin.class})
-public class LoginAccountUIPlugin extends AbstractUIPlugin {
+public final class LoginAccountUIPlugin extends AbstractUIPlugin {
 
     @Reference
     private UIService uiService;

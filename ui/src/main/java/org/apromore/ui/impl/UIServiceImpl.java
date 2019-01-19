@@ -26,7 +26,7 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
-public class UIServiceImpl implements UIService {
+public final class UIServiceImpl implements UIService {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UIServiceImpl.class);

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+ 
+<!DOCTYPE suppressions PUBLIC
+     "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+     "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+ 
+<suppressions>
+  <!-- I personally think inline conditionals are concise and elegant. -->
+  <suppress checks="AvoidInlineConditionals" files="MainWindowController.java" lines="167"/>
+
+  <!-- The following classes are designed to be subclassed. -->
+  <suppress checks="DesignForExtension" files="AbstractUIPlugin.java"/>
+  <suppress checks="DesignForExtension" files="ItemWrapper.java"/>
+
+  <!-- Citing an external URL in a doc comment that can't be line-broken -->
+  <suppress checks="LineLength" files="CustomZULComponent.java" lines="8"/>
+
+  <!-- To do: notifications, once item observer plugins are implemented -->
+  <suppress checks="TodoComment" files="ItemServiceImpl.java" lines="105"/>
+
+  <!-- To do: better error handling when interacting with login modules -->
+  <suppress checks="TodoComment" files="UIServiceImpl.java" lines="144, 150"/>
+
+  <!-- Protected fields here allows their values to be overridden in subclass constructors. -->
+  <suppress checks="VisibilityModifier" files="AbstractUIPlugin.java" lines="19, 20"/>
+</suppressions>

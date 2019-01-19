@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "BPMN_ITEM")
-public class BPMNItemDAO {
+public final class BPMNItemDAO {
 
     /**
      * Primary key.
@@ -32,22 +32,22 @@ public class BPMNItemDAO {
     private byte[] xmlSerialization;
 
     /** @return primary key */
-    public final Long getId() {
+    public Long getId() {
         return id;
     }
 
     /** @param newId  primary key */
-    public final void setId(final Long newId) {
+    public void setId(final Long newId) {
         this.id = newId;
     }
 
     /** @return BPMN 2.0 document text */
-    public final byte[] getXmlSerialization() {
+    public byte[] getXmlSerialization() {
         return xmlSerialization;
     }
 
     /** @param newXmlSerialization  BPMN 2.0 document text */
-    public final void setXmlSerialization(final byte[] newXmlSerialization) {
+    public void setXmlSerialization(final byte[] newXmlSerialization) {
         this.xmlSerialization = newXmlSerialization;
     }
 }

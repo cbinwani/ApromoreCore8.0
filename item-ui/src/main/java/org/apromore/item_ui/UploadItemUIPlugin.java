@@ -19,7 +19,7 @@ import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Messagebox;
 
 @Component(service = {UIPlugin.class})
-public class UploadItemUIPlugin extends AbstractUIPlugin {
+public final class UploadItemUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UploadItemUIPlugin.class);

@@ -54,7 +54,7 @@ import org.apromore.xes_item.XESItem;
  * @author Adriano Augusto 18/04/2016
  */
 @Component(service = {UIPlugin.class})
-public class MetricsUIPlugin extends AbstractUIPlugin {
+public final class MetricsUIPlugin extends AbstractUIPlugin {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MetricsUIPlugin.class);

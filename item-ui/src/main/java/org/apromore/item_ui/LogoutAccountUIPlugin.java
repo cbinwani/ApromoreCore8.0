@@ -6,7 +6,7 @@ import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.service.component.annotations.Component;
 
 @Component(service = {UIPlugin.class})
-public class LogoutAccountUIPlugin extends AbstractUIPlugin {
+public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
     @Override
     public String getGroupLabel() {

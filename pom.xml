@@ -70,22 +70,17 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.0.1</version>
-          <executions>
-            <execution>
-            <id>aggregate</id>
-            <goals>
-              <goal>aggregate</goal>
-            </goals>
-            <phase>site</phase>
-            <configuration>
-              <docfilessubdirs>true</docfilessubdirs>
-              <links>
-                <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
-                <link>http://docs.oracle.com/javaee/7/api</link>
-              </links>
-            </configuration>
-          </execution>
-          </executions>
+          <configuration>
+            <additionalOptions>-html5</additionalOptions>
+            <docfilessubdirs>true</docfilessubdirs>
+            <links>
+              <link>https://docs.oracle.com/javase/9/docs/api</link> <!-- TODO: update to current JDK once Oracle fixes their package-list -->
+              <link>https://docs.oracle.com/javaee/7/api</link>
+              <!-- <link>https://osgi.org/javadoc/r6/core</link>  We only use these internally, so currently invisible to javadoc -->
+              <!-- <link>https://osgi.org/javadoc/r6/cmpn</link>  We only use annotations, so currently invisible to javadoc -->
+              <link>https://www.zkoss.org/javadoc/latest/zk</link>
+            </links>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

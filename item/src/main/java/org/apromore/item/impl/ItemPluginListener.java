@@ -5,7 +5,7 @@ import org.apromore.item.spi.ItemPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ItemPluginListener {
+public final class ItemPluginListener {
 
     private static final Logger LOGGER =
         LoggerFactory.getLogger(ItemPluginListener.class);
