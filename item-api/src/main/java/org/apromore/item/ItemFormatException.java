@@ -21,21 +21,37 @@ public final class ItemFormatException extends Exception {
      */
     private Set<String> formats = new HashSet<>();
 
+    /**
+     * @param newFormats  identifiers of the expected {@link Item} subtypes.
+     *     This can be an empty list, but not <code>null</code>.
+     * @param cause  see {@link Throwable#Throwable(Throwable cause)}
+     */
     public ItemFormatException(final Collection<String> newFormats,
                                final Throwable cause) {
         super(cause);
         this.formats.addAll(newFormats);
     }
 
+    /**
+     * @param newFormats  identifiers of the expected {@link Item} subtypes.
+     *     This can be an empty list, but not <code>null</code>.
+     */
     public ItemFormatException(final Collection<String> newFormats) {
         this.formats.addAll(newFormats);
     }
 
+    /**
+     * @param format  identifier of the expected {@link Item} subtype
+     * @param cause  see {@link Throwable#Throwable(Throwable cause)}
+     */
     public ItemFormatException(final String format, final Throwable cause) {
         super(cause);
         this.formats.add(format);
     }
 
+    /**
+     * @param format  identifier of the expected {@link Item} subtype
+     */
     public ItemFormatException(final String format) {
         this.formats.add(format);
     }

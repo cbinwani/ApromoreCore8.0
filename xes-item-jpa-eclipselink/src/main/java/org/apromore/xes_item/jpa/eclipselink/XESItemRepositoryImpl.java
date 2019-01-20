@@ -18,12 +18,21 @@ import java.util.List;
 @Transactional
 public final class XESItemRepositoryImpl implements XESItemRepository {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(XESItemRepositoryImpl.class);
 
+    /**
+     * Entity manager for the <code>xes-item-eclipselink</code> persistence
+     * unit.
+     */
     @PersistenceContext(unitName = "xes-item-eclipselink")
     private EntityManager entityManager;
 
+    /**
+     * @param newEntityManager  entity manager for the
+     *     <code>xes-item-eclipselink</code> persistence unit
+     */
     public void setEntityManager(final EntityManager newEntityManager) {
         this.entityManager = newEntityManager;
     }

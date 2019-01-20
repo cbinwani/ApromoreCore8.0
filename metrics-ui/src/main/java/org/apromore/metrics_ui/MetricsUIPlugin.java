@@ -56,12 +56,15 @@ import org.apromore.xes_item.XESItem;
 @Component(service = {UIPlugin.class})
 public final class MetricsUIPlugin extends AbstractUIPlugin {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MetricsUIPlugin.class);
 
+    /** Used to calculate measurements on the selected item. */
     @Reference
     private MetricsService metricsService;
 
+    /** Sole constructor. */
     public MetricsUIPlugin(/* MetricsService metricsService */) {
 
         //this.metricsService  = metricsService;
@@ -70,7 +73,11 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
         label      = "Measure";
     }
 
-    /** @return whether the selection is a single BPMN process model */
+    /** {@inheritDoc}
+     *
+     * This implementation is enabled if a single BPMN model or XES log is
+     * selection.
+     */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
         return context.getSelection()
@@ -80,6 +87,11 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
                       .count() == 1;
     }
 
+    /** {@inheritDoc}
+     *
+     * This implementation calculates the measurements of the selected item
+     * and presents it to the viewer.
+     */
     @Override
     public void execute(final UIPluginContext context) {
 
@@ -107,7 +119,11 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
     }
 
     /**
-     * Controller for the settings popup window.
+     * Prompt the user for which measurements are desired, then present the
+     * selected measurements.
+     *
+     * @param bpmnItem  the BPMN process to measure
+     * @param context used to display the results window
      */
     private void configureProcessComputation(final BPMNItem bpmnItem,
                                              final UIPluginContext context) {
@@ -136,8 +152,10 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
     }
 
     /**
-     * Create a window to display the measurements.
+     * Present the measurements of a BPMN process to the user.
      *
+     * @param bpmnItem a BPMN process
+     * @param context used to display the results window
      * @param w  the settings window, containing the various radio buttons which
      *     determine which measurements to calculate
      */
@@ -163,11 +181,23 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
         listbox.setModel(new ListModelMap(bpmnMetrics));
     }
 
+    /**
+     * @param settings   the settings window
+     * @param metricName  key for a particular named setting
+     * @return whether the radio button corresponding to the <i>key</i> is
+     *     selected
+     */
     private static boolean f(final Window settings, final String metricName) {
         return ((Radiogroup) settings.getFellow(metricName))
                    .getSelectedIndex() == 0;
     }
 
+    /**
+     * Present the measurements of an XES log to the user.
+     *
+     * @param xesItem an XES log
+     * @param context used to display the results window
+     */
     private void runLogComputation(final XESItem xesItem,
                                    final UIPluginContext context) {
 

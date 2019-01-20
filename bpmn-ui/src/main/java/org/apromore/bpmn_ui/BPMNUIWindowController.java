@@ -15,6 +15,9 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
+/**
+ * Controller for the BPMN editor ZK component.
+ */
 public final class BPMNUIWindowController extends SelectorComposer<Component> {
 
     //@Wire("#bpmnUIWindow")
@@ -23,6 +26,12 @@ public final class BPMNUIWindowController extends SelectorComposer<Component> {
     //@Wire("#bpmn1")
     //public CustomZULComponent bpmn1;
 
+    /**
+     * @param context  utility service provided to
+     *     {@link org.apromore.ui.spi.UIPlugin}s
+     * @param bpmnItem  the BPMN model to view/edit
+     * @throws IOException if the content <i>bpmnItem</i> can't be streamed
+     */
     BPMNUIWindowController(final UIPluginContext context,
                            final BPMNItem bpmnItem) throws IOException {
 
@@ -53,8 +62,9 @@ public final class BPMNUIWindowController extends SelectorComposer<Component> {
         });
     }
 
+    /** Save changes to the BPMN model. */
     //@Listen("onClick = #save")
-    public void save() {
+    private void save() {
         try {
             Messagebox.show("Saved BPMN model", "Attention", Messagebox.OK,
                 Messagebox.NONE);

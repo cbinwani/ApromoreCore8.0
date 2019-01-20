@@ -13,12 +13,31 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractUIPlugin implements UIPlugin {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(AbstractUIPlugin.class);
 
+    /**
+     * The presentation name of the group this command belongs to.
+     *
+     * More concretely, this is the name of menu the command will appear in.
+     * Defaults to <code>"Default"</code> unless overridden.
+     * Subclasses should override this value in their constructors.
+     */
+    @SuppressWarnings("checkstyle:VisibilityModifier")
     protected String groupLabel = "Default";
-    protected String label      = "Default";
 
+    /**
+     * The presentation name of this command.
+     *
+     * More concretely, this is the name of menu item to invoke the command.
+     * Defaults to <code>"Default"</code> unless overridden.
+     * Subclasses should override this value in their constructors.
+     */
+    @SuppressWarnings("checkstyle:VisibilityModifier")
+    protected String label = "Default";
+
+    @Override
     public String getGroupLabel() {
         return groupLabel;
     }
@@ -47,6 +66,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
         }
     }
 
+    @Override
     public String getLabel() {
         return label;
     }

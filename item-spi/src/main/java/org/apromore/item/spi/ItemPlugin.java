@@ -9,7 +9,7 @@ import org.apromore.item.NotAuthorizedException;
 /**
  * Services required to provide a concrete subtype of {@link Item}.
  *
- * @param <T>  the interface of the cpncrete subtype
+ * @param <T>  the interface of the concrete subtype
  */
 public interface ItemPlugin<T extends Item> {
 
@@ -17,8 +17,8 @@ public interface ItemPlugin<T extends Item> {
      * @param inputStream  no guarantee is made as to whether the stream will be
      *     closed after this method returns
      * @return a concrete subclass of {@link Item}
-     * @throws IOException  if the <var>inputStream</var> cannot be read
-     * @throws ItemFormatException  if the <var>inputStream</var> cannot be
+     * @throws IOException  if the <i>inputStream</i> cannot be read
+     * @throws ItemFormatException  if the <i>inputStream</i> cannot be
      *     parsed
      * @throws NotAuthorizedException  if the caller isn't authorized to create
      *     the {@link Item}
@@ -26,6 +26,7 @@ public interface ItemPlugin<T extends Item> {
     T create(InputStream inputStream) throws IOException, ItemFormatException,
        NotAuthorizedException;
 
+    /** {@inheritDoc} */
     String getType();
 
     /**
@@ -34,7 +35,7 @@ public interface ItemPlugin<T extends Item> {
      *
      * @param item  an existing item of the subtype managed by this plugin
      * @return the corresponding instance of a concrete subclass of {@link Item}
-     * @throws ItemTypeException  if the <var>item</var> is not an instance of
+     * @throws ItemTypeException  if the <i>item</i> is not an instance of
      *     the subtype managed by this plugin
      */
     T toConcreteItem(Item item) throws ItemTypeException;

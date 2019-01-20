@@ -16,9 +16,10 @@ public interface UIPluginContext {
     /**
      * @param bundleClassLoader  the classloader for the bundle containing the
      *     ZUL markup
-     * @param uri  location within the <var>bundleClassLoader</var> of ZUL
-     *     markup to create this component
-     * @param arguments  -
+     * @param uri  location within the <i>bundleClassLoader</i> of ZUL markup
+     *     to create this component
+     * @param arguments  see {@link org.zkoss.zk.ui.Component}'s
+     *     <code>createComponent</code> methods
      * @return a ZK component corresponding to the ZUL markup
      * @throws Error  if the ZUL markup isn't available; this is considered a
      *     programming error (rather than an I/O exception) since ZUL access is
@@ -28,12 +29,27 @@ public interface UIPluginContext {
                               String      uri,
                               Map<?, ?>   arguments);
 
+    /**
+     * @return the ZK component representing the canvas area of the main
+     *     window
+     */
     Component getParentComponent();
 
+    /**
+     * @param component  the ZK component representing the canvas area of the
+     *     main window
+     */
     void setComponent(Component component);
 
+    /**
+     * @return selected elements, possibly empty but never <code>null</code>
+     */
     Set<Item> getSelection();
 
+    /**
+     * @param newSelection  selected elements, possibly empty but never
+     *     <code>null</code>
+     */
     void setSelection(Set<Item> newSelection);
 
     /**

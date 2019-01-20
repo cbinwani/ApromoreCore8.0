@@ -5,5 +5,6 @@ package org.apromore.item;
  */
 public interface User {
 
+    /** @return primary key */
     String getId();
 }

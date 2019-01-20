@@ -3,6 +3,11 @@ package org.apromore.ui;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.User;
 
+/**
+ * User interface services.
+ *
+ * The services offered involve user session management.
+ */
 public interface UIService {
 
     /**
@@ -20,7 +25,7 @@ public interface UIService {
      *
      * @param permission  a named permission, e.g. <code>"create"</code>
      *     authorizing item storage
-     * @throws NotAuthorizedException if the <var>permission</var> is not
+     * @throws NotAuthorizedException if the <i>permission</i> is not
      *     granted to the current user session
      */
     void authorize(String permission) throws NotAuthorizedException;

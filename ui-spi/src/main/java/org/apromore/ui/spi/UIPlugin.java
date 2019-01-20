@@ -2,6 +2,12 @@ package org.apromore.ui.spi;
 
 import java.awt.image.RenderedImage;
 
+/**
+ * Service provider interface for adding commands to the user interface.
+ *
+ * The expected implementation is to add menu items to invoke the
+ * commands.
+ */
 public interface UIPlugin {
 
     /** @return the menu in which this plugin's menuitem will appear */
@@ -17,12 +23,12 @@ public interface UIPlugin {
      * @param context  provided by UI
      * @return whether the plugin is applicable to the given selection
      */
-    boolean isEnabled(final UIPluginContext context);
+    boolean isEnabled(UIPluginContext context);
 
-    /*
-     * Invoked when the menu item is selected
+    /**
+     * Invoked when the menu item is selected.
      *
      * @param context  provided by UI
      */
-    void execute(final UIPluginContext context);
+    void execute(UIPluginContext context);
 }

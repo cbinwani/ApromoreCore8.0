@@ -16,10 +16,18 @@ import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
  */
 class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
+    /** The serialized BPMN 2.0 document. */
     private byte[] xmlSerialization;
 
+    /** Used by {@link #getBPMNDiagram()}. */
     private BPMNDiagramImporter importerService;
 
+    /**
+     * @param item  a partially-constructed item from
+     *     {@link org.apromore.item.jpa.ItemRepository}
+     * @param dao  data access object for BPMN-specific fields
+     * @param newImporterService  used by {@link #getBPMNDiagram()}
+     */
     BPMNItemImpl(final Item                item,
                  final BPMNItemDAO         dao,
                  final BPMNDiagramImporter newImporterService) {
@@ -33,6 +41,7 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     // Implementation of BPMNItem
 
+    @Override
     public BPMNDiagram getBPMNDiagram() {
         try {
             return importerService.importBPMNDiagram(
@@ -47,6 +56,7 @@ class BPMNItemImpl extends ItemWrapper implements BPMNItem {
 
     // Accessors
 
+    @Override
     public InputStream getXMLSerialization() {
         return new ByteArrayInputStream(xmlSerialization);
     }

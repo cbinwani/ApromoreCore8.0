@@ -29,16 +29,23 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Both an {@link XESItemService} and an {@link ItemPlugin} providing
+ * XES 1.0 support.
+ */
 @Component(service = {ItemPlugin.class, XESItemService.class})
 public final class XESItemPluginImpl
     implements ItemPlugin<XESItem>, XESItemService {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(XESItemPluginImpl.class);
 
+    /** Utility service for {@link ItemPlugin}s. */
     @Reference
     private ItemPluginContext itemPluginContext;
 
+    /** Factory service for XES-specific data access objects. */
     @Reference
     private XESItemRepository xesItemRepository;
 
@@ -58,16 +65,19 @@ public final class XESItemPluginImpl
 
     // ItemPlugin implementation
 
+    @Override
     public XESItem create(final InputStream inputStream)
         throws ItemFormatException, NotAuthorizedException {
 
         return createXESItem(new StreamSource(inputStream));
     }
 
+    @Override
     public String getType() {
         return XESItem.TYPE;
     }
 
+    @Override
     public XESItem toConcreteItem(final Item item) throws ItemTypeException {
         XESItemDAO dao = xesItemRepository.get(item.getId());
         if (dao == null) {
@@ -78,6 +88,7 @@ public final class XESItemPluginImpl
 
     // XESItemService implementation
 
+    @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public XESItem createXESItem(final Source source)
         throws ItemFormatException, NotAuthorizedException {
@@ -127,6 +138,7 @@ public final class XESItemPluginImpl
         }
     }
 
+    @Override
     public XESItem getById(final Long id) throws NotAuthorizedException {
         Item item = this.itemPluginContext.getById(id);
         XESItemDAO dao = xesItemRepository.get(id);

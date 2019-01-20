@@ -25,16 +25,26 @@ import org.osgi.service.component.annotations.Reference;
 import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 
+/**
+ * Both an {@link BPMNItemService} and an {@link ItemPlugin} providing
+ * BPMN 2.0 support.
+ */
 @Component(service = {BPMNItemService.class, ItemPlugin.class})
 public final class BPMNItemPluginImpl implements BPMNItemService,
     ItemPlugin<BPMNItem> {
 
+    /** Factory service for BPMN-specific data access objects. */
     @Reference
     private BPMNItemRepository  bpmnItemRepository;
 
+    /** Utility service for {@link ItemPlugin}s. */
     @Reference
     private ItemPluginContext   itemPluginContext;
 
+    /**
+     * Backing service used by created {@link BPMNItem}s to evaluate their
+     * {@link BPMNItem#getBPMNDiagram bpmnDiagram} property.
+     */
     @Reference
     private BPMNDiagramImporter importerService;
 
@@ -60,16 +70,19 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
 
     // ItemPlugin implementation
 
+    @Override
     public BPMNItem create(final InputStream inputStream)
         throws ItemFormatException, NotAuthorizedException {
 
         return createBPMNItem(new StreamSource(inputStream));
     }
 
+    @Override
     public String getType() {
         return BPMNItem.TYPE;
     }
 
+    @Override
     public BPMNItem toConcreteItem(final Item item)
         throws ItemTypeException {
 
@@ -82,6 +95,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
 
     // BPMNItemService implementation
 
+    @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public BPMNItem createBPMNItem(final Source source)
         throws ItemFormatException, NotAuthorizedException {
@@ -117,6 +131,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
         }
     }
 
+    @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     public BPMNItem getById(final Long id) throws NotAuthorizedException {
         Item        item = this.itemPluginContext.getById(id);

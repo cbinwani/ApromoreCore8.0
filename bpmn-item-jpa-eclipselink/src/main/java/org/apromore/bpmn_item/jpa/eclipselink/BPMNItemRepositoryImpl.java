@@ -18,12 +18,21 @@ import java.util.List;
 @Transactional
 public final class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(BPMNItemRepositoryImpl.class);
 
+    /**
+     * Entity manager for the <code>bpmn-item-eclipselink</code> persistence
+     * unit.
+     */
     @PersistenceContext(unitName = "bpmn-item-eclipselink")
     private EntityManager entityManager;
 
+    /**
+     * @param newEntityManager  entity manager for the
+     *     <code>bpmn-item-eclipselink</code> persistence unit
+     */
     public void setEntityManager(final EntityManager newEntityManager) {
         this.entityManager = newEntityManager;
     }

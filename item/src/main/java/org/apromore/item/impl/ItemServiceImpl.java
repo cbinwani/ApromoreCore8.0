@@ -26,28 +26,43 @@ import org.apromore.ui.UIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** {@inheritDoc}
+ *
+ * This implementation uses JPA persistence.
+ * It manages the list of {@link ItemPlugin}s present in the system.
+ */
 //@Component(service = {ItemPluginContext.class, ItemService.class})
 public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(ItemServiceImpl.class);
 
+    /** The dynamically populated list of item plugins. */
     //@Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE,
     //    policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
     private List<ItemPlugin> itemPlugins;
 
+    /** Service used to check the caller's credentials for item creation. */
     //@Reference
-    private UIService        uiService;
+    private UIService uiService;
 
+    /** Used to persist the item's fields. */
     //@Reference
-    private ItemRepository   itemRepository;
+    private ItemRepository itemRepository;
 
+    /**
+     * @param newItemPlugins  the dynamically populated list of item plugins
+     * @param newUIService  used to check the caller's credentials for item
+     *     creation
+     */
     public ItemServiceImpl(final List<ItemPlugin> newItemPlugins,
                            final UIService newUIService) {
         this.itemPlugins   = newItemPlugins;
         this.uiService     = newUIService;
     }
 
+    /** @param newRepository  used to persist the item's fields */
     public void setItemRepository(final ItemRepository newRepository) {
         this.itemRepository = newRepository;
     }
@@ -55,6 +70,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     // ItemPluginContext implementation
 
+    @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public Item create(final String type) throws NotAuthorizedException {
 
@@ -84,6 +100,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     // ItemService implementation
 
+    @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public Item create(final InputStream inputStream) throws IOException,
         ItemFormatException, NotAuthorizedException {
@@ -121,6 +138,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
         throw new ItemFormatException(formatNames);
     }
 
+    @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Item> getAll() {
         return itemRepository
@@ -130,7 +148,11 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
             .collect(Collectors.toList());
     }
 
-    public Item toConcreteSubtype(final Item item) {
+    /**
+     * @param item  any {@list Item} instance, not <code>null</code>
+     * @return a subclass of {@list Item} corresponding to the <i>item</i>
+     */
+    private Item toConcreteSubtype(final Item item) {
         for (ItemPlugin itemPlugin: itemPlugins) {
             if (itemPlugin.getType().equals(item.getType())) {
                 try {
@@ -148,6 +170,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
         return item;
     }
 
+    @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     public Item getById(final Long id) {
         return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));

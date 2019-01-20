@@ -26,8 +26,12 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+/**
+ * User session management service.
+ */
 public final class UIServiceImpl implements UIService {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UIServiceImpl.class);
 
@@ -54,11 +58,16 @@ public final class UIServiceImpl implements UIService {
 
     // Property accessors
 
+    /** @param newLoginConfigurationName  JASS login configuration name */
     public void setLoginConfigurationName(
         final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
     }
 
+    /**
+     * @param newUserPrincipalClass  of the various principals associated
+     *     with a subject, which one is used as the user id?
+     */
     public void setUserPrincipalClass(final Class newUserPrincipalClass) {
         this.userPrincipalClass = newUserPrincipalClass;
     }
@@ -66,6 +75,7 @@ public final class UIServiceImpl implements UIService {
 
     // Implementation of UIService
 
+    @Override
     public void authenticate(final String reason, final Runnable success,
         final Runnable failure) {
 
@@ -174,6 +184,7 @@ public final class UIServiceImpl implements UIService {
         window.doModal();
     }
 
+    @Override
     public void authorize(final String permission)
         throws NotAuthorizedException {
 
@@ -182,11 +193,20 @@ public final class UIServiceImpl implements UIService {
         }
     }
 
+    @Override
     public User getUser() {
         return (User) Sessions.getCurrent()
                               .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
     }
 
+    /**
+     * Mutator for the <i>user</i> property.
+     *
+     * Queue "q" is notified whenever the authenticated user changes.
+     *
+     * @param userId  the authenticated user, or <code>null</code> to
+     *     deauthenticate this user session
+     */
     private void setUser(final String userId) {
         Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE,
             new User() {

@@ -9,12 +9,15 @@ import org.zkoss.zk.ui.sys.ContentRenderer;
  */
 public final class CustomZULComponent extends HtmlBasedComponent {
 
+    /** A BPMN 2.0 serialization. */
     private String value = "component uninitialized";
 
+    /** @return a BPMN 2.0 serialization */
     public String getValue() {
         return value;
     }
 
+    /** @param newValue  a BPMN 2.0 serialization */
     public void setValue(final String newValue) {
         if (!value.equals(newValue)) {
             value = newValue;
@@ -22,6 +25,7 @@ public final class CustomZULComponent extends HtmlBasedComponent {
         }
     }
 
+    @Override
     protected void renderProperties(final ContentRenderer renderer)
         throws IOException {
 

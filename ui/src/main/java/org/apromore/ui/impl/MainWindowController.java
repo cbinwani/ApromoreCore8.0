@@ -36,18 +36,25 @@ import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 
+/**
+ * Controller for the landing page.
+ */
 public final class MainWindowController extends SelectorComposer<Component>
     implements EventListener<Event> {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MainWindowController.class);
 
+    /** The menubar. */
     @Wire
     private Menubar menubar;
 
+    /** The canvas. */
     @Wire("#parent")
     private Component parent;
 
+    /** The bottom status area. */
     @Wire("#status")
     private Label status;
 
@@ -78,6 +85,7 @@ public final class MainWindowController extends SelectorComposer<Component>
         generateMenubar(menubar, parent, selection, getUIPluginContext());
     }
 
+    /** @return the OSGi Blueprint container from the servlet context */
     private BlueprintContainer blueprintContainer() {
         BundleContext bundleContext = (BundleContext) this
             .getSelf()
@@ -97,6 +105,21 @@ public final class MainWindowController extends SelectorComposer<Component>
         throw new Error("No blueprint context");
     }
 
+    /** {@inheritDoc}
+     *
+     * Updates the user interface in response to changes in the
+     * {@link UIPlugin}s or user session.
+     *
+     * The following events are recognized:
+     * <dl>
+     * <dt>onBind</dt>   <dd>new {@link UIPlugin} appeared</dd>
+     * <dt>onLogin</dt>  <dd>user authentication of this session changed</dd>
+     * <dt>onUnbind</dt> <dd>existing {@link UIPlugin} went away</dd>
+     * </dl>
+     *
+     * @param event  sent by the ZK queue
+     */
+    @Override
     public void onEvent(final Event event) {
         switch (event.getName()) {
         case "onBind":    // new UIPlugin appeared
@@ -110,10 +133,12 @@ public final class MainWindowController extends SelectorComposer<Component>
         }
     }
 
+    /** @return a freshly created plugin context */
     private UIPluginContext getUIPluginContext() {
 
         return new UIPluginContext() {
 
+            @Override
             public Component createComponent(final ClassLoader classLoader,
                                              final String      uri,
                                              final Map<?, ?>   arguments) {
@@ -136,19 +161,23 @@ public final class MainWindowController extends SelectorComposer<Component>
                 }
             }
 
+            @Override
             public Component getParentComponent() {
                 return parent;
             }
 
+            @Override
             public void setComponent(final Component component) {
                 parent.getChildren().clear();
                 parent.getChildren().add(component);
             }
 
+            @Override
             public Set<Item> getSelection() {
                 return Collections.unmodifiableSet(selection);
             }
 
+            @Override
             public void setSelection(final Set<Item> newSelection) {
                 LOGGER.debug("Setting selection to " + newSelection);
                 selection.clear();
@@ -157,11 +186,13 @@ public final class MainWindowController extends SelectorComposer<Component>
                     getUIPluginContext());
             }
 
+            @Override
             public User getUser() {
                 return (User) Sessions.getCurrent(
                    ).getAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
             }
 
+            @Override
             @SuppressWarnings("checkstyle:AvoidInlineConditionals")
             public void setUser(final User newUser) {
                 LOGGER.debug(newUser == null
@@ -176,6 +207,14 @@ public final class MainWindowController extends SelectorComposer<Component>
         };
     }
 
+    /**
+     * Regenerates the main window's menubar.
+     *
+     * @param newMenubar  the menubar to update
+     * @param newParent  unused
+     * @param newSelection  unused
+     * @param uiPluginContext  used to determine menu item enablement
+     */
     private void generateMenubar(final Menubar newMenubar,
                                  final Component newParent,
                                  final Set<Item> newSelection,

@@ -5,27 +5,43 @@ import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.service.component.annotations.Component;
 
+/**
+ * {@link UIPlugin} for the Account/Logout command.
+ */
 @Component(service = {UIPlugin.class})
 public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Account"</code>.
+     */
     @Override
     public String getGroupLabel() {
         return "Account";
     }
 
-    /** @return the text appearing on the plugin's menuitem */
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Logout"</code>.
+     */
     @Override
     public String getLabel() {
         return "Logout";
     }
 
-    /** @return whether the plugin is applicable to the given selection */
+    /** {@inheritDoc}
+     *
+     * This implementation is enabled while the user session is authorized.
+     */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
         return context.getUser() != null;
     }
 
-    /** Invoked when the menu item is selected */
+    /** {@inheritDoc}
+     *
+     * This implementation De-authorizes the user session.
+     */
     @Override
     public void execute(final UIPluginContext context) {
         context.setUser(null);

@@ -13,11 +13,8 @@
   <suppress checks="LineLength" files="CustomZULComponent.java" lines="8"/>
 
   <!-- To do: notifications, once item observer plugins are implemented -->
-  <suppress checks="TodoComment" files="ItemServiceImpl.java" lines="105"/>
+  <suppress checks="TodoComment" files="ItemServiceImpl.java" lines="122"/>
 
   <!-- To do: better error handling when interacting with login modules -->
-  <suppress checks="TodoComment" files="UIServiceImpl.java" lines="144, 150"/>
-
-  <!-- Protected fields here allows their values to be overridden in subclass constructors. -->
-  <suppress checks="VisibilityModifier" files="AbstractUIPlugin.java" lines="19, 20"/>
+  <suppress checks="TodoComment" files="UIServiceImpl.java" lines="154, 160"/>
 </suppressions>

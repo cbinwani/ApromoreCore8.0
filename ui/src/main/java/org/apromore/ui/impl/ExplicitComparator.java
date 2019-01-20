@@ -10,7 +10,7 @@ import java.util.List;
  *
  * Items not in the explicit list precede ones that are.  For example,
  * <code>ExplicitComparator("one,two,three,four,five")</code>
- * would sort the set <code>{ "three", "six", "one" }<code> into the order
+ * would sort the set <code>{ "three", "six", "one" }</code> into the order
  * <code>"six", "one", "three"</code>.
  */
 class ExplicitComparator implements Comparator<String> {

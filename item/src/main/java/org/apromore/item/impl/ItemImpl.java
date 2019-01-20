@@ -8,10 +8,13 @@ import org.apromore.item.jpa.ItemDAO;
  */
 class ItemImpl implements Item {
 
+    /** Primary key. */
     private Long id;
 
+    /** Concrete type identifier. */
     private String type;
 
+    /** @param dao  data access object */
     ItemImpl(final ItemDAO dao) {
         this.id = dao.getId();
         this.type = dao.getType();

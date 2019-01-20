@@ -18,12 +18,21 @@ import java.util.List;
 @Transactional
 public final class ItemRepositoryImpl implements ItemRepository {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(ItemRepositoryImpl.class);
 
+    /**
+     * Entity manager for the <code>"item-eclipselink"</code> persistence
+     * unit.
+     */
     @PersistenceContext(unitName = "item-eclipselink")
     private EntityManager entityManager;
 
+    /**
+     * @param newEntityManager entity manager for the
+     *     <code>"item-eclipselink"</code> persistence unit.
+     */
     public void setEntityManager(final EntityManager newEntityManager) {
         this.entityManager = newEntityManager;
     }

@@ -2,7 +2,6 @@ package org.apromore.xes_item.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-//import java.nio.charset.Charset;
 import java.util.List;
 import org.apromore.item.Item;
 import org.apromore.item.spi.ItemWrapper;
@@ -17,8 +16,14 @@ import org.deckfour.xes.model.XLog;
  */
 class XESItemImpl extends ItemWrapper implements XESItem {
 
+    /** The serialized XES 1.0 document. */
     private byte[] xmlSerialization;
 
+    /**
+     * @param item  a partially-constructed item from
+     *     {@link org.apromore.item.jpa.ItemRepository}
+     * @param dao  data access object for XES-specific fields
+     */
     XESItemImpl(final Item item, final XESItemDAO dao) {
         super(item);
 
@@ -29,6 +34,7 @@ class XESItemImpl extends ItemWrapper implements XESItem {
 
     // Implementation of XESItem
 
+    @Override
     public XLog getXLog() {
         try {
             XesXmlParser parser = new XesXmlParser();
@@ -44,6 +50,7 @@ class XESItemImpl extends ItemWrapper implements XESItem {
 
     // Accessors
 
+    @Override
     public InputStream getXMLSerialization() {
         return new ByteArrayInputStream(xmlSerialization);
     }

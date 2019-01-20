@@ -18,15 +18,26 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Messagebox;
 
+/**
+ * {@link UIPlugin} for the Item/Upload File command.
+ */
 @Component(service = {UIPlugin.class})
 public final class UploadItemUIPlugin extends AbstractUIPlugin {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UploadItemUIPlugin.class);
 
+    /**
+     * Used to store uploaded items.
+     */
     @Reference
     private ItemService itemService;
 
+    /**
+     * Used to prompt the user to login if they try to upload while
+     * unauthenticated.
+     */
     @Reference
     private UIService uiService;
 
@@ -37,25 +48,44 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     }
     */
 
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Item"</code>.
+     */
     @Override
     public String getGroupLabel() {
         return "Item";
     }
 
-    /** @return the text appearing on the plugin's menuitem */
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Upload File"</code>.
+     */
     @Override
     public String getLabel() {
         return "Upload File";
     }
 
-    /** @return uploads are enabled as long as the user is logged in */
+    /** {@inheritDoc}
+     *
+     * This implementation is always enabled.
+     */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
         return true; //context.getUser() != null;
     }
 
-    /** Invoked when the menu item is selected */
+    /** {@inheritDoc}
+     *
+     * This implementation prompts the user to upload a file.
+     *
+     * Upload is only permitted when the user is authenticated.
+     * If the user session isn't yet authenticated, they will be prompted
+     * to do so.
+     * Upload will be aborted if the authentication fails.
+     */
     @Override
+    @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
         uiService.authenticate("All uploads must be have an owner.",
             new Runnable() {

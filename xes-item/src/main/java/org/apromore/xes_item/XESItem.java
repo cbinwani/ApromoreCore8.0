@@ -11,7 +11,7 @@ import org.deckfour.xes.model.XLog;
 public interface XESItem extends Item {
 
     /**
-     * Type identifier for BPMN items.
+     * Type identifier for XES items.
      */
     String TYPE = "XES 1.0";
 

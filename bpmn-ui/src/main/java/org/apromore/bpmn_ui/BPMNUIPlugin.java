@@ -1,6 +1,5 @@
 package org.apromore.bpmn_ui;
 
-import java.io.IOException;
 import java.util.Iterator;
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
@@ -10,11 +9,21 @@ import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zul.Messagebox;
 
+/**
+ * Plugin providing an viewer/editor for {@link BPMNItem}s.
+ */
 @Component(service = {UIPlugin.class})
 public final class BPMNUIPlugin extends AbstractUIPlugin {
 
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(AbstractUIPlugin.class);
+
+    /** Service used to obtain the {@link BPMNItem} to view/edit. */
     @Reference
     private BPMNItemService bpmnItemService;
 
@@ -37,7 +46,14 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
                       .count() == 1;
     }
 
-    /** Invoked when the menu item is selected */
+    /**
+     * If the selection contains a single BPMN model, open it in the editor.
+     *
+     * Otherwise, present a message box explaining that the selection is
+     * inappropriate.
+     * This shouldn't normally happen, since {@link isEnabled} should prevent
+     * the command being invoked in the presence of an inappropriate selection.
+     */
     @Override
     public void execute(final UIPluginContext context) {
         try {
@@ -56,8 +72,10 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
                 new BPMNUIWindowController(context, (BPMNItem) item);
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Messagebox.show("Unable to edit BPMN model\n" + e.getMessage(),
+                "Attention", Messagebox.OK, Messagebox.ERROR);
+            LOGGER.error("Unable to edit BPMN model", e);
         }
     }
 }

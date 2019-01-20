@@ -21,12 +21,17 @@ import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
 
+/**
+ * {@link UIPlugin} for the Item/Logout command.
+ */
 @Component(service = {UIPlugin.class})
 public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
+    /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(SelectItemUIPlugin.class);
 
+    /** Used to access the details of the selected items.. */
     @Reference
     private ItemService itemService;
 
@@ -36,24 +41,37 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
     }
     */
 
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Item"</code>.
+     */
     @Override
     public String getGroupLabel() {
         return "Item";
     }
 
-    /** @return the text appearing on the plugin's menuitem */
+    /** {@inheritDoc}
+     *
+     * This implementation hardcodes the value <code>"Select Item"</code>.
+     */
     @Override
     public String getLabel() {
         return "Select Item";
     }
 
-    /** @return whether the plugin is applicable to the given selection */
+    /** {@inheritDoc}
+     *
+     * This implementation is always enabled.
+     */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
         return true;
     }
 
-    /** Invoked when the menu item is selected */
+    /** {@inheritDoc}
+     *
+     * This implementation displays a listbox of the selected items.
+     */
     @Override
     public void execute(final UIPluginContext context) {
         Window window = (Window) context.createComponent(
