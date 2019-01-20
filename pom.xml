@@ -80,6 +80,7 @@
               <!-- <link>https://osgi.org/javadoc/r6/cmpn</link>  We only use annotations, so currently invisible to javadoc -->
               <link>https://www.zkoss.org/javadoc/latest/zk</link>
             </links>
+            <overview>${basedir}/src/javadoc/overview.html</overview>
           </configuration>
         </plugin>
         <plugin>
