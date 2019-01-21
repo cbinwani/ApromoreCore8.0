@@ -33,40 +33,49 @@ import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
 public final class BPMNItemPluginImpl implements BPMNItemService,
     ItemPlugin<BPMNItem> {
 
+    // OSGi services
+
     /** Factory service for BPMN-specific data access objects. */
-    @Reference
     private BPMNItemRepository  bpmnItemRepository;
 
     /** Utility service for {@link ItemPlugin}s. */
-    @Reference
     private ItemPluginContext   itemPluginContext;
 
     /**
-     * Backing service used by created {@link BPMNItem}s to evaluate their
+     * Service used by created {@link BPMNItem}s to evaluate their
      * {@link BPMNItem#getBPMNDiagram bpmnDiagram} property.
      */
-    @Reference
     private BPMNDiagramImporter importerService;
 
-    /*
-    public BPMNItemPluginImpl(ItemPluginContext itemPluginContext,
-                              BPMNDiagramImporter importerService) {
-        if (itemPluginContext == null) {
-            throw new IllegalArgumentException("Item plugin context missing");
-        }
-        if (importerService == null) {
-            throw new IllegalArgumentException("BPMN diagram importer service "
-                + missing");
-        }
-
-        this.itemPluginContext = itemPluginContext;
-        this.importerService   = importerService;
+    /**
+     * OSGi service bind handler.
+     *
+     * @param repository  factory service for BPMN-specific data access objects
+     */
+    @Reference
+    public void setBpmnItemRepository(final BPMNItemRepository repository) {
+        this.bpmnItemRepository = repository;
     }
 
-    public void setBpmnItemRepository(BPMNItemRepository newRepository) {
-        this.bpmnItemRepository = newRepository;
+    /**
+     * OSGi service bind handler.
+     *
+     * @param context  newly-bound service
+     */
+    @Reference
+    public void setItemPluginContext(final ItemPluginContext context) {
+        this.itemPluginContext = context;
     }
-    */
+
+    /**
+     * OSGi service bind handler.
+     *
+     * @param importer  newly-bound service
+     */
+    @Reference
+    public void setBPMNDiagramImporter(final BPMNDiagramImporter importer) {
+        this.importerService = importer;
+    }
 
     // ItemPlugin implementation
 
