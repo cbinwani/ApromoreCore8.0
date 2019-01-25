@@ -27,6 +27,8 @@
     <module>item-ui</module>
     <module>metrics</module>
     <module>metrics-ui</module>
+    <module>osgi-useradmin-api</module>
+    <module>shell-commands</module>
     <module>ui</module>
     <module>ui-api</module>
     <module>ui-spi</module>

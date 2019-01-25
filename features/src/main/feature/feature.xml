@@ -6,6 +6,7 @@
     <feature name="apromore" version="${project.version}" description="Apromore application">
         <feature version="[1,2)">apromore-datasource-h2</feature>
         <feature version="[1,2)">apromore-ui</feature>
+        <feature version="[1.0.3,2)">useradmin-filestore</feature>
 
         <feature version="[1,2)">apromore-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-item</feature>
@@ -19,6 +20,8 @@
         <feature version="[1,2)">apromore-xes-item</feature>
 
         <feature version="[1,2)">apromore-metrics-ui</feature>
+
+        <feature version="[1,2)">apromore-shell-commands</feature>
     </feature>
 
     <feature name="apromore-bpmn-diagram-importer" version="2.0-SNAPSHOT" description="Parse BPMN into ProM graph">
@@ -158,12 +161,21 @@
         <bundle>mvn:org.apromore/metrics-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-shell-commands" version="1.0-SNAPSHOT" description="Apromore subshell">
+        <feature>osgi-useradmin-api</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/shell-commands/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-ui" version="1.0-SNAPSHOT" description="Apromore web user interface">
         <feature>apromore-item-api</feature>
         <feature>apromore-ui-api</feature>
         <feature>apromore-ui-spi</feature>
         <feature>apromore-zk</feature>
-        <feature>pax-http-whiteboard</feature>
+        <feature>http-whiteboard</feature>
+        <feature>osgi-useradmin-api</feature>
+        <feature>useradmin</feature>
+        <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle>
         <bundle>mvn:org.apromore/ui/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -228,9 +240,27 @@
     </feature>
     -->
 
+    <feature name="osgi-useradmin-api" version="6.0.0" description="OSGi R6 User Admin API">
+        <feature>http</feature>
+        <feature version="[2,3)">jpa</feature>
+        <bundle>mvn:org.apromore/osgi-useradmin-api/6.0.0</bundle>
+    </feature>
+
     <feature name="raffaeleconforti" version="1.1" description="Process mining utilities">
         <feature>xes</feature>
         <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.1</bundle>
+    </feature>
+
+    <feature name="useradmin" version="1.0.4-SNAPSHOT" description="User Admin service">
+        <feature dependency="true">aries-blueprint</feature>
+        <feature>osgi-useradmin-api</feature>
+        <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="useradmin-filestore" version="1.0.3-SNAPSHOT" description="User Admin filestore provider">
+        <feature>osgi-useradmin-api</feature>
+        <feature>useradmin</feature>
+        <bundle>mvn:org.apache.felix/org.apache.felix.useradmin.filestore/1.0.3-SNAPSHOT</bundle>
     </feature>
 
     <feature name="xes" version="6.5.20170418" description="OpenXES log utilities">

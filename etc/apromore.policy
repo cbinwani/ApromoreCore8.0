@@ -1,0 +1,5 @@
+// Java security policy for Apromore 8.
+
+grant {
+    permission java.security.AllPermission;
+};

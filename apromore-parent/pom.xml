@@ -6,6 +6,12 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Apromore Maven parent</name>
+
+  <organization>
+    <name>Apromore Initiative</name>
+    <url>http://apromore.org/</url>
+  </organization>
+
   <!--
     Common dependencies shared by most Apromore components.
     Use this for slimmer client POMs and to avoid multiple versions of the same dependencies.

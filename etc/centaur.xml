@@ -3,6 +3,9 @@
            xmlns:jaas="http://karaf.apache.org/xmlns/jaas/v1.1.0">
 
 <description>Provide a JAAS login module for the University of Melbourne "centaur" central authentication LDAP service.</description>
+
+<!-- See https://karaf.apache.org/manual/latest/#_schema -->
+
 <jaas:config name="apromore">
   <jaas:module className="org.apache.karaf.jaas.modules.ldap.LDAPLoginModule" flags="required">
         connection.url = ldaps://centaur.unimelb.edu.au

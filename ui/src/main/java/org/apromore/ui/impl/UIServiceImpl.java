@@ -14,6 +14,7 @@ import javax.security.auth.login.LoginException;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.User;
 import org.apromore.ui.UIService;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.zkoss.zk.ui.Component;
@@ -44,6 +45,9 @@ public final class UIServiceImpl implements UIService {
     /** @see {@link javax.security.auth.login.Configuration} */
     private String loginConfigurationName;
 
+    /** OSGi R6 container-provided user administration service. */
+    private UserAdmin userAdmin;
+
     /** Which {@link Principal} class identifies a user?
      *
      * These classes are typically proprietary to the login module.
@@ -62,6 +66,17 @@ public final class UIServiceImpl implements UIService {
     public void setLoginConfigurationName(
         final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
+    }
+
+    /** @param newUserAdmin  newly-bound service */
+    public void setUserAdmin(final UserAdmin newUserAdmin) {
+        LOGGER.info("Binding new user admin to UI service, was "
+            + this.userAdmin);
+
+        this.userAdmin = newUserAdmin;
+
+        LOGGER.info("Bound new user admin to UI service, now "
+            + this.userAdmin);
     }
 
     /**

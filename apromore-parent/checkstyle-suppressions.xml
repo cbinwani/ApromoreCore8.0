@@ -16,5 +16,5 @@
   <suppress checks="TodoComment" files="ItemServiceImpl.java" lines="122"/>
 
   <!-- To do: better error handling when interacting with login modules -->
-  <suppress checks="TodoComment" files="UIServiceImpl.java" lines="154, 160"/>
+  <suppress checks="TodoComment" files="UIServiceImpl.java"/>
 </suppressions>
