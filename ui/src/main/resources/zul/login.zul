@@ -11,15 +11,15 @@
         <rows>
             <row>
                 <label value="${labels.login.username}"/>
-                <textbox id="username" value="" width="100%" tabindex="1" />
+                <textbox id="username" value="" width="100%" tabindex="1"/>
             </row>
             <row>
                 <label value="${labels.login.password}"/>
-                <textbox id="password" type="password" value="" width="100%" tabindex="2" />
+                <textbox id="password" type="password" value="" width="100%" tabindex="2"/>
             </row>
             <row>
                <cell colspan="2" style="text-align: center">
-                   <button id="loginButton" label="${labels.login.login}"/>
+                   <button id="loginButton" label="${labels.login.login}" type="submit"/>
                    <button id="cancelButton" label="${labels.cancel}"/>
                </cell>
            </row>
