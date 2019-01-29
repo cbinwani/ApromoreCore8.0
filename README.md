@@ -1,4 +1,4 @@
-# ApromoreCode8.0
+# ApromoreCore8.0
 Apromore is an open-source, online business process analytics platform, supporting the full stack of process mining functionality, from automated process discovery through to predictive process monitoring.
 These features are complemented by functionality for managing process model collections.
 Visit [http://apromore.org](http://apromore.org) for more information and development resources.
