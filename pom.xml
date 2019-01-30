@@ -19,6 +19,10 @@
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
     <module>features</module>
+    <module>folder</module>
+    <module>folder-jpa</module>
+    <module>folder-jpa-eclipselink</module>
+    <module>folder-ui</module>
     <module>item</module>
     <module>item-api</module>
     <module>item-jpa</module>

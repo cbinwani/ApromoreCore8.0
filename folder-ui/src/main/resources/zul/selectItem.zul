@@ -1,0 +1,29 @@
+<window xmlns:n="http://www.zkoss.org/2005/zk/native"
+        xmlns:w="http://www.zkoss.org/2005/zk/client"
+        xmlns:z="http://www.zkoss.org/2005/zul"
+        id="window" closable="true" position="center" title="Select Item mkII">
+    <vbox width="100%">
+      <hlayout>
+        <paging id="paging"/>
+        <button id="createFolderButton" label="Create Folder"/>
+      </hlayout>
+      <listbox id="listbox" width="100%" vflex="1" multiple="true">
+        <listhead sizable="false">
+          <listheader label="Index"   hflex="1" align="center"/>
+          <listheader label="Id"      hflex="1" align="center"/>
+          <listheader label="Type"    hflex="1"/>
+          <listheader label="Creator" hflex="1"/>
+        </listhead>
+        <!--
+        <template name="model">
+          <listitem>
+            <listcell label="-"/>
+            <listcell label="${each.id}"/>
+            <listcell label="${each.type}"/>
+            <listcell label="${each.creator}"/>
+          </listitem>
+        </template>
+        -->
+      </listbox>
+    </vbox>
+</window>

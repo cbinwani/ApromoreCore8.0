@@ -12,6 +12,10 @@
         <feature version="[1,2)">apromore-item</feature>
         <feature version="[1,2)">apromore-item-ui</feature>
 
+        <feature version="[1,2)">apromore-folder-jpa-eclipselink</feature>
+        <feature version="[1,2)">apromore-folder</feature>
+        <!-- <feature version="[1,2)">apromore-folder-ui</feature> -->
+
         <feature version="[1,2)">apromore-bpmn-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-bpmn-item</feature>
         <feature version="[1,2)">apromore-bpmn-ui</feature>
@@ -98,6 +102,42 @@
         </capability>
     </feature>
     -->
+
+    <feature name="apromore-folder" version="1.0-SNAPSHOT" description="Apromore folder provider">
+        <feature>apromore-folder-jpa</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/folder/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-folder-jpa" version="1.0-SNAPSHOT" description="Apromore folder JPA provider API">
+        <feature>transaction</feature>
+        <feature>jndi</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-h2</feature>
+        <feature>pax-jdbc-mariadb</feature>
+        <feature>pax-jdbc-pool-dbcp2</feature>
+        <feature>jdbc</feature>
+        <feature dependency="true">aries-blueprint</feature>
+        <feature version="[2,3)">jpa</feature>
+        <feature version="[2,3)">eclipselink</feature>
+        <feature version="[5,6)">hibernate</feature>
+        <bundle>mvn:org.apromore/folder-jpa/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-folder-jpa-eclipselink" version="1.0-SNAPSHOT" description="Apromore folder Eclipselink JPA provider">
+        <feature version="[1,2)">apromore-folder-jpa</feature>
+        <bundle>mvn:org.apromore/folder-jpa-eclipselink/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-folder-ui" version="1.0-SNAPSHOT" description="Apromore folder-based UI">
+        <feature>apromore-folder</feature>
+        <feature>apromore-item-api</feature>
+        <feature>apromore-ui-api</feature>
+        <feature>apromore-ui-spi</feature>
+        <feature>apromore-zk</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/folder-ui/1.0-SNAPSHOT</bundle>
+    </feature>
 
     <feature name="apromore-item" version="1.0-SNAPSHOT" description="Apromore item service">
         <feature>apromore-item-api</feature>
