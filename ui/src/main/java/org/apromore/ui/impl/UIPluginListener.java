@@ -3,6 +3,7 @@ package org.apromore.ui.impl;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apromore.ui.spi.UIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,20 +38,7 @@ public final class UIPluginListener {
      * @param properties  extension point
      */
     public void onBind(final UIPlugin uiPlugin, final Map properties) {
-        LOGGER.debug("Bind " + uiPlugin + " with properties " + properties);
-        for (Component component: components) {
-            Desktop desktop = component.getDesktop();
-            if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no "
-                    + "desktop: " + component);
-
-            } else {
-                LOGGER.debug("Notifying component " + component);
-                EventQueues.lookup("q", desktop.getSession(), true)
-                           .publish(new Event("onBind", component, uiPlugin));
-                LOGGER.debug("Notified component " + component);
-            }
-        }
+        onEvent("onBind", uiPlugin, properties);
     }
 
     /**
@@ -58,19 +46,42 @@ public final class UIPluginListener {
      * @param properties  extension point
      */
     public void onUnbind(final UIPlugin uiPlugin, final Map properties) {
-        LOGGER.debug("Unbind " + uiPlugin + " with properties " + properties);
-        for (Component component: components) {
+        onEvent("onUnbind", uiPlugin, properties);
+    }
+
+    /**
+     * @param eventName  only "onBind" or "onUnbind" are expected
+     * @param uiPlugin  the bound or unbound plugin
+     * @param properties  extension point
+     */
+    private void onEvent(final String eventName,
+                         final UIPlugin uiPlugin,
+                         final Map properties) {
+
+        LOGGER.debug("Sending " + eventName + " event to " + uiPlugin
+            + " with properties " + properties);
+
+        for (final Component component: components) {
             Desktop desktop = component.getDesktop();
             if (desktop == null) {
-                LOGGER.warn("Not notifying component because it has no "
+                LOGGER.debug("Not notifying component because it has no "
                     + "desktop: " + component);
 
             } else {
                 LOGGER.debug("Notifying component " + component);
                 EventQueues.lookup("q", desktop.getSession(), true)
-                           .publish(new Event("onUnbind", component, uiPlugin));
+                           .publish(new Event(eventName, component, uiPlugin));
                 LOGGER.debug("Notified component " + component);
             }
         }
+
+        // Garbage-collect components no longer attached to any desktop
+        components.removeAll(components.stream()
+                                       .filter(c -> c.getDesktop() == null)
+                                       .collect(Collectors.toSet()));
+
+        LOGGER.debug("Sent " + eventName + " event to " + uiPlugin
+            + " with properties " + properties);
+
     }
 }
