@@ -3,4 +3,4 @@
  * {@link org.apromore.folder.Folder}-based navigation and
  * {@link org.apromore.item.Item} management.
  */
-package org.apromore.item_ui;
+package org.apromore.folder_ui;

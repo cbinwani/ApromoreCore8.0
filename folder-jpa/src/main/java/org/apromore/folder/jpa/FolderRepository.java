@@ -3,7 +3,7 @@ package org.apromore.folder.jpa;
 import java.util.List;
 
 /**
- * Factory service for {@link XESItemDAO}.
+ * Factory service for {@link FolderDAO}.
  */
 public interface FolderRepository {
 
