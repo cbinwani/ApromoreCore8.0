@@ -73,6 +73,23 @@ public final class MainWindowController extends SelectorComposer<Component>
         Library.setProperty("org.zkoss.theme.preferred",
             (String) blueprintContainer().getComponentInstance("uiTheme"));
 
+        try {
+            String sessionTimeout = (String)
+                blueprintContainer().getComponentInstance("uiSessionTimeout");
+
+            if (sessionTimeout != null) {
+                Sessions.getCurrent()
+                        .getWebApp()
+                        .getConfiguration()
+                        .setDesktopMaxInactiveInterval(
+                            Integer.parseInt(sessionTimeout)
+                        );
+            }
+
+        } catch (NumberFormatException e) {
+            LOGGER.warn("Malformed session timeout in configuration", e);
+        }
+
         // Listen for changes to the UIPlugin list
         UIPluginListener uiPluginListener = (UIPluginListener)
             blueprintContainer().getComponentInstance("uiPluginListener");

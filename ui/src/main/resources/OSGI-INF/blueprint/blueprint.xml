@@ -5,16 +5,21 @@
     <cm:property-placeholder persistent-id="org.apromore" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="ui.theme" value="breeze"/>
-            <cm:property name="ui.menuorder" value="Account,Item,Discover,Analyze,Redesign,Implement,Monitor"/>
+            <cm:property name="ui.menuOrder" value="Account,Item,Discover,Analyze,Redesign,Implement,Monitor"/>
+            <cm:property name="ui.sessionTimeout" value="1800"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
     <bean id="uiMenuOrder" class="java.lang.String">
-        <argument type="java.lang.String" value="${ui.menuorder}"/>
+        <argument type="java.lang.String" value="${ui.menuOrder}"/>
     </bean>
 
     <bean id="uiTheme" class="java.lang.String">
         <argument type="java.lang.String" value="${ui.theme}"/>
+    </bean>
+
+    <bean id="uiSessionTimeout" class="java.lang.String">
+        <argument type="java.lang.String" value="${ui.sessionTimeout}"/>
     </bean>
 
     <!-- Imported services -->
