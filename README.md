@@ -24,6 +24,9 @@ Development has been done on MacOS 10.14.3 "Mojave", but theoretically only the 
 Assuming the bash shell:
 
 - Build the previous version of Apromore, since v8 recycles some of the previous bundles.  Note that this requires Java 8.
+  The modified bundles are the following:
+  - bpmntk-osgi
+  - raffaeleconforti-osgi
 - Then from the top of the v8 directory, execute `mvn clean install javadoc:aggregate`.
 
 ## Running
@@ -40,6 +43,47 @@ Assuming the bash shell:
 - Execute `$KARAF_HOME/bin/karaf` to start the application server.
 - From the Karaf prompt, issue the command `feature:repo-add mvn:org.apromore/features/LATEST/xml` to add the Apromore artifacts you built previously.
 - Start Apromore using `feature:install apromore`.  You should be able to navigate to [`http://localhost:8181/index.zul`](http://localhost:8181/index.zul).
+
+## MySQL
+As distributed, the system creates an embedded H2 database management system.
+With additional configuration, an external MySQL database management system can be used instead.
+
+### Procedure
+- Given a MySQL DBMS instance:
+  - Ensure MySQL is configured to accept local TCP connections on port 3306 in its `.cnf` file; "skip-networking" should not be present.
+  - Set the root password of MySQL to the default used by Apromore
+
+    ```
+    mysqladmin -u root password MAcri
+    ```
+
+  - Create a database named "apromore2" in your MySQL server:
+
+    ```
+    mysqladmin --user=root --password=MAcri create apromore2
+    ```
+
+  - Create user "apromore" with appropriate permissions:
+
+    ```
+    mysql --user=root --password=MAcri
+        CREATE USER 'apromore'@'localhost' IDENTIFIED BY 'MAcri';
+        GRANT SELECT, INSERT, UPDATE, DELETE, LOCK TABLES, EXECUTE, SHOW VIEW ON apromore2.* TO 'apromore'@'localhost';
+    ```
+
+  - Create and populate the database tables.
+
+    ```
+    mysql --user=root --password=MAcri < src/sql/db-mysql.sql
+    ```
+
+  During development, security can be traded for convenience by permitting Apromore to create its own tables.
+  To do this, grant the user "apromore" the additional permissions `CREATE` and `DROP`.
+
+- Edit the `META-INF/persistence.xml` files in each Eclipselink component, replacing `HSQL` with `MYSQL`.
+- Edit `feature.xml` and in the feature `apromore` replace the dependency `apromore-datasource-h2` with `apromore-datasource-mysql`.
+- Recompile the edited components.
+- Remove any pre-existing database configuration `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`.
 
 ## Securing
 VM-level sandboxing for OSGi bundles is supported.

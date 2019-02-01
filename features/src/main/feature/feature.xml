@@ -14,7 +14,7 @@
 
         <feature version="[1,2)">apromore-folder-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-folder</feature>
-        <!-- <feature version="[1,2)">apromore-folder-ui</feature> -->
+        <feature version="[1,2)">apromore-folder-ui</feature>
 
         <feature version="[1,2)">apromore-bpmn-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-bpmn-item</feature>
@@ -88,8 +88,7 @@
         </capability>
     </feature>
 
-    <!--
-    <feature name="apromore-datasource-mysql" version="${project.version}" description="Apromore database on MySQL">
+    <feature name="apromore-datasource-mysql" version="1.0-SNAPSHOT" description="Apromore database on MySQL">
         <config name="org.ops4j.datasource-apromore">
             osgi.jdbc.driver.class=org.mariadb.jdbc.Driver
             databaseName=apromore2
@@ -101,7 +100,6 @@
             osgi.service;objectClass=javax.sql.DataSource;effective:=active;osgi.jndi.service.name=apromore
         </capability>
     </feature>
-    -->
 
     <feature name="apromore-folder" version="1.0-SNAPSHOT" description="Apromore folder provider">
         <feature>apromore-folder-jpa</feature>
@@ -208,6 +206,12 @@
     </feature>
 
     <feature name="apromore-ui" version="1.0-SNAPSHOT" description="Apromore web user interface">
+
+        <!-- Cribbed from ~/Work/karaf/examples/karaf-rest-example/karaf-rest-example-features/src/main/feature/feature.xml -->
+        <feature dependency="true">http</feature>
+        <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.HttpService)</requirement>
+        <feature dependency="true">aries-blueprint</feature>
+
         <feature>apromore-item-api</feature>
         <feature>apromore-ui-api</feature>
         <feature>apromore-ui-spi</feature>
