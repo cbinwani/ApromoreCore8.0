@@ -78,7 +78,7 @@ With additional configuration, an external MySQL database management system can 
     ```
 
   During development, security can be traded for convenience by permitting Apromore to create its own tables.
-  To do this, grant the user "apromore" the additional permissions `CREATE` and `DROP`.
+  To do this, grant the user "apromore" the additional permissions `ALTER`, `CREATE` and `DROP`.
 
 - Edit the `META-INF/persistence.xml` files in each Eclipselink component, replacing `HSQL` with `MYSQL`.
 - Edit `feature.xml` and in the feature `apromore` replace the dependency `apromore-datasource-h2` with `apromore-datasource-mysql`.
