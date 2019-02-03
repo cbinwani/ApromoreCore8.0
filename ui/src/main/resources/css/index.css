@@ -1,19 +1,23 @@
 @media (prefers-color-scheme: dark) {
-    html, .z-grid,.z-messagebox-window, .z-page, .z-window, .z-window-content, .z-window-modal, .z-window-shadow {
+    html, .z-grid, .z-grid .z-cell, .z-grid .z-row-inner, .z-grid-body, .z-grid-body .z-cell, .z-messagebox-window, .z-page, .z-row, .z-row-content, .z-window, .z-window-content, .z-window-modal, .z-window-shadow {
         color: white;
         background: #333;
     }
 
-    .z-listbox-header, .z-menu, .z-menu-content, .z-menuitem, .z-menuitem-content, .z-menupopup, .z-menupopup .z-menuitem-content, .z-menupopup-content, .z-menubar, .z-paging, .z-window-header {
+    .z-grid-header, .z-listbox-header, .z-menu, .z-menu-content, .z-menuitem, .z-menuitem-content, .z-menupopup, .z-menupopup .z-menuitem-content, .z-menupopup-content, .z-menubar, .z-paging, .z-window-header {
         color: white;
         background: #444;
+    }
+
+    table {
+        border-top-color: #555;
     }
 
     .z-messagebox .z-label {
         color: white;
     }
 
-    .z-listbox-body {
+    .z-listbox-body, .z-textbox {
         color: white;
         background: black;
     }
