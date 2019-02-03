@@ -21,6 +21,7 @@ import org.osgi.service.blueprint.container.BlueprintContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.lang.Library;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -152,8 +153,11 @@ public final class MainWindowController extends SelectorComposer<Component>
 
     /** @return a freshly created plugin context */
     private UIPluginContext getUIPluginContext() {
+        return new UIPluginContextImpl();
+    }
 
-        return new UIPluginContext() {
+    /** {@inheritDoc UIPluginContext}. */
+    private class UIPluginContextImpl implements UIPluginContext {
 
             @Override
             public Component createComponent(final ClassLoader classLoader,
@@ -205,8 +209,8 @@ public final class MainWindowController extends SelectorComposer<Component>
 
             @Override
             public User getUser() {
-                return (User) Sessions.getCurrent(
-                   ).getAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
+                return (User) getSessionAttribute(
+                    UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
             }
 
             @Override
@@ -215,13 +219,25 @@ public final class MainWindowController extends SelectorComposer<Component>
                 LOGGER.debug(newUser == null
                     ? "User logged out"
                     : "User logged in: " + newUser.getId());
-                Sessions.getCurrent()
-                        .setAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE,
-                                      newUser);
+
+                putSessionAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE,
+                    newUser);
+
                 generateMenubar(menubar, parent, selection,
                     getUIPluginContext());
             }
-        };
+
+            @Override
+            public Object getSessionAttribute(final String attribute) {
+                return Sessions.getCurrent().getAttribute(attribute);
+            }
+
+            @Override
+            public void putSessionAttribute(final String attribute,
+                                            final Object newValue) {
+
+                Sessions.getCurrent().setAttribute(attribute, newValue);
+            }
     }
 
     /**
@@ -245,12 +261,21 @@ public final class MainWindowController extends SelectorComposer<Component>
 
         List<UIPlugin> uiPlugins = (List<UIPlugin>) blueprintContainer()
             .getComponentInstance("uiPlugins");
-        LOGGER.debug("uiPlugins = " + uiPlugins);
+        LOGGER.info("generateMenubar: locale = " + Locales.getCurrent()
+            + ", uiPlugins = " + uiPlugins);
 
         SortedMap<String, Menu> menuMap = new TreeMap<>(ordering);
 
         for (final UIPlugin plugin: uiPlugins) {
-            String menuName = plugin.getGroupLabel();
+            String menuName = "Uninitialized";
+            try {
+                menuName = plugin.getGroupLabel();
+                if (menuName == null) {
+                    menuName = "Default";
+                }
+            } catch (Throwable e) {
+                menuName = e.toString();
+            }
 
             // Create a new menu if this is the first menu item within it
             if (!menuMap.containsKey(menuName)) {

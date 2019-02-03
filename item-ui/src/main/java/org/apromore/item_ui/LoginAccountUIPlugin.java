@@ -19,8 +19,7 @@ public final class LoginAccountUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public LoginAccountUIPlugin() {
-        this.groupLabel = "Account";
-        this.label = "Login";
+        super("account.group", "loginAccount.label");
     }
 
 

@@ -4,9 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.util.Locales;
 
 /**
  * A base implementation of {@link UIPlugin}.
@@ -18,28 +20,29 @@ public abstract class AbstractUIPlugin implements UIPlugin {
         LoggerFactory.getLogger(AbstractUIPlugin.class);
 
     /**
-     * The presentation name of the group this command belongs to.
-     *
-     * More concretely, this is the name of menu the command will appear in.
-     * Defaults to <code>"Default"</code> unless overridden.
-     * Subclasses should override this value in their constructors.
+     * Key into the "Labels" {@link ResourceBundle} within the subclass bundle.
      */
-    @SuppressWarnings("checkstyle:VisibilityModifier")
-    protected String groupLabel = "Default";
+    private String groupLabelKey;
 
     /**
-     * The presentation name of this command.
-     *
-     * More concretely, this is the name of menu item to invoke the command.
-     * Defaults to <code>"Default"</code> unless overridden.
-     * Subclasses should override this value in their constructors.
+     * Key into the "Labels" {@link ResourceBundle} within the subclass bundle.
      */
-    @SuppressWarnings("checkstyle:VisibilityModifier")
-    protected String label = "Default";
+    private String labelKey;
+
+    /**
+     * @param newGroupLabelKey  localization key for the menu
+     * @param newLabelKey  localization key for the menu item
+     */
+    protected AbstractUIPlugin(final String newGroupLabelKey,
+                               final String newLabelKey) {
+
+        this.groupLabelKey = newGroupLabelKey;
+        this.labelKey      = newLabelKey;
+    }
 
     @Override
     public String getGroupLabel() {
-        return groupLabel;
+        return getLocalizedString(groupLabelKey);
     }
 
     /** {@inheritDoc}
@@ -68,7 +71,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
 
     @Override
     public String getLabel() {
-        return label;
+        return getLocalizedString(labelKey);
     }
 
     /** {@inheritDoc}
@@ -87,5 +90,28 @@ public abstract class AbstractUIPlugin implements UIPlugin {
     public void execute(final UIPluginContext context) {
         LOGGER.warn("Executed UI plugin with missing implementation: "
             + getClass());
+    }
+
+    /**
+     * Localization convenience.
+     *
+     * Place localized strings into property files within the subclass's bundle,
+     * naming them <code>/Labels.properties</code>,
+     * <code>/Labels_en_US.properties</code>, etc.
+     * This method uses the locale of the user's web browser, which is attached
+     * to the calling thread by ZK.
+     *
+     * @param key  a {@link ResourceBundle} key
+     * @return the value corresponding to <i>key</i> from the
+     *     {@link ResourceBundle} with prefix "Labels" in the receiver's
+     *     classloader, for the ZK locale of the current thread.
+     */
+    protected String getLocalizedString(final String key) {
+        ResourceBundle bundle = ResourceBundle.getBundle(
+            "Labels",
+            Locales.getCurrent(),
+            getClass().getClassLoader()
+        );
+        return bundle.getString(key);
     }
 }

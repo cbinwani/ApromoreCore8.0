@@ -53,14 +53,26 @@ public interface UIPluginContext {
     void setSelection(Set<Item> newSelection);
 
     /**
-     * @return the currently authenticated user, or <code>NULL</code> for an
+     * @return the currently authenticated user, or <code>null</code> for an
      *     anonymous user session
      */
     User getUser();
 
     /**
-     * @param newUser  the new authenticated user, or <code>NULL</code> to
+     * @param newUser  the new authenticated user, or <code>null</code> to
      *     de-authenticate the current user session (i.e. log out).
      */
     void setUser(User newUser);
+
+    /**
+     * @param attribute  a session attribute name
+     * @return the value of the session attribute, possibly <code>null</code>
+     */
+    Object getSessionAttribute(String attribute);
+
+    /**
+     * @param attribute  a session attribute name
+     * @param newValue  the desired new value, possible <code>null</code>
+     */
+    void putSessionAttribute(String attribute, Object newValue);
 }

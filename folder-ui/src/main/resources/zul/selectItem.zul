@@ -3,6 +3,7 @@
         xmlns:z="http://www.zkoss.org/2005/zul"
         id="window" closable="true" position="center" title="Select Item mkII">
     <vbox width="100%">
+      <label id="currentFolderLabel">?</label>
       <hlayout>
         <paging id="paging"/>
         <button id="createFolderButton" label="Create Folder"/>

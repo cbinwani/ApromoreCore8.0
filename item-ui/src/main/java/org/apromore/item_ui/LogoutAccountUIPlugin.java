@@ -11,22 +11,9 @@ import org.osgi.service.component.annotations.Component;
 @Component(service = {UIPlugin.class})
 public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Account"</code>.
-     */
-    @Override
-    public String getGroupLabel() {
-        return "Account";
-    }
-
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Logout"</code>.
-     */
-    @Override
-    public String getLabel() {
-        return "Logout";
+    /** Sole constructor. */
+    public LogoutAccountUIPlugin() {
+        super("account.group", "logoutAccount.label");
     }
 
     /** {@inheritDoc}
@@ -40,7 +27,7 @@ public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
     /** {@inheritDoc}
      *
-     * This implementation De-authorizes the user session.
+     * This implementation de-authorizes the user session.
      */
     @Override
     public void execute(final UIPluginContext context) {

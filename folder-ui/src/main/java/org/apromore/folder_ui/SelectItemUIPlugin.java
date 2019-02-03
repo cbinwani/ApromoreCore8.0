@@ -1,7 +1,8 @@
 package org.apromore.folder_ui;
 
-//import org.apromore.folder.Folder;
+import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
+import org.apromore.folder.FolderAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
@@ -17,11 +18,13 @@ import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
@@ -32,9 +35,26 @@ import org.zkoss.zul.ext.Selectable;
 @Component(service = {UIPlugin.class})
 public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
+    /**
+     * When creating a new folder, this is the highest number that
+     * will be appended to the default name to avoid clashes.
+     *
+     * For instance, "New folder 100".
+     */
+    private static final int FOLDER_NAME_RETRY_LIMIT = 100;
+
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(SelectItemUIPlugin.class);
+
+    /**
+     * Session attribute for the user's current location in the folder
+     * hierarchy.
+     *
+     * This will be a {@link Folder} instance, or <code>null</code> if the user
+     * is at the root of the folder hierarchy.
+     */
+    public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
 
     /** Used to access the details of the selected folders. */
     @Reference
@@ -44,14 +64,9 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
     @Reference
     private ItemService itemService;
 
-    /**
-     * Sole constructor.
-     *
-     * Hardcodes the label and group label as "Item/Select Item mkII".
-     */
+    /** Sole constructor. */
     public SelectItemUIPlugin() {
-        this.groupLabel = "Item";
-        this.label      = "Select Item mkII";
+        super("item.group", "selectItem.label");
     }
 
     /** {@inheritDoc}
@@ -67,12 +82,23 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
      *
      * This implementation displays a listbox of the selected items.
      */
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     @Override
     public void execute(final UIPluginContext context) {
         Window window = (Window) context.createComponent(
             SelectItemUIPlugin.class.getClassLoader(),
             "zul/selectItem.zul",
             null);
+
+        Label currentFolderLabel =
+            (Label) window.getFellow("currentFolderLabel");
+
+        Folder currentFolder =
+            (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+
+        currentFolderLabel.setValue(currentFolder == null
+                                    ? "/"
+                                    : currentFolder.toString());
 
         Button createFolderButton =
             (Button) window.getFellow("createFolderButton");
@@ -81,7 +107,37 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             new EventListener<MouseEvent>() {
 
             public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                LOGGER.info("Button click " + mouseEvent);
+                int counter = 1;
+                String newFolderName = "New folder";
+                Folder parentFolder = (Folder)
+                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+
+                // Beware: this loop is awful code and you need to be
+                // particularly alert while modifying it
+                do {
+                    try {
+                        folderService.createFolder(parentFolder, newFolderName);
+                        return;
+
+                    } catch (FolderAlreadyExistsException e) {
+                        // Generate a new folder name and retry
+                        newFolderName = "New folder " + counter;
+                        continue;
+
+                    } catch (Throwable e) {
+                        LOGGER.info("Unable to create folder", e);
+                        Messagebox.show("Unable to create folder\n"
+                            + e.getMessage(),
+                            "Attention", Messagebox.OK, Messagebox.ERROR);
+                        return;
+                    }
+                } while (counter++ < FOLDER_NAME_RETRY_LIMIT);
+
+                // Achievement!  Created more that FOLDER_NAME_RETRY_LIMIT
+                // folders without renaming any.  Proud of yourself?
+                Messagebox.show("Too many new folders.\n"
+                    + "Rename or delete some folders.",
+                    "Attention", Messagebox.OK, Messagebox.ERROR);
             }
         });
 
@@ -102,11 +158,16 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
         ListModelList<Item> model = new ListModelList<>();
         try {
-            model.addAll(folderService.getItemsInFolder(null));  // TODO
+            Folder folder = (Folder)
+                context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+
+            model.addAll(folderService.getItemsInFolder(folder));
 
         } catch (NotAuthorizedException e) {
-            // TODO: inform the user that they can't see inside this folder
-            LOGGER.warn("Unable to read folder content", e);
+            LOGGER.warn("Not authorized to read folder content", e);
+            Messagebox.show("Not authorized to read folder content\n"
+                            + e.getMessage(),
+                            "Attention", Messagebox.OK, Messagebox.EXCLAMATION);
         }
 
         model.setSelection(context.getSelection());

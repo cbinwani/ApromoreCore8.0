@@ -8,10 +8,12 @@ import java.util.List;
  * Define an ordering by supplying an explicit list of elements defining the
  * desired order.
  *
- * Items not in the explicit list precede ones that are.  For example,
- * <code>ExplicitComparator("one,two,three,four,five")</code>
+ * For example <code>ExplicitComparator("one,two,three,four,five")</code>
  * would sort the set <code>{ "three", "six", "one" }</code> into the order
  * <code>"six", "one", "three"</code>.
+ *
+ * Items not in the explicit list precede ones that are, and are ordered
+ * lexicography amongst themselves.
  */
 class ExplicitComparator implements Comparator<String> {
 
@@ -33,6 +35,10 @@ class ExplicitComparator implements Comparator<String> {
 
     @Override
     public int compare(final String o1, final String o2) {
-        return examples.indexOf(o1) - examples.indexOf(o2);
+        if (examples.contains(o1) || examples.contains(o2)) {
+            return examples.indexOf(o1) - examples.indexOf(o2);
+        } else {
+            return o1.compareTo(o2);
+        }
     }
 }

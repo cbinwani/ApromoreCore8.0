@@ -65,12 +65,8 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
     private MetricsService metricsService;
 
     /** Sole constructor. */
-    public MetricsUIPlugin(/* MetricsService metricsService */) {
-
-        //this.metricsService  = metricsService;
-
-        groupLabel = "Analyze";
-        label      = "Measure";
+    public MetricsUIPlugin() {
+        super("analyze.group", "measure.label");
     }
 
     /** {@inheritDoc}

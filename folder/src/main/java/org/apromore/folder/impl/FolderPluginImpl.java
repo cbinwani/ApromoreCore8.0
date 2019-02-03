@@ -42,6 +42,13 @@ public final class FolderPluginImpl
 
     // ItemPlugin implementation
 
+    /** {@inheritDoc}
+     *
+     * This implementation presumes that there's no file format for folders, so
+     * it always fails.
+     *
+     * @throws ItemFormatException always
+     */
     @Override
     public Folder create(final InputStream inputStream)
         throws ItemFormatException, NotAuthorizedException {
@@ -70,6 +77,8 @@ public final class FolderPluginImpl
     public Folder createFolder(final Folder location, final String name)
         throws FolderAlreadyExistsException, NotAuthorizedException {
 
+        LOGGER.info("Creating folder " + name + " in " + location);
+
         // Unless location is null, we need to look up the parent's DAO
         FolderDAO locationDAO = null;
         if (location != null) {
@@ -78,13 +87,15 @@ public final class FolderPluginImpl
 
         Item item = this.itemPluginContext.create(getType());
 
-            FolderDAO dao = new FolderDAO();
-            dao.setId(item.getId());
-            dao.setName(name);
-            dao.setParent(locationDAO);
-            folderRepository.add(dao);
+        FolderDAO dao = new FolderDAO();
+        dao.setId(item.getId());
+        dao.setName(name);
+        dao.setParent(locationDAO);
+        folderRepository.add(dao);
 
-            return new FolderImpl(item, dao);
+        Folder returned = new FolderImpl(item, dao);
+        LOGGER.info("Created folder " + name + " in " + location);
+        return returned;
     }
 
     @Override

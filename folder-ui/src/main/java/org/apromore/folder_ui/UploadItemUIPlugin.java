@@ -41,29 +41,9 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     @Reference
     private UIService uiService;
 
-    /*
-    public UploadItemUIPlugin(ItemService itemService, UIService uiService) {
-        this.itemService = itemService;
-        this.uiService = uiService;
-    }
-    */
-
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Item"</code>.
-     */
-    @Override
-    public String getGroupLabel() {
-        return "Item";
-    }
-
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Upload File"</code>.
-     */
-    @Override
-    public String getLabel() {
-        return "Upload File mkII";
+    /** Sole constructor. */
+    public UploadItemUIPlugin() {
+        super("item.group", "uploadItem.label");
     }
 
     /** {@inheritDoc}
@@ -87,7 +67,7 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        uiService.authenticate("All uploads must be have an owner.",
+        uiService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
             new Runnable() {
 
             /**

@@ -27,14 +27,9 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
     @Reference
     private BPMNItemService bpmnItemService;
 
-    @Override
-    public String getGroupLabel() {
-        return "Item";
-    }
-
-    @Override
-    public String getLabel() {
-        return "Edit BPMN";
+    /** Sole constructor. */
+    public BPMNUIPlugin() {
+        super("item.group", "editBPMN.label");
     }
 
     /** @return whether the selection is a single BPMN process model */

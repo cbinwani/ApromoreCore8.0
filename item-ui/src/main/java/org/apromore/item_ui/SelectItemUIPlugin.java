@@ -31,32 +31,13 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
     private static final Logger LOGGER =
         LoggerFactory.getLogger(SelectItemUIPlugin.class);
 
-    /** Used to access the details of the selected items.. */
+    /** Used to access the details of the selected items. */
     @Reference
     private ItemService itemService;
 
-    /*
-    public SelectItemUIPlugin(ItemService itemService) {
-        this.itemService = itemService;
-    }
-    */
-
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Item"</code>.
-     */
-    @Override
-    public String getGroupLabel() {
-        return "Item";
-    }
-
-    /** {@inheritDoc}
-     *
-     * This implementation hardcodes the value <code>"Select Item"</code>.
-     */
-    @Override
-    public String getLabel() {
-        return "Select Item";
+    /** Sole constructor. */
+    public SelectItemUIPlugin() {
+        super("item.group", "selectItem.label");
     }
 
     /** {@inheritDoc}
