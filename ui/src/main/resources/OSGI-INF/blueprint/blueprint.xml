@@ -41,7 +41,7 @@
     </service>
 
     <!-- ZK listener for cleanup when a session is destroyed -->
-    <service interface="javax.servlet.http.HttpSessionListener" ranking="3">
+    <service interface="javax.servlet.http.HttpSessionListener">
         <service-properties>
             <entry key="osgi.http.whiteboard.listener" value="true"/>
         </service-properties>
@@ -49,7 +49,7 @@
     </service>
 
     <!-- ZK loader for ZUML pages -->
-    <service interface="javax.servlet.Servlet" ranking="2">
+    <service id="layout-service" interface="javax.servlet.Servlet">
         <service-properties>
             <entry key="osgi.http.whiteboard.servlet.pattern" value="*.zul"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="zkLoader"/>
@@ -60,7 +60,7 @@
     </service>
 
     <!-- The asynchronous update engine for ZK -->
-    <service interface="javax.servlet.Servlet" ranking="1">
+    <service interface="javax.servlet.Servlet" depends-on="layout-service">
         <service-properties>
             <entry key="osgi.http.whiteboard.servlet.pattern" value="/zkau/*"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="auEngine"/>
