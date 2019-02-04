@@ -11,10 +11,17 @@
 <p>For a full list of contributors, visit <a href="http://apromore.org/about">http://apromore.org/about</a>.</p>
 
 <h2>Architecture</h2>
-<p>Elements in Apromore are independently-compiled OSGi bundles.</p>
+<p>
+Figure 1 shows the main services that comprise a typical running instance of Apromore.
+</p>
 <figure>
 <img src="org/apromore/item/doc-files/diagram.svg" alt="Diagram">
-<figcaption>Apromore 8.0 Architecture</figcaption>
+<figcaption>
+<strong>Figure 1: Apromore 8.0 Service Architecture.</strong>
+Each rectangular symbol represents a service instance.
+Small circles represent interfaces, and are connected to their conforming services.
+Semicircles represent service references, and are connected to their consumers.
+</figcaption>
 </figure>
 
 </body>
