@@ -11,10 +11,10 @@
 
         <!-- Only used when transaction-type=RESOURCE_LOCAL -->
         <non-jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=apromore)</non-jta-data-source>
-        <class>org.apromore.folder.jpa.FolderDAO</class>
+        <class>org.apromore.folder.jpa.PathDAO</class>
         <properties>
             <property name="eclipselink.target-database" value="Auto" />
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+            <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
