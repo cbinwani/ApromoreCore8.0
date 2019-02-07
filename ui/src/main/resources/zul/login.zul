@@ -1,7 +1,7 @@
 <window xmlns:n="http://www.zkoss.org/2005/zk/native"
         xmlns:w="http://www.zkoss.org/2005/zk/client"
         xmlns:z="http://www.zkoss.org/2005/zul"
-        width="400px" closable="true" position="center" title="${labels.login.title}">
+        width="450px" closable="true" position="center" title="${labels.login.title}">
     <label id="reasonLabel"/>
     <grid>
         <columns>
