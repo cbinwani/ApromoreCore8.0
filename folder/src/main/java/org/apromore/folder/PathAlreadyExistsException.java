@@ -1,22 +1,22 @@
 package org.apromore.folder;
 
 /**
- * Reports a folder namespace collision.
+ * Reports a path namespace collision.
  */
-public class FolderAlreadyExistsException extends Exception {
+public class PathAlreadyExistsException extends Exception {
 
-    /** The pre-existing folder. */
-    private Folder folder;
+    /** The pre-existing path. */
+    private String path;
 
-    /** @param existingFolder  the pre-existing folder */
-    public FolderAlreadyExistsException(final Folder existingFolder) {
-        super("Folder already exists: " + existingFolder);
+    /** @param existingPath  the pre-existing path */
+    public PathAlreadyExistsException(final String existingPath) {
+        super("Folder already exists: " + existingPath);
 
-        this.folder = existingFolder;
+        this.path = existingPath;
     }
 
-    /** @return the pre-existing folder */
-    public Folder getFolder() {
-        return folder;
+    /** @return the pre-existing path */
+    public String getPath() {
+        return path;
     }
 }

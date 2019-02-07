@@ -5,23 +5,27 @@ import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
 
 /**
- * Factory service for {@link Folder} instances.
+ * Factory service for {@link Folder} instances, plus utilities for path-based
+ * {@link Item} access.
+ *
+ * A path is a specially formatted @{link String} containing a list of
+ * substrings separated by <code>'/'</code>.
  */
 public interface FolderService {
 
     /**
-     * @param location  the parent folder; pass <code>null</code> to indicate
+     * @param parentFolder the parent folder; pass <code>null</code> to indicate
      *     the root of the folder hierarchy
      * @param name  the name of the created folder, which cannot be
      *     <code>null</code>, empty, or already present in the <i>location</i>
      * @return an instance representing the stored document
-     * @throws FolderAlreadyExistsException if the <i>location</i> already
-     *     contains an item with the given <i>name</i>
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     item creation
+     * @throws PathAlreadyExistsException if the <i>parentPath</i> already
+     *     contains an item with the given <i>name</i>
      */
-    Folder createFolder(Folder location, String name)
-        throws FolderAlreadyExistsException, NotAuthorizedException;
+    Folder createFolder(Folder parentFolder, String name)
+        throws NotAuthorizedException, PathAlreadyExistsException;
 
     /**
      * @param id  primary key
@@ -31,14 +35,25 @@ public interface FolderService {
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     reading the existing item
      */
-    Folder getById(Long id) throws NotAuthorizedException;
+    Folder findFolderById(Long id) throws NotAuthorizedException;
 
     /**
-     * @param location  a folder; pass <code>null</code> to indicate the root
-     *     of the folder hierarchy
-     * @return the ordered contents of the <i>location</i>
+     * @param path  the full pathname of an existing {@link Item}
+     * @return  the corresponding {@link Item}, or <code>null</code> if the
+     *     <i>path</i> doesn't identify any existing {@link Item}
      * @throws NotAuthorizedException if the caller's credentials do not permit
-     *     reading the contents of the <i>location</i>
+     *     reading the existing item
      */
-    List<Item> getItemsInFolder(Folder location) throws NotAuthorizedException;
+    Item findItemByPath(String path) throws NotAuthorizedException;
+
+    /**
+     * @param item  never <code>null</code>
+     * @return the unique path to this <i>item</i>
+     */
+    String findPathByItem(Item item);
+
+    /**
+     * @return paths contained by the root folder, never <code>null</code>
+     */
+    List<String> getRootFolderPaths();
 }

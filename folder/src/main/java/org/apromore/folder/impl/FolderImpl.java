@@ -1,9 +1,14 @@
 package org.apromore.folder.impl;
 
-import org.apromore.item.Item;
-import org.apromore.item.spi.ItemWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apromore.folder.Folder;
-import org.apromore.folder.jpa.FolderDAO;
+import org.apromore.folder.jpa.FolderRepository;
+import org.apromore.folder.jpa.PathDAO;
+import org.apromore.item.Item;
+import org.apromore.item.spi.ItemTypeException;
+import org.apromore.item.spi.ItemWrapper;
 
 /**
  * A folder as a concrete {@link Item}.
@@ -11,45 +16,50 @@ import org.apromore.folder.jpa.FolderDAO;
  */
 class FolderImpl extends ItemWrapper implements Folder {
 
-    /**
-     * The parent folder, or <code>null</code> if this folder is at the top of
-     * the folder hierarchy.
-     */
-    private Folder parent;
+    /** Used to manage paths. */
+    private FolderRepository folderRepository;
 
-    /** The folder name, not including any path prefix. */
-    private String name;
+    /** Full paths of any content. */
+    private List<String> paths = new ArrayList<>();
 
     /**
      * @param item  a partially-constructed item from
      *     {@link org.apromore.item.jpa.ItemRepository}
-     * @param dao  data access object for folder-specific fields
+     * @param newFolderRepository  never <code>null</code>
+     * @throws ItemTypeException if the <i>item</i> isn't a folder
      */
-    FolderImpl(final Item item, final FolderDAO dao) {
+    FolderImpl(final Item item, final FolderRepository newFolderRepository)
+        throws ItemTypeException {
+
         super(item);
 
-        assert item.getId() == dao.getId();
-        //this.parent = dao.getParent();
-        this.name   = dao.getName();
+        if (!Folder.TYPE.equals(item.getType())) {
+            throw new ItemTypeException(Folder.TYPE, item.getType());
+        }
+
+        this.folderRepository = newFolderRepository;
     }
 
-    /** {@inheritDoc} */
-    public String getName() {
-        return name;
-    }
-
-    /** {@inheritDoc} */
-    public Folder getParentFolder() {
-        return parent;
-    }
-
-    /** {@inheritDoc}
-     *
-     * This implementation returns the folder name.
+    /**
+     * @param name  leaf name of the new path
+     * @param content  content at the new path
      */
-    public String toString() {
-        return name;
+    public void append(final String name, final Item content) {
+        PathDAO dao = new PathDAO();
+        dao.setItemId(content.getId());
+        dao.setName(name);
+        dao.setParent(folderRepository.findPathByItemId(getId()));
+        folderRepository.addPath(dao);
     }
 
-    // Implementation of SortedMap<String, Item> from Folder
+    /**
+     * @return the ordered list of full paths contained by this folder
+     */
+    public List<String> getPaths() {
+        PathDAO pathDAO = folderRepository.findPathByItemId(getId());
+        List<PathDAO> children = folderRepository.findPathsByParent(pathDAO);
+        return children.stream()
+                       .map(path -> path.getName())
+                       .collect(Collectors.toList());
+    }
 }

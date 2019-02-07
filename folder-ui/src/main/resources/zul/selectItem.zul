@@ -1,19 +1,24 @@
 <window xmlns:n="http://www.zkoss.org/2005/zk/native"
         xmlns:w="http://www.zkoss.org/2005/zk/client"
         xmlns:z="http://www.zkoss.org/2005/zul"
-        id="window" closable="true" position="center" title="Select Item mkII">
+        id="window" closable="true" position="center" title="${labels.selectItem.title}">
     <vbox width="100%">
-      <label id="currentFolderLabel">?</label>
+      <hlayout>
+        <button id="homeButton" label="${labels.selectItem.home}"/>
+        <label id="currentFolderLabel">?</label>
+      </hlayout>
       <hlayout>
         <paging id="paging"/>
-        <button id="createFolderButton" label="Create Folder"/>
+        <button id="createFolderButton" label="${labels.selectItem.createFolder}"/>
+        <button id="enterFolderButton" label="${labels.selectItem.enterFolder}"/>
       </hlayout>
       <listbox id="listbox" width="100%" vflex="1" multiple="true">
         <listhead sizable="false">
-          <listheader label="Index"   hflex="1" align="center"/>
-          <listheader label="Id"      hflex="1" align="center"/>
-          <listheader label="Type"    hflex="1"/>
-          <listheader label="Creator" hflex="1"/>
+          <listheader label="${labels.selectItem.index}"   hflex="0.5" align="center"/>
+          <listheader label="${labels.selectItem.name}"    hflex="1" align="center"/>
+          <listheader label="${labels.selectItem.id}"      hflex="1" align="center"/>
+          <listheader label="${labels.selectItem.type}"    hflex="1"/>
+          <listheader label="${labels.selectItem.creator}" hflex="1"/>
         </listhead>
         <!--
         <template name="model">

@@ -1,14 +1,16 @@
 package org.apromore.folder;
 
-//import java.util.SortedItem;
+import java.util.List;
 import org.apromore.item.Item;
 
 /**
  * A folder as a concrete {@link Item}.
  *
- * As far as practical, this works similarly to {@link java.io.File}.
+ * Unlike most {@link Item}s which are immutable, a folder has a mutable
+ * ordered list of paths, its contents.
+ * Use {@link FolderService#findItemByPath} to convert paths to {@link Item}s.
  */
-public interface Folder extends Item /*, SortedMap<String, Item>*/ {
+public interface Folder extends Item {
 
     /**
      * Type identifier for folders.
@@ -16,13 +18,15 @@ public interface Folder extends Item /*, SortedMap<String, Item>*/ {
     String TYPE = "Folder";
 
     /**
-     * @return the name of the folder
+     * Append an item to the contents of this folder.
+     *
+     * @param name  the leaf name of the new item
+     * @param content  the content of the new document
      */
-    String getName();
+    void append(String name, Item content);
 
     /**
-     * @return the folder in which this folder is located, or <code>null</code>
-     *      if this folder is at the top level of the folder hierarchy
+     * @return the ordered list of full paths contained by this folder
      */
-    Folder getParentFolder();
+    List<String> getPaths();
 }

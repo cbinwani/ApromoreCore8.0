@@ -1,8 +1,8 @@
 package org.apromore.folder.impl;
 
 import org.apromore.folder.Folder;
-import org.apromore.folder.FolderAlreadyExistsException;
 import org.apromore.folder.FolderService;
+import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.spi.ItemPluginContext;
@@ -28,20 +28,20 @@ public class FolderPluginImplTest {
     @Ignore
     @Test
     public void testCreateFolder_atRoot()
-        throws FolderAlreadyExistsException, NotAuthorizedException {
+        throws PathAlreadyExistsException, NotAuthorizedException {
         // ?
     }
 
-    /** Test {@link FolderService#getById}. */
+    /** Test {@link FolderService#findFoldertById}. */
     @Ignore
     @Test
-    public void testGetById() throws Exception {
+    public void testFindFolderById() throws Exception {
         FolderImpl expectedFolder = createMock(FolderImpl.class);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         FolderService folderService = new FolderPluginImpl();
 
-        Folder folder = folderService.getById(0L);
+        Folder folder = folderService.findFolderById(0L);
         assertEquals(expectedFolder, folder);
     }
 }

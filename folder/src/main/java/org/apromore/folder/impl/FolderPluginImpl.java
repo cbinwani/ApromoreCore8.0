@@ -2,6 +2,7 @@ package org.apromore.folder.impl;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 //import javax.transaction.Transactional;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
@@ -10,10 +11,10 @@ import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
 import org.apromore.folder.Folder;
-import org.apromore.folder.FolderAlreadyExistsException;
 import org.apromore.folder.FolderService;
-import org.apromore.folder.jpa.FolderDAO;
+import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.folder.jpa.FolderRepository;
+import org.apromore.folder.jpa.PathDAO;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public final class FolderPluginImpl
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(FolderPluginImpl.class);
+
+    /** Path separator. */
+    private static final String SEPARATOR = "/";
 
     /** Utility service for {@link ItemPlugin}s. */
     @Reference
@@ -63,52 +67,112 @@ public final class FolderPluginImpl
 
     @Override
     public Folder toConcreteItem(final Item item) throws ItemTypeException {
-        FolderDAO dao = folderRepository.get(item.getId());
-        if (dao == null) {
-             throw new ItemTypeException(getType(), item.getType());
+        if (!getType().equals(item.getType())) {
+            throw new ItemTypeException(getType(), item.getType());
         }
-        return new FolderImpl(item, dao);
+        return new FolderImpl(item, folderRepository);
     }
 
 
     // FolderService implementation
 
     @Override
-    public Folder createFolder(final Folder location, final String name)
-        throws FolderAlreadyExistsException, NotAuthorizedException {
+    public Folder createFolder(final Folder parentFolder, final String name)
+        throws NotAuthorizedException, PathAlreadyExistsException {
 
-        LOGGER.info("Creating folder " + name + " in " + location);
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
 
-        // Unless location is null, we need to look up the parent's DAO
-        FolderDAO locationDAO = null;
-        if (location != null) {
-            locationDAO = folderRepository.get(location.getId());
+        if (name.contains(SEPARATOR)) {
+            throw new IllegalArgumentException("Name " + name
+                + " contains the separator " + SEPARATOR);
+        }
+
+        PathDAO parentDAO = null;
+        if (parentFolder != null) {
+            parentDAO = folderRepository.findPathByItemId(parentFolder.getId());
         }
 
         Item item = this.itemPluginContext.create(getType());
 
-        FolderDAO dao = new FolderDAO();
-        dao.setId(item.getId());
+        PathDAO dao = new PathDAO();
+        dao.setItemId(item.getId());
         dao.setName(name);
-        dao.setParent(locationDAO);
-        folderRepository.add(dao);
+        dao.setParent(parentDAO);
+        folderRepository.addPath(dao);
 
-        Folder returned = new FolderImpl(item, dao);
-        LOGGER.info("Created folder " + name + " in " + location);
-        return returned;
+        try {
+            Folder returned = new FolderImpl(item, folderRepository);
+            LOGGER.info("Created folder " + name + " in " + parentFolder);
+            return returned;
+
+        } catch (ItemTypeException e) {
+            throw new Error(e);
+        }
     }
 
     @Override
-    public Folder getById(final Long id) throws NotAuthorizedException {
+    public Folder findFolderById(final Long id) throws NotAuthorizedException {
         Item item = this.itemPluginContext.getById(id);
-        FolderDAO dao = folderRepository.get(id);
-        return new FolderImpl(item, dao);
+        try {
+            return new FolderImpl(item, folderRepository);
+
+        } catch (ItemTypeException e) {
+            return null;
+        }
     }
 
     @Override
-    public List<Item> getItemsInFolder(final Folder location)
+    public Item findItemByPath(final String path)
         throws NotAuthorizedException {
 
-        return new java.util.ArrayList<>();  // TODO
+        return itemPluginContext.getById(
+            folderRepository.findItemIdByPath(path));
+    }
+
+    @Override
+    public String findPathByItem(final Item item) {
+        PathDAO dao = folderRepository.findPathByItemId(item.getId());
+        if (dao == null) {
+            return null;
+        }
+        return pathToString(dao);
+    }
+
+    @Override
+    public List<String> getRootFolderPaths() {
+        List<PathDAO> p = folderRepository.findPathsByParent(null);
+        List<String> s = p
+              //folderRepository.findPathsByParent(null)
+                              .stream()
+                              .map(path -> path.getName())
+                              .collect(Collectors.toList());
+
+        LOGGER.info("Got root folder for paths, mapped from " + p + " to " + s);
+        return s;
+    }
+
+    // Internal methods
+
+    /**
+     * @param path  possibly <code>null</code>
+     * @return the full path naming the <i>path</i>
+     */
+    private String pathToString(final PathDAO path) {
+        if (path == null) {
+            return null;
+
+        } else {
+            PathDAO parentPath = path.getParent();
+            if (parentPath == null) {
+                return path.getName();
+
+            } else {
+                return pathToString(parentPath)
+                    + SEPARATOR
+                    + path.getName();
+            }
+        }
     }
 }

@@ -170,6 +170,8 @@ public final class MainWindowController extends SelectorComposer<Component>
                             + " found in bundle classpath");
                     }
 
+                    parent.getChildren().clear();
+
                     return Executions.createComponentsDirectly(
                         new InputStreamReader(in, "UTF-8"),
                         "zul",

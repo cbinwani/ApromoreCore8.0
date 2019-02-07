@@ -1,8 +1,9 @@
 package org.apromore.folder_ui;
 
+import java.util.List;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
-import org.apromore.folder.FolderAlreadyExistsException;
+import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
@@ -17,7 +18,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
-import org.zkoss.zul.Button;
+//import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
@@ -82,13 +83,30 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
      *
      * This implementation displays a listbox of the selected items.
      */
-    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     @Override
     public void execute(final UIPluginContext context) {
+        refresh(context);
+    }
+
+    /**
+     * @param context  used to update the main window
+     */
+    @SuppressWarnings({"checkstyle:AvoidInlineConditionals",
+                       "checkstyle:MethodLength"})
+    private void refresh(final UIPluginContext context) {
         Window window = (Window) context.createComponent(
             SelectItemUIPlugin.class.getClassLoader(),
             "zul/selectItem.zul",
             null);
+
+        window.getFellow("homeButton").addEventListener("onClick",
+            new EventListener<MouseEvent>() {
+
+            public void onEvent(final MouseEvent mouseEvent) throws Exception {
+                context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
+                refresh(context);
+            }
+        });
 
         Label currentFolderLabel =
             (Label) window.getFellow("currentFolderLabel");
@@ -98,12 +116,9 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
         currentFolderLabel.setValue(currentFolder == null
                                     ? "/"
-                                    : currentFolder.toString());
+                                    : currentFolder.getId().toString());
 
-        Button createFolderButton =
-            (Button) window.getFellow("createFolderButton");
-
-        createFolderButton.addEventListener("onClick",
+        window.getFellow("createFolderButton").addEventListener("onClick",
             new EventListener<MouseEvent>() {
 
             public void onEvent(final MouseEvent mouseEvent) throws Exception {
@@ -117,9 +132,10 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                 do {
                     try {
                         folderService.createFolder(parentFolder, newFolderName);
+                        refresh(context);
                         return;
 
-                    } catch (FolderAlreadyExistsException e) {
+                    } catch (PathAlreadyExistsException e) {
                         // Generate a new folder name and retry
                         newFolderName = "New folder " + counter;
                         continue;
@@ -141,6 +157,25 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             }
         });
 
+        window.getFellow("enterFolderButton").addEventListener("onClick",
+            new EventListener<MouseEvent>() {
+
+            public void onEvent(final MouseEvent mouseEvent) throws Exception {
+                for (Item selectedItem: context.getSelection()) {
+                    if (selectedItem instanceof Folder) {
+                        LOGGER.info("Entering folder " + selectedItem);
+                        context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
+                            selectedItem);
+                        refresh(context);
+
+                    } else {
+                        Messagebox.show("Selection is not a folder",
+                            "Attention", Messagebox.OK, Messagebox.ERROR);
+                    }
+                }
+            }
+        });
+
         Listbox listbox = (Listbox) window.getFellow("listbox");
 
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
@@ -148,8 +183,11 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                                final Item     item,
                                final int      index) {
 
+                String name = folderService.findPathByItem(item);
+
                 listitem.appendChild(new Listcell(Integer.valueOf(index)
                                                          .toString()));
+                listitem.appendChild(new Listcell(name));
                 listitem.appendChild(new Listcell("" + item.getId()));
                 listitem.appendChild(new Listcell(item.getType()));
                 listitem.appendChild(new Listcell("-"));
@@ -157,17 +195,27 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
         });
 
         ListModelList<Item> model = new ListModelList<>();
-        try {
-            Folder folder = (Folder)
-                context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
-            model.addAll(folderService.getItemsInFolder(folder));
+        Folder folder = (Folder)
+            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+        List<String> paths;
+        if (folder == null) {
+            paths = folderService.getRootFolderPaths();
+            LOGGER.info("Got root folder paths " + paths);
 
-        } catch (NotAuthorizedException e) {
-            LOGGER.warn("Not authorized to read folder content", e);
-            Messagebox.show("Not authorized to read folder content\n"
-                            + e.getMessage(),
-                            "Attention", Messagebox.OK, Messagebox.EXCLAMATION);
+        } else {
+            paths = folder.getPaths();
+            LOGGER.info("Got folder paths " + paths);
+        }
+
+        for (String path: paths) {
+            try {
+                model.add(folderService.findItemByPath(path));
+
+            } catch (NotAuthorizedException e) {
+                // Silently hide unauthorized content
+                LOGGER.warn("Unauthorized path " + path, e);
+            }
         }
 
         model.setSelection(context.getSelection());
