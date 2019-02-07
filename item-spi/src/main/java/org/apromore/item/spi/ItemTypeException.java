@@ -1,5 +1,7 @@
 package org.apromore.item.spi;
 
+import java.util.Objects;
+
 /**
  * Required a particular subtype of {@link org.apromore.item.Item}, but received
  * another.
@@ -14,12 +16,19 @@ public final class ItemTypeException extends Exception {
 
     /**
      * @param newExpectedType  the required type identifier
-     * @param newActualType  the unexpected type identifier that was encountered
+     * @param newActualType  the unexpected type identifier that was
+     *     encountered, which must differ from <i>newExpectedType</i>
+     * @throws Error if <i>newExpectedType</i> equals <i>newActualType</i>
      */
     public ItemTypeException(final String newExpectedType,
                              final String newActualType) {
         this.actualType   = newActualType;
         this.expectedType = newExpectedType;
+
+        if (Objects.equals(actualType, expectedType)) {
+            throw new Error("Expected and actual types can't both be: "
+                + actualType);
+        }
     }
 
     /** @return the unexpected type identifier that was encountered */
