@@ -11,11 +11,12 @@ public interface FolderRepository {
     void addPath(PathDAO newDAO);
 
     /**
-     * @param path  a full path, never <code>null</code>
-     * @return primary key of the {@link org.apromore.item.Item} content of the
-     *     <i>path</i>, or <code>null</code> if the path doesn't exist
+     * @param parent  may by <code>null</code>
+     * @param name  never <code>null</code>
+     * @return primary key of the {@link org.apromore.item.Item} content if it
+     *     exists, <code>null</code> otherwise
      */
-    Long findItemIdByPath(String path);
+    Long findItemIdByParentAndName(PathDAO parent, String name);
 
     /**
      * @param parent  may by <code>null</code>

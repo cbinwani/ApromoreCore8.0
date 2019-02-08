@@ -15,7 +15,7 @@
       <listbox id="listbox" width="100%" vflex="1" multiple="true">
         <listhead sizable="false">
           <listheader label="${labels.selectItem.index}"   hflex="0.5" align="center"/>
-          <listheader label="${labels.selectItem.name}"    hflex="1" align="center"/>
+          <listheader label="${labels.selectItem.name}"    hflex="1"/>
           <listheader label="${labels.selectItem.id}"      hflex="1" align="center"/>
           <listheader label="${labels.selectItem.type}"    hflex="1"/>
           <listheader label="${labels.selectItem.creator}" hflex="1"/>

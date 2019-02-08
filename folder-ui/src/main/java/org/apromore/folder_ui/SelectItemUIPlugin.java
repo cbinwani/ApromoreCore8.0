@@ -115,8 +115,8 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
         currentFolderLabel.setValue(currentFolder == null
-                                    ? "/"
-                                    : currentFolder.getId().toString());
+            ? "/"
+            : folderService.findPathByItem(currentFolder));
 
         window.getFellow("createFolderButton").addEventListener("onClick",
             new EventListener<MouseEvent>() {
@@ -137,6 +137,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
                     } catch (PathAlreadyExistsException e) {
                         // Generate a new folder name and retry
+                        counter++;
                         newFolderName = "New folder " + counter;
                         continue;
 
@@ -147,9 +148,9 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                             "Attention", Messagebox.OK, Messagebox.ERROR);
                         return;
                     }
-                } while (counter++ < FOLDER_NAME_RETRY_LIMIT);
+                } while (counter <= FOLDER_NAME_RETRY_LIMIT);
 
-                // Achievement!  Created more that FOLDER_NAME_RETRY_LIMIT
+                // Achievement!  Created more than FOLDER_NAME_RETRY_LIMIT
                 // folders without renaming any.  Proud of yourself?
                 Messagebox.show("Too many new folders.\n"
                     + "Rename or delete some folders.",
@@ -163,7 +164,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             public void onEvent(final MouseEvent mouseEvent) throws Exception {
                 for (Item selectedItem: context.getSelection()) {
                     if (selectedItem instanceof Folder) {
-                        LOGGER.info("Entering folder " + selectedItem);
+                        LOGGER.info("Entering folder " + selectedItem.getId());
                         context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
                             selectedItem);
                         refresh(context);
@@ -183,13 +184,23 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                                final Item     item,
                                final int      index) {
 
-                String name = folderService.findPathByItem(item);
+                String name = "error";
+                Long itemId = null;
+                String type = "error";
+
+                if (item != null) {
+                    String path = folderService.findPathByItem(item);
+                    name = path.substring(path.lastIndexOf("/") + 1,
+                        path.length());
+                    itemId = item.getId();
+                    type = item.getType();
+                }
 
                 listitem.appendChild(new Listcell(Integer.valueOf(index)
                                                          .toString()));
                 listitem.appendChild(new Listcell(name));
-                listitem.appendChild(new Listcell("" + item.getId()));
-                listitem.appendChild(new Listcell(item.getType()));
+                listitem.appendChild(new Listcell("" + itemId));
+                listitem.appendChild(new Listcell(type));
                 listitem.appendChild(new Listcell("-"));
             }
         });
@@ -210,7 +221,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
         for (String path: paths) {
             try {
-                model.add(folderService.findItemByPath(path));
+                model.add(folderService.findItemByFolderAndName(folder, path));
 
             } catch (NotAuthorizedException e) {
                 // Silently hide unauthorized content

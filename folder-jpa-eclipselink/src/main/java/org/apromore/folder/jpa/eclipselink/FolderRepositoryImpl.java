@@ -48,9 +48,10 @@ public final class FolderRepositoryImpl implements FolderRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public Long findItemIdByPath(final String path) {
+    public Long findItemIdByParentAndName(final PathDAO parent,
+                                          final String  name) {
         TypedQuery<Long> query;
-        if (true) {
+        if (parent == null) {
             query = entityManager.createQuery(
                 "SELECT i.itemId FROM PathDAO i"
                 + " WHERE i.parent IS NULL AND i.name=:name",
@@ -60,9 +61,9 @@ public final class FolderRepositoryImpl implements FolderRepository {
                 "SELECT i.itemId FROM PathDAO i"
                 + " WHERE i.parent=:parent AND i.name=:name",
                 Long.class);
-            query.setParameter("parent", null);
+            query.setParameter("parent", parent);
         }
-        query.setParameter("name", path);
+        query.setParameter("name", name);
 
         Long itemId = null;
         try {

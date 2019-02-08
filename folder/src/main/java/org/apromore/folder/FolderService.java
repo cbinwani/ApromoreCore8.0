@@ -28,6 +28,20 @@ public interface FolderService {
         throws NotAuthorizedException, PathAlreadyExistsException;
 
     /**
+     * @param parentFolder the parent folder; pass <code>null</code> to indicate
+     *     the root of the folder hierarchy
+     * @param name  the name of the created folder, which cannot be
+     *     <code>null</code>, empty, or already present in the <i>location</i>
+     * @param content  the initial content at the new path
+     * @throws NotAuthorizedException if the caller's credentials do not permit
+     *     item creation
+     * @throws PathAlreadyExistsException if the <i>parentPath</i> already
+     *     contains an item with the given <i>name</i>
+     */
+    void createPath(Folder parentFolder, String name, Item content)
+        throws NotAuthorizedException, PathAlreadyExistsException;
+
+    /**
      * @param id  primary key
      * @return the corresponding folder if one exists, <code>null</code>
      *     otherwise (which includes the case of another type of item existing
@@ -36,6 +50,17 @@ public interface FolderService {
      *     reading the existing item
      */
     Folder findFolderById(Long id) throws NotAuthorizedException;
+
+    /**
+     * @param folder  the parent folder, or <code>null</code> for the root of
+     *     the folder hierarchy
+     * @param name  never <code>null</code>
+     * @return the content in <i>folder</i> named <i>name</i>
+     * @throws NotAuthorizedException if the caller's credentials do not permit
+     *     reading the item
+     */
+    Item findItemByFolderAndName(Folder folder, String name)
+        throws NotAuthorizedException;
 
     /**
      * @param path  the full pathname of an existing {@link Item}

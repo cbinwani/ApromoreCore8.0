@@ -80,6 +80,26 @@ public final class FolderPluginImpl
     public Folder createFolder(final Folder parentFolder, final String name)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
+        try {
+            LOGGER.info("Creating folder " + name + " in " + parentFolder);
+
+            Item item = this.itemPluginContext.create(getType());
+            Folder folder = new FolderImpl(item, folderRepository);
+            createPath(parentFolder, name, folder);
+
+            return folder;
+
+        } catch (ItemTypeException e) {
+            throw new Error(e);
+        }
+    }
+
+    @Override
+    public void createPath(final Folder parentFolder,
+                           final String name,
+                           final Item   content)
+        throws NotAuthorizedException, PathAlreadyExistsException {
+
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
@@ -94,21 +114,51 @@ public final class FolderPluginImpl
             parentDAO = folderRepository.findPathByItemId(parentFolder.getId());
         }
 
-        Item item = this.itemPluginContext.create(getType());
+        // Validate that this path doesn't already exist
+        if (folderRepository.findItemIdByParentAndName(parentDAO, name)
+            != null) {
+
+            throw new PathAlreadyExistsException(fullPath(parentFolder, name));
+        }
 
         PathDAO dao = new PathDAO();
-        dao.setItemId(item.getId());
+        dao.setItemId(content.getId());
         dao.setName(name);
         dao.setParent(parentDAO);
         folderRepository.addPath(dao);
+    }
 
-        try {
-            Folder returned = new FolderImpl(item, folderRepository);
-            LOGGER.info("Created folder " + name + " in " + parentFolder);
-            return returned;
+    /**
+     * @param parentFolder  may be <code>null</code>
+     * @param name  never <code>null</code>
+     * @return full path
+     */
+    private String fullPath(final Folder parentFolder, final String name) {
+        if (parentFolder == null) {
+            return name;
 
-        } catch (ItemTypeException e) {
-            throw new Error(e);
+        } else {
+            return fullPath(folderRepository.findPathByItemId(
+                parentFolder.getId())) + SEPARATOR + name;
+        }
+    }
+
+    /**
+     * Derive the full path of a DAO.
+     *
+     * @param pathDAO  may be <code>null</code>
+     * @return full path
+     */
+    private String fullPath(final PathDAO pathDAO) {
+        if (pathDAO == null) {
+            return null;
+
+        } else if (pathDAO.getParent() == null) {
+            return pathDAO.getName();
+
+        } else {
+            return fullPath(pathDAO.getParent()) + SEPARATOR
+                + pathDAO.getName();
         }
     }
 
@@ -124,11 +174,65 @@ public final class FolderPluginImpl
     }
 
     @Override
+    public Item findItemByFolderAndName(final Folder folder,
+                                        final String name)
+        throws NotAuthorizedException {
+
+        LOGGER.info("Finding item in " + folder + " named " + name);
+
+        PathDAO parent = null;
+        if (folder != null) {
+            parent = folderRepository.findPathByItemId(folder.getId());
+        }
+        LOGGER.info("  Folder " + folder + " path id " + parent);
+
+        Long itemId =
+            folderRepository.findItemIdByParentAndName(parent, name);
+
+        LOGGER.info("Found item in " + folder + " named " + name + ": "
+            + itemId);
+
+        return itemPluginContext.getById(itemId);
+    }
+
+    @Override
     public Item findItemByPath(final String path)
         throws NotAuthorizedException {
 
-        return itemPluginContext.getById(
-            folderRepository.findItemIdByPath(path));
+        LOGGER.info("Finding item by path " + path);
+
+        if (path == null) {
+            return null;
+        }
+
+        Folder folder = (Folder) findItemByPath(parentForPath(path));
+        String name = nameForPath(path);
+
+        return findItemByFolderAndName(folder, name);
+    }
+
+    /**
+     * @param path  never <code>null</code>
+     * @return the parent prefix of the <i>path</i>, or <code>null</code> if
+     *     this path is at the root of the folder hierarchy
+     */
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
+    private static String parentForPath(final String path) {
+        int i = path.lastIndexOf(SEPARATOR);
+        LOGGER.info("parentForPath(" + path + ") = \""
+            + (i == -1 ? null : path.substring(0, i)) + "\"");
+        return i == -1 ? null : path.substring(0, i);
+    }
+
+    /**
+     * @param path  never <code>null</code>
+     * @return the leaf name of the <i>path</i>
+     */
+    private static String nameForPath(final String path) {
+        int i = path.lastIndexOf(SEPARATOR);
+        LOGGER.info("nameForPath(" + path + ") = \""
+            + path.substring(i + 1, path.length()) + "\"");
+        return path.substring(i + 1, path.length());
     }
 
     @Override

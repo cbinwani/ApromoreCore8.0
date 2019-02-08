@@ -1,6 +1,10 @@
 package org.apromore.folder_ui;
 
 import java.io.IOException;
+import org.apromore.folder.Folder;
+import org.apromore.folder.FolderService;
+import org.apromore.folder.PathAlreadyExistsException;
+import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
@@ -19,14 +23,28 @@ import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Messagebox;
 
 /**
- * {@link UIPlugin} for the Item/Upload File command.
+ * {@link UIPlugin} for the Item/Upload File to Folder command.
  */
 @Component(service = {UIPlugin.class})
 public final class UploadItemUIPlugin extends AbstractUIPlugin {
 
+    /**
+     * When creating a new folder, this is the highest number that
+     * will be appended to the default name to avoid clashes.
+     *
+     * For instance, "New folder 100".
+     */
+    private static final int ITEM_NAME_RETRY_LIMIT = 100;
+
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UploadItemUIPlugin.class);
+
+    /**
+     * Used to store uploaded items.
+     */
+    @Reference
+    private FolderService folderService;
 
     /**
      * Used to store uploaded items.
@@ -86,18 +104,54 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                     public void onEvent(final UploadEvent uploadEvent) {
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());
-                            try {
-                                itemService.create(media.getStreamData());
 
-                            } catch (IOException | ItemFormatException
-                                | NotAuthorizedException e) {
-                                e.printStackTrace();
-                                Messagebox.show("Upload failed for "
-                                    + media.getName() + "\n" + e.getMessage(),
-                                    "Attention",
-                                    Messagebox.OK,
-                                    Messagebox.ERROR);
-                            }
+                            int counter = 1;
+                            String newItemName = "New item";
+                            Folder parentFolder = (Folder) context
+                                .getSessionAttribute(
+                                    SelectItemUIPlugin.USER_FOLDER_ATTRIBUTE);
+
+                            // Beware: this loop is awful code and you need to
+                            // be particularly alert while modifying it
+                            do {
+                                try {
+                                    Item item = itemService.create(
+                                        media.getStreamData());
+                                    folderService.createPath(
+                                        parentFolder,
+                                        newItemName,
+                                        item);
+
+                                    context.getParentComponent().invalidate();
+                                    return;
+
+                                } catch (PathAlreadyExistsException e) {
+                                    // Generate a new folder name and retry
+                                    counter++;
+                                    newItemName = "New item " + counter;
+                                    continue;
+
+                                } catch (IOException
+                                    | ItemFormatException
+                                    | NotAuthorizedException e) {
+
+                                    e.printStackTrace();
+                                    Messagebox.show("Upload failed for "
+                                        + media.getName() + "\n"
+                                        + e.getMessage(),
+                                        "Attention",
+                                        Messagebox.OK,
+                                        Messagebox.ERROR);
+                                    return;
+                                }
+                            } while (counter <= ITEM_NAME_RETRY_LIMIT);
+
+                            // Achievement!  Created more than
+                            // ITEM_NAME_RETRY_LIMIT items without renaming any.
+                            // Proud of yourself?
+                            Messagebox.show("Too many new items.\n"
+                                + "Rename or delete some items.",
+                                "Attention", Messagebox.OK, Messagebox.ERROR);
                         }
                     }
                 });

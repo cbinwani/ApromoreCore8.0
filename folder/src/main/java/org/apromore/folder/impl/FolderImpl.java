@@ -62,4 +62,9 @@ class FolderImpl extends ItemWrapper implements Folder {
                        .map(path -> path.getName())
                        .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " id=" + getId();
+    }
 }

@@ -73,4 +73,9 @@ public final class PathDAO {
     public void setParent(final PathDAO newParent) {
         this.parent = newParent;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " id=" + id + " name=" + name;
+    }
 }
