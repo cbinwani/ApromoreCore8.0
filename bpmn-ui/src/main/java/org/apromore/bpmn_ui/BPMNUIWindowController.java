@@ -1,5 +1,6 @@
 package org.apromore.bpmn_ui;
 
+import com.google.common.io.ByteStreams;
 import java.io.IOException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import org.apromore.bpmn_item.BPMNItem;
@@ -42,8 +43,11 @@ public final class BPMNUIWindowController extends SelectorComposer<Component> {
         );
         CustomZULComponent bpmn1 =
             (CustomZULComponent) window.getFellow("bpmn1");
-        bpmn1.setValue(new String(bpmnItem.getXMLSerialization()
-                                          .readAllBytes(), UTF_8));
+        //bpmn1.setValue(new String(bpmnItem.getXMLSerialization()
+        //                                  .readAllBytes(), UTF_8));
+        bpmn1.setValue(new String(
+            ByteStreams.toByteArray(bpmnItem.getXMLSerialization()),
+            UTF_8));  // Uglier, but back-compatible to Java 1.8
 
         ((Button) window.getFellow("saveButton")).addEventListener("onClick",
             new EventListener<Event>() {

@@ -35,6 +35,10 @@
   </build>
 
   <dependencies>
+    <dependency>  <!-- Required only for JDK 1.8 back-compatibility -->
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>javax.transaction-api</artifactId>

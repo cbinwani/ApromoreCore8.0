@@ -1,5 +1,6 @@
 package org.apromore.item.impl;
 
+import com.google.common.io.ByteStreams;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -109,7 +110,8 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
         // Materialize the inputStream into memory, since we may need to read it
         // several times
-        byte[] buffer = inputStream.readAllBytes();
+        //byte[] buffer = inputStream.readAllBytes();
+        byte[] buffer = ByteStreams.toByteArray(inputStream);  // JDK 1.8
         inputStream.close();
 
         // Try each available ItemPlugin in turn in order to construct a

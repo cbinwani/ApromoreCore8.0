@@ -17,7 +17,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 ### Requirements
 Development has been done on MacOS 10.14.3 "Mojave", but theoretically only the following requirements exist:
 
-- JDK 10 (9 or later)
+- JDK 10 (1.8 or later)
 - [Apache Maven](https://maven.apache.org/) 3.6.0
 
 ### Procedure
@@ -31,7 +31,7 @@ Assuming the bash shell:
 
 ## Running
 ### Requirements
-- JDK 10 or JDK 9 (Karaf isn't cleared for 11 yet, and bpmn-ui requires JDK 9 methods)
+- JDK 10, 9, 1.8 (Karaf isn't cleared for 11 yet)
 - [Apache Karaf](https://karaf.apache.org/) 4.2.2
 
 ### Procedure
