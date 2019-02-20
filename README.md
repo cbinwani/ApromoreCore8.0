@@ -15,34 +15,37 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 
 ## Building
 ### Requirements
-Development has been done on MacOS 10.14.3 "Mojave", but theoretically only the following requirements exist:
+Development has been done on MacOS 10.14 "Mojave", but theoretically only the following requirements exist:
 
+- git
 - JDK 10 (1.8 or later)
 - [Apache Maven](https://maven.apache.org/) 3.6.0
 
 ### Procedure
 Assuming the bash shell:
-
-- Build the previous version of Apromore, since v8 recycles some of the previous bundles.  Note that this requires Java 8.
-  The modified bundles are the following:
-  - bpmntk-osgi
-  - raffaeleconforti-osgi
-- Then from the top of the v8 directory, execute `mvn clean install javadoc:aggregate`.
+- Obtain Raffaele Conforti's research code repository using `git clone https://github.com/raffaeleconforti/ResearchCode.git`.
+- Enter the `ResearchCode` directory and build it using `mvn clean install`.
+- Build my unreleased fork of the Felix project's OSGi UserAdmin service.  (Currently impossible.)
+- Obtain the Apromore source tree using `git clone https://github.com/apromore/ApromoreCore8.0.git`.
+- Enter the `ApromoreCore8.0` directory (henceforth `$APROMORE_HOME`) and execute `mvn clean install`.
+- On Java 9 or later, execute `mvn javadoc:aggregate` to generate documentation at `$APROMORE_HOME/target/site/apidocs/index.html`.
 
 ## Running
 ### Requirements
 - JDK 10, 9, 1.8 (Karaf isn't cleared for 11 yet)
-- [Apache Karaf](https://karaf.apache.org/) 4.2.2
+- [Apache Karaf](https://karaf.apache.org/) 4.2.3
 
 ### Procedure
-- Karaf as shipped is configured to only use Java 8 on MacOS.
-  Remove this limitation by editing the file `$KARAF_HOME/bin/inc` to remove "`-v 1.8`" from the Darwin `JAVA_HOME` setting.
 - Add a JAAS login module named "apromore", specific to your local installation.
   The example provided is the file `$APROMORE_HOME/etc/centaur.xml` for UoM's LDAP service; this file can be copied to `$KARAF_HOME/deploy/`.
 - Copy the configuration file `$APROMORE_HOME/etc/org.apromore.cfg` into `$KARAF_HOME/etc/`.
 - Execute `$KARAF_HOME/bin/karaf` to start the application server.
 - From the Karaf prompt, issue the command `feature:repo-add mvn:org.apromore/features/LATEST/xml` to add the Apromore artifacts you built previously.
 - Start Apromore using `feature:install apromore`.  You should be able to navigate to [`http://localhost:8181/index.zul`](http://localhost:8181/index.zul).
+
+### Notes
+- Karaf as shipped is configured to only use Java 1.8 on MacOS.
+  You may bypass this by editing the file `$KARAF_HOME/bin/inc` to remove "`-v 1.8`" from the Darwin `JAVA_HOME` setting.
 
 ## MySQL
 As distributed, the system creates an embedded H2 database management system.
@@ -80,9 +83,8 @@ With additional configuration, an external MySQL database management system can 
   During development, security can be traded for convenience by permitting Apromore to create its own tables.
   To do this, grant the user "apromore" the additional permissions `ALTER`, `CREATE` and `DROP`.
 
-- Edit the `META-INF/persistence.xml` files in each Eclipselink component, replacing `HSQL` with `MYSQL`.
 - Edit `feature.xml` and in the feature `apromore` replace the dependency `apromore-datasource-h2` with `apromore-datasource-mysql`.
-- Recompile the edited components.
+- Recompile the edited components, e.g. by issuing the command `mvn clean install -pl :features`.
 - Remove any pre-existing database configuration `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`.
 
 ## Securing

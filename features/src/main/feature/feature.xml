@@ -73,10 +73,6 @@
         <bundle>mvn:org.apromore/bpmn-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-bpmntk" version="1.1" description="BPMN toolkit">
-        <bundle>mvn:org.apromore/bpmntk-osgi/1.1</bundle>
-    </feature>
-
     <feature name="apromore-datasource-h2" version="1.0-SNAPSHOT" description="Apromore database on H2">
         <config name="org.ops4j.datasource-apromore">
             osgi.jdbc.driver.class=org.h2.Driver
@@ -185,7 +181,7 @@
     </feature>
 
     <feature name="apromore-metrics" version="2.0-SNAPSHOT" description="Measurement service">
-        <feature>apromore-bpmntk</feature>
+        <feature>raffaeleconforti</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/metrics-logic/2.0-SNAPSHOT</bundle>
     </feature>
@@ -197,6 +193,17 @@
         <feature>apromore-ui-spi</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/metrics-ui/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-pql-logic" version="2.0-SNAPSHOT" description="PQL process query language service">
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/pql-logic/2.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-pql-ui" version="1.0-SNAPSHOT" description="PQL user interface plugin">
+        <feature>apromore-pql-logic</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/pql-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-shell-commands" version="1.0-SNAPSHOT" description="Apromore subshell">
@@ -217,6 +224,7 @@
         <feature>apromore-ui-spi</feature>
         <feature>apromore-zk</feature>
         <feature>http-whiteboard</feature>
+        <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.runtime.HttpServiceRuntime)</requirement>
         <feature>osgi-useradmin-api</feature>
         <feature>useradmin</feature>
         <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle>
@@ -290,9 +298,9 @@
         <bundle>mvn:org.apromore/osgi-useradmin-api/6.0.0</bundle>
     </feature>
 
-    <feature name="raffaeleconforti" version="1.1" description="Process mining utilities">
+    <feature name="raffaeleconforti" version="1.2" description="Process mining utilities">
         <feature>xes</feature>
-        <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.1</bundle>
+        <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.2</bundle>
     </feature>
 
     <feature name="useradmin" version="1.0.4-SNAPSHOT" description="User Admin service">

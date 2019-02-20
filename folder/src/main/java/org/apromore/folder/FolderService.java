@@ -31,7 +31,7 @@ public interface FolderService {
      * @param parentFolder the parent folder; pass <code>null</code> to indicate
      *     the root of the folder hierarchy
      * @param name  the name of the created folder, which cannot be
-     *     <code>null</code>, empty, or already present in the <i>location</i>
+     *     <code>null</code> or already present in the <i>lparentFolder</i>
      * @param content  the initial content at the new path
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     item creation
@@ -40,6 +40,18 @@ public interface FolderService {
      */
     void createPath(Folder parentFolder, String name, Item content)
         throws NotAuthorizedException, PathAlreadyExistsException;
+
+    /**
+     * @param parentFolder the parent folder; pass <code>null</code> to indicate
+     *     the root of the folder hierarchy
+     * @param name  the name of an item in the folder, which cannot be
+     *     <code>null</code>, and must already be present in the <i>location</i>
+     * @param content  the new content at the path
+     * @throws NotAuthorizedException if the caller's credentials do not permit
+     *     item modification
+     */
+    void updatePath(Folder parentFolder, String name, Item content)
+        throws NotAuthorizedException;
 
     /**
      * @param id  primary key

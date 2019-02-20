@@ -18,6 +18,7 @@
     <module>bpmn-item-jpa-eclipselink</module>
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
+    <module>eclipse-collections-osgi</module>
     <module>features</module>
     <module>folder</module>
     <module>folder-jpa</module>
@@ -29,11 +30,13 @@
     <module>item-jpa-eclipselink</module>
     <module>item-spi</module>
     <module>item-ui</module>
+    <module>log-osgi</module>
     <module>metrics</module>
     <module>metrics-ui</module>
     <module>osgi-useradmin-api</module>
     <module>pql-logic</module>
     <module>pql-ui</module>
+    <module>raffaeleconforti</module>
     <module>shell-commands</module>
     <module>ui</module>
     <module>ui-api</module>

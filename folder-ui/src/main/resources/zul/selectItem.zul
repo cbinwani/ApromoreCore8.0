@@ -11,6 +11,7 @@
         <paging id="paging"/>
         <button id="createFolderButton" label="${labels.selectItem.createFolder}"/>
         <button id="enterFolderButton" label="${labels.selectItem.enterFolder}"/>
+        <button id="removeItemButton" label="${labels.selectItem.removeItem}"/>
       </hlayout>
       <listbox id="listbox" width="100%" vflex="1" multiple="true">
         <listhead sizable="false">

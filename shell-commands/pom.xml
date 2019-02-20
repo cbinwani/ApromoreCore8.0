@@ -18,10 +18,6 @@
       Karaf shell commands for Apromore
   </description>
 
-  <properties>
-    <karaf.version>4.2.3-SNAPSHOT</karaf.version>
-  </properties>
-
   <build>
     <plugins>
       <plugin>

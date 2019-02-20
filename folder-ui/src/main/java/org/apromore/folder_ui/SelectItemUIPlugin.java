@@ -177,6 +177,21 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             }
         });
 
+        window.getFellow("removeItemButton").addEventListener("onClick",
+            new EventListener<MouseEvent>() {
+
+            public void onEvent(final MouseEvent mouseEvent) throws Exception {
+
+                Folder folder = (Folder)
+                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+
+                for (Item selectedItem: context.getSelection()) {
+                    LOGGER.info("Removing " + selectedItem);
+                    //folderService.removePath(folder, );
+                }
+            }
+        });
+
         Listbox listbox = (Listbox) window.getFellow("listbox");
 
         listbox.setItemRenderer(new ListitemRenderer<Item>() {

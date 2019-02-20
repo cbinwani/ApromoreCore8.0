@@ -128,6 +128,20 @@ public final class FolderPluginImpl
         folderRepository.addPath(dao);
     }
 
+    @Override
+    public void updatePath(final Folder parentFolder,
+                           final String name,
+                           final Item content)
+        throws NotAuthorizedException {
+
+        throw new UnsupportedOperationException();
+        /*
+        PathDAO dao = folderRepository.findPathBy
+        dao.setItemId(content.getId());
+        folderRepository.addPath(dao);
+        */
+    }
+
     /**
      * @param parentFolder  may be <code>null</code>
      * @param name  never <code>null</code>

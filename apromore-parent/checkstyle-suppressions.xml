@@ -14,7 +14,7 @@
 
   <!-- To do: notifications, once item observer plugins are implemented -->
   <suppress checks="TodoComment" files="FolderPluginImpl.java"/>
-  <suppress checks="TodoComment" files="ItemServiceImpl.java" lines="122"/>
+  <suppress checks="TodoComment" files="ItemServiceImpl.java"/>
   <suppress checks="TodoComment" files="SelectItemUIPlugin.java"/>
 
   <!-- To do: better error handling when interacting with login modules -->

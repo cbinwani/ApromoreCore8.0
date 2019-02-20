@@ -24,6 +24,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Dependency versions -->
+    <karaf.version>4.2.3</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <zk.version>8.6.0</zk.version>
   </properties>
@@ -201,6 +202,11 @@
         <groupId>org.apromore</groupId>
         <artifactId>item-spi</artifactId>
         <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apromore</groupId>
+        <artifactId>raffaeleconforti-osgi</artifactId>
+        <version>1.2</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>

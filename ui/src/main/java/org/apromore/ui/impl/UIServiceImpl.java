@@ -62,7 +62,7 @@ public final class UIServiceImpl implements UIService {
 
     // Property accessors
 
-    /** @param newLoginConfigurationName  JASS login configuration name */
+    /** @param newLoginConfigurationName  JAAS login configuration name */
     public void setLoginConfigurationName(
         final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
