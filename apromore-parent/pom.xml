@@ -24,23 +24,10 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Dependency versions -->
-    <karaf.version>4.2.3</karaf.version>
+    <karaf.version>4.2.4</karaf.version>
     <osgi.version>6.0.0</osgi.version>
-    <zk.version>8.6.0</zk.version>
+    <zk.version>8.6.0.1</zk.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>ZK CE</id>
-      <name>ZK CE Repository</name>
-      <url>http://mavensync.zkoss.org/maven2</url>
-    </repository>
-    <repository>
-      <id>ApromoreDev.mvn-repo</id>
-      <name>Maven repository for JARs specific to the Apromore project</name>
-      <url>https://raw.github.com/apromore/ApromoreDev/master/mvn-repo/</url>
-    </repository>
-  </repositories>
 
   <build>
     <pluginManagement>

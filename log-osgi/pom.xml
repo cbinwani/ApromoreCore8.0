@@ -109,12 +109,12 @@
         <dependency>
             <groupId>org.deckfour.xes</groupId>
             <artifactId>OpenXES</artifactId>
-            <version>6.5.20170418</version>
+            <version>6.5.20180622</version>
         </dependency>
         <dependency>
             <groupId>org.deckfour.xes</groupId>
             <artifactId>spex</artifactId>
-            <version>6.5.20170418</version>
+            <version>6.5.20180622</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.collections</groupId>
