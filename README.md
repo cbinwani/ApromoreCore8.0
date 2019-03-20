@@ -38,11 +38,13 @@ Development has been done on MacOS 10.14 "Mojave", but theoretically only the fo
 - Copy the configuration file `$APROMORE_HOME/etc/org.apromore.cfg` into `$KARAF_HOME/etc/`.
 - Execute `$KARAF_HOME/bin/karaf` to start the application server.
 - From the Karaf prompt, issue the command `feature:repo-add mvn:org.apromore/features/LATEST/xml` to add the Apromore artifacts you built previously.
-- Start Apromore using `feature:install apromore`.  You should be able to navigate to [`http://localhost:8181/index.zul`](http://localhost:8181/index.zul).
-  Karaf's default credentials are: username "karaf", password "karaf".
+- Start Apromore using `feature:install apromore`.  This should not take more than a minute.
 
 ### Notes
-- The server log is in `$KARAF_HOME/data/log/karaf.log`.
+- The application landing page is [`http://localhost:8181/index.zul`](http://localhost:8181/index.zul).
+- By default there is one user named "karaf" with password "karaf".
+  This can be changed by editing `$KARAF_HOME/etc/users.properties`.
+- The server log is `$KARAF_HOME/data/log/karaf.log`.
 - Karaf as shipped is configured to only use Java 1.8 on MacOS.
   You may bypass this by editing the file `$KARAF_HOME/bin/inc` to remove "`-v 1.8`" from the Darwin `JAVA_HOME` setting.
 
@@ -88,6 +90,9 @@ With additional configuration, an external MySQL database management system can 
 - Remove any pre-existing database configuration `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`.
 - Use `feature:add-repo` and `feature-install` as described in the previous section to start Apromore.
 
+### Notes
+- To use a different database password, name, or user: edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and modify the contents of the element `<feature name="apromore-datasource-mysql">`.
+
 
 ## LDAP
 These instructions are specific to the University of Melbourne's central authentication server, but should provide a reasonable example for other LDAP services.
@@ -106,7 +111,7 @@ VM-level sandboxing for OSGi bundles is supported.
 Add the following requirements and procedure to **Running**.
 
 ### Requirements
-Only if you require bundles to be cryptographically signed, create a JKS keystore `truststore.ks` in `$KARAF_HOME/etc/`.
+- Only if you require bundles to be cryptographically signed, a JKS keystore `truststore.ks` in `$KARAF_HOME/etc/`
 
 ### Procedure
 - Create a Java security policy file `apromore.policy` based on the example `$APROMORE_HOME/etc/apromore.policy`.
@@ -136,23 +141,27 @@ Only if you require bundles to be cryptographically signed, create a JKS keystor
 The [Process Query Language](http://processquerying.com/pql/) allows process models to be selected by their behavioral properties.
 
 ### Requirements
-PQL requires a MySQL database; it has MySQL-specific stored procedures.
-PQL must run under Java 1.8; the Lucene indexer will fail otherwise.
+- MySQL; PQL uses MySQL-specific stored procedures.
+- JRE 8; the Lucene indexer will fail on other Java versions.
 
 ### Procedure
 - Create the PQL database:
-   ```
-   mysql --user=root --password=MAcri
+
+  ```
+  mysql --user=root --password=MAcri
         CREATE USER 'pql_master'@'localhost' IDENTIFIED BY '123456';
         GRANT SELECT, INSERT, UPDATE, DELETE, LOCK TABLES, EXECUTE, SHOW VIEW, ALTER ON pql.* TO 'pql_master'@'localhost';
   ```
+
 - Check out the repository: `git clone https://github.com/processquerying/PQL.git` followed by `git checkout locations`.
 - Edit `PQL/PQL.ini` to substitute "newpql" with "pql?noAccessToProcedureBodies=true".
 - Edit `PQL/sql/PQL.MySQL-1.3.sql` to substitute "%" with "localhost".
 - Load the SQL tables:
+
   ```
   mysql --user=root --password=MAcri < PQL/sql/PQL.MySQL-1.3.sql
   ```
+
 - Comment out tests 11-21 in `test/org/pql/test/PQLTest.java`.
 - Execute `mvn clean test` which has the side effect of indexing the test data.
 - Check out the repository: `git clone https://github.com/processquerying/PQL-UI.git`.
@@ -162,6 +171,7 @@ PQL must run under Java 1.8; the Lucene indexer will fail otherwise.
 - Browse [locahost:8080/pql_zk](http://localhost:8080/pql_zk/).
 
 Then magic doesn't yet happen, and:
+
 - Start Apromore.
 - From the Karaf prompt, issue the command `feature:install apromore-pql-ui`.
   "Query with PQL" should become available as a new option under the "Analyze" menu.
