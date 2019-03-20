@@ -1,5 +1,4 @@
-USE `apromore2`;
-
+-- This is required to allow large predictive monitoring ML models to be uploaded
 SET GLOBAL max_allowed_packet=1073741824;
 
 SET FOREIGN_KEY_CHECKS=0;

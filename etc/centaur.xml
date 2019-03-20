@@ -6,7 +6,7 @@
 
 <!-- See https://karaf.apache.org/manual/latest/#_schema -->
 
-<jaas:config name="apromore">
+<jaas:config name="centaur">
   <jaas:module className="org.apache.karaf.jaas.modules.ldap.LDAPLoginModule" flags="required">
         connection.url = ldaps://centaur.unimelb.edu.au
         user.base.dn = ou=people,o=unimelb
