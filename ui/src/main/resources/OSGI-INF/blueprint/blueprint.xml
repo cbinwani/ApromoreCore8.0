@@ -23,7 +23,9 @@
     </bean>
 
     <!-- Imported services -->
+    <!-- Custom database-backed user admin service not yet implemented
     <reference id="userAdmin" interface="org.osgi.service.useradmin.UserAdmin"/>
+    -->
 
     <!-- Tools are installed in the menubar and can use the selection to obtain Items they require as input. -->
     <bean id="uiPluginListener" class="org.apromore.ui.impl.UIPluginListener"/>
@@ -35,7 +37,7 @@
     <service interface="org.apromore.ui.UIService">
         <bean class="org.apromore.ui.impl.UIServiceImpl">
             <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
-            <property name="userAdmin" ref="userAdmin"/>
+            <!-- <property name="userAdmin" ref="userAdmin"/> -->
             <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
         </bean>
     </service>
