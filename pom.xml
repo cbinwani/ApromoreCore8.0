@@ -1,13 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.apromore</groupId>
   <artifactId>apromore</artifactId>
-  <packaging>pom</packaging>
   <version>8.0-SNAPSHOT</version>
-  <name>Apromore</name>
-  <description>A top-level target for building the various Apromore modules.</description>
+  <packaging>pom</packaging>
 
+  <name>Apromore</name>
+  <description>Apromore is a web-based business process analytics platform.</description>
+  <url>https://apromore.cis.unimelb.edu.au</url>
   <inceptionYear>2018</inceptionYear>
 
   <modules>
@@ -51,15 +54,22 @@
     <license>
       <name>GNU Lesser General Public License, Version 3.0</name>
       <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
-      <distribution>repo</distribution>
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <name>Simon Raboczi</name>
+      <email>simon.raboczi@unimelb.edu.au</email>
+      <organization>Apromore Initiative</organization>
+      <organizationUrl>http://apromore.org</organizationUrl>
+    </developer>
+  </developers>
+
   <scm>
-    <connection>scm:git:https://github.com/apromore/ApromoreCore8.0.git</connection>
-    <developerConnection>scm:git:https://github.com/apromore/ApromoreCore8.0.git</developerConnection>
-    <url>https://github.com/apromore/ApromoreCore8.0</url>
-    <tag>HEAD</tag>
+    <connection>scm:git:git://github.com/apromore/ApromoreCore8.0.git</connection>
+    <developerConnection>scm:git:ssh://github.com:apromore/ApromoreCore8.0.git</developerConnection>
+    <url>https://github.com/apromore/ApromoreCore8.0/tree/master</url>
   </scm>
 
   <mailingLists>
