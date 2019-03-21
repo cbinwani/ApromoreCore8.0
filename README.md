@@ -47,6 +47,8 @@ Development has been done on MacOS 10.14 "Mojave", but theoretically only the fo
 - The server log is `$KARAF_HOME/data/log/karaf.log`.
 - Karaf as shipped is configured to only use Java 1.8 on MacOS.
   You may bypass this by editing the file `$KARAF_HOME/bin/inc` to remove "`-v 1.8`" from the Darwin `JAVA_HOME` setting.
+- To manually reset the system, remove the contents of `$KARAF_HOME/data/`, the file `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`, and the H2 database files `$KARAF_HOME/apromore.h2.db` and `$KARAF_HOME/apromore.trace.db`.
+  
 
 
 ## MySQL
