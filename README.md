@@ -50,8 +50,6 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - By default there is one user named "karaf" with password "karaf".
   This can be changed by editing `$KARAF_HOME/etc/users.properties`.
 - The server log is `$KARAF_HOME/data/log/karaf.log`.
-- Karaf as shipped is configured to only use Java 1.8 on MacOS.
-  You may bypass this by editing the file `$KARAF_HOME/bin/inc` to remove "`-v 1.8`" from the Darwin `JAVA_HOME` setting.
 - To manually reset the Apromore application, remove the following files:
   - `$KARAF_HOME/apromore.h2.db`
   - `$KARAF_HOME/apromore.trace.db`
