@@ -37,6 +37,9 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 
 ### Procedure
 - Copy the configuration file `$APROMORE_HOME/etc/org.apromore.cfg` into `$KARAF_HOME/etc/`.
+- Running under JRE 8 will normally fail (BPMN documents will fail to import) because it has an earlier version of the JAXB library (2.2.8).
+  You may work around this problem by replacing `$KARAF_HOME/etc/jre.properties` with `APROMORE_HOME/etc/jre.properties`.
+  This will force the use of JAXB 2.3.1 under JRE 8.
 - Execute `$KARAF_HOME/bin/karaf` to start the application server.
 - From the Karaf prompt, issue the command `feature:repo-add mvn:org.apromore/features/LATEST/xml` to add the Apromore artifacts you built previously.
 - Start Apromore using `feature:install apromore`.  This should not take more than a minute.
