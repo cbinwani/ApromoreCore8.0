@@ -34,7 +34,7 @@
     <module>item-spi</module>
     <module>item-ui</module>
     <module>log-osgi</module>
-    <module>metrics</module>
+    <module>metrics-logic</module>
     <module>metrics-ui</module>
     <module>osgi-useradmin-api</module>
     <module>pql-logic</module>
