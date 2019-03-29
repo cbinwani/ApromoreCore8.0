@@ -21,7 +21,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - [Apache Maven](https://maven.apache.org/) 3.6.0
 
 ### Procedure
-- Obtain Raffaele Conforti's research code repository using `git clone https://github.com/raffaeleconforti/ResearchCode.git`.
+- Obtain the Apromore fork of Raffaele Conforti's research code repository using `git clone https://github.com/apromore/ResearchCode.git`.
 - Enter the `ResearchCode` directory and build it using `mvn clean install`.
 - Obtain the Apromore source tree using `git clone https://github.com/apromore/ApromoreCore8.0.git`.
 - Enter the `ApromoreCore8.0` directory (henceforth `$APROMORE_HOME`) and execute `mvn clean install`.
@@ -49,12 +49,14 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
   Beware that `http://localhost:8181/` does not redirect to the landing page.
 - By default there is one user named "karaf" with password "karaf".
   This can be changed by editing `$KARAF_HOME/etc/users.properties`.
+- You can install an administrative web console by issuing the command `feature:install webconsole`.
+  The web console landing page is [`http://localhost:8181/system/console`](http://localhost:8181/system/console).
 - The server log is `$KARAF_HOME/data/log/karaf.log`.
 - To manually reset the Apromore application, remove the following files:
   - `$KARAF_HOME/apromore.h2.db`
   - `$KARAF_HOME/apromore.trace.db`
   - `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`
-- To manually reset the Karaf server, remove the contents of `$KARAF_HOME/data/`.
+- To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
   
 
 
