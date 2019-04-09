@@ -42,9 +42,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.raffaeleconforti</groupId>
-      <artifactId>assembly</artifactId>
-      <version>1.0.20180831</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>raffaeleconforti-osgi</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
@@ -63,6 +67,13 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+    <!--
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>OpenXES</artifactId>
+      <version>2.0</version>
+    </dependency>
+    -->
     <dependency>
       <groupId>org.apromore</groupId>
       <artifactId>item-api</artifactId>

@@ -42,11 +42,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.raffaeleconforti</groupId>
-      <artifactId>assembly</artifactId>
-      <version>1.0.20180831</version>
-    </dependency>
-    <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>javax.persistence-api</artifactId>
     </dependency>
