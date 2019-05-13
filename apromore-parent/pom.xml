@@ -29,6 +29,13 @@
     <zk.version>8.6.0.1</zk.version>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>project-repository</id>
+      <url>file://${project.basedir}/../repository</url>
+    </repository>
+  </repositories>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -209,6 +216,16 @@
         <groupId>org.apromore</groupId>
         <artifactId>xes-item-jpa</artifactId>
         <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.deckfour</groupId>
+        <artifactId>openxes</artifactId>
+        <version>2.26</version>
+      </dependency>
+      <dependency>
+        <groupId>org.deckfour</groupId>
+        <artifactId>spex</artifactId>
+        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>

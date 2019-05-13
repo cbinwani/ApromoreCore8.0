@@ -1,0 +1,130 @@
+<!--
+  ~ Copyright © 2009-2018 The Apromore Initiative.
+  ~
+  ~ This file is part of "Apromore".
+  ~
+  ~ "Apromore" is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ "Apromore" is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty
+  ~ of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this program.
+  ~ If not, see <http://www.gnu.org/licenses/lgpl-3.0.html>.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.apromore</groupId>
+        <artifactId>apromore-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../apromore-parent</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>prom6-osgi</artifactId>
+    <version>6.5.20180622</version>
+    <packaging>bundle</packaging>
+    <name>Apromore :: prom6-osgi</name>
+    <description>ProM6 OSGi wrapper</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Embed-Dependency>bsh|bpmn|jgraph|prom6-*|slickerbox1|uitopia|widgets</Embed-Dependency>
+                        <Embed-Directory>OSGI-INF/lib</Embed-Directory>
+                        <Import-Package>
+                            !com.sun.management,
+                            !info.clearthought.layout,
+                            !jargs.gnu,
+                            !junit.framework,
+                            !org.apache.bsf.*,
+                            !org.apache.commons.compress.archivers.zip,
+                            !org.apache.commons.io,
+                            !org.freehep.*,
+                            !org.junit.*,
+                            !sun.management,
+                            *
+                        </Import-Package>
+                        <Export-Package>
+                            !*.class-use,
+                            <!-- com.fluxicon.slickerbox.*,
+                            org.deckfour.uitopia.*, -->
+                            org.processmining.*,
+                            !org.processmining.contexts.test
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>bsh</groupId>
+            <artifactId>bsh</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deckfour</groupId>
+            <artifactId>openxes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>bpmn</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>jgraph</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>prom6-contexts</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>prom6-framework</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>prom6-models</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>prom6-plugins</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>slickerbox1</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>uitopia</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>widgets</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+    </dependencies>
+</project>

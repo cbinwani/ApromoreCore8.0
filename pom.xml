@@ -14,8 +14,6 @@
   <inceptionYear>2018</inceptionYear>
 
   <modules>
-    <module>Codebases/OpenXES-2.0</module>
-    <module>Codebases/Spex-1.0</module>
     <module>apromore-parent</module>
     <module>bpmn-diagram-importer</module>
     <module>bpmn-item</module>
@@ -35,14 +33,16 @@
     <module>item-jpa-eclipselink</module>
     <module>item-spi</module>
     <module>item-ui</module>
-    <module>log-osgi</module>
     <module>metrics-logic</module>
     <module>metrics-ui</module>
+    <module>openxes-osgi</module>
     <module>osgi-useradmin-api</module>
     <module>pql-logic</module>
     <module>pql-ui</module>
+    <module>prom6-osgi</module>
     <module>raffaeleconforti</module>
     <module>shell-commands</module>
+    <module>spex-osgi</module>
     <module>ui</module>
     <module>ui-api</module>
     <module>ui-spi</module>

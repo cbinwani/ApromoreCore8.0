@@ -30,7 +30,7 @@
 
     <feature name="apromore-bpmn-diagram-importer" version="2.0-SNAPSHOT" description="Parse BPMN into ProM graph">
         <feature>apromore-bpmn-schema</feature>
-        <feature>raffaeleconforti</feature>
+        <feature>prom6</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/bpmndiagramimporter-logic/2.0-SNAPSHOT</bundle>
     </feature>
@@ -245,7 +245,7 @@
     <feature name="apromore-xes-item" version="1.0-SNAPSHOT" description="Apromore XES item provider">
         <feature>apromore-xes-item-jpa</feature>
         <feature>scr</feature>
-        <feature>xes</feature>
+        <feature>openxes</feature>
         <bundle>mvn:org.apromore/xes-item/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -281,16 +281,13 @@
         <bundle>mvn:com.google.guava/guava/14.0.1</bundle>
     </feature>
 
-    <!--
-    <feature name="lpsolve" version="1.0" description="Linear programming solver">
-        <bundle>mvn:org.apromore/lpsolve-osgi/1.1</bundle>
+    <feature name="openxes" version="2.26" description="OpenXES log utilities">
+        <feature>eclipse-collections</feature>
+        <feature>guava</feature>
+        <feature>spex</feature>
+        <feature>xstream</feature>
+        <bundle>mvn:org.apromore/openxes-osgi/2.26</bundle>
     </feature>
-
-    <feature name="prom" version="6.5.20170418" description="Process mining utilities">
-        <feature>lpsolve</feature>
-        <bundle>mvn:org.apromore/prom6-osgi/6.0</bundle>
-    </feature>
-    -->
 
     <feature name="osgi-useradmin-api" version="6.0.0" description="OSGi R6 User Admin API">
         <feature>http</feature>
@@ -298,9 +295,19 @@
         <bundle>mvn:org.apromore/osgi-useradmin-api/6.0.0</bundle>
     </feature>
 
+    <feature name="prom6" version="6.5.20180622" description="Process Mining library">
+        <feature>http</feature>
+        <feature>openxes</feature>
+        <bundle>mvn:org.apromore/prom6-osgi/6.5.20180622</bundle>
+    </feature>
+
     <feature name="raffaeleconforti" version="1.2" description="Process mining utilities">
-        <feature>xes</feature>
+        <feature>openxes</feature>
         <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.2</bundle>
+    </feature>
+
+    <feature name="spex" version="1.0" description="XML serializer library">
+        <bundle>mvn:org.apromore/spex-osgi/1.0</bundle>
     </feature>
 
     <feature name="useradmin" version="1.0.4-SNAPSHOT" description="User Admin service">
@@ -313,13 +320,6 @@
         <feature>osgi-useradmin-api</feature>
         <feature>useradmin</feature>
         <bundle>mvn:org.apache.felix/org.apache.felix.useradmin.filestore/1.0.3-SNAPSHOT</bundle>
-    </feature>
-
-    <feature name="xes" version="6.5.20170418" description="OpenXES log utilities">
-        <feature>eclipse-collections</feature>
-        <feature>guava</feature>
-        <feature>xstream</feature>
-        <bundle>mvn:org.apromore/log-osgi/1.1</bundle>
     </feature>
 
     <feature name="xpp" version="1.1.4-c_7" description="XML pull parser">
