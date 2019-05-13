@@ -94,7 +94,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.0.1</version>
           <configuration>
-            <additionalOptions>-html5</additionalOptions>
+            <!-- <additionalOptions>-html5</additionalOptions> -->
             <docfilessubdirs>true</docfilessubdirs>
             <links>
               <link>https://docs.oracle.com/javase/9/docs/api</link> <!-- TODO: update to current JDK once Oracle fixes their package-list -->

@@ -8,7 +8,7 @@ import org.apache.karaf.shell.support.table.ShellTable;
 import org.osgi.service.useradmin.UserAdmin;
 
 /**
- * Command <kbd>apromore:list-users</kbd> for the Karaf shell.
+ * Command <code>apromore:list-users</code> for the Karaf shell.
  */
 @Service
 @Command(scope       = "apromore",
