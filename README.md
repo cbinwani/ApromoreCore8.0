@@ -25,7 +25,6 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - Enter the `ResearchCode` directory and build it using `mvn clean install`.
 - Obtain the Apromore source tree using `git clone https://github.com/apromore/ApromoreCore8.0.git`.
 - Enter the `ApromoreCore8.0` directory (henceforth `$APROMORE_HOME`) and execute `mvn clean install`.
-- Optionally on Java 9 or later, execute `mvn javadoc:aggregate` to generate source documentation.
 
 ### Notes
 - The source documentation landing page is `$APROMORE_HOME/target/site/apidocs/index.html`.
@@ -33,10 +32,9 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 ## Running
 ### Requirements
 - JRE 8, 9, 10, or 11 (prefer [OpenJDK](https://openjdk.java.net) rather than the Oracle JDK for licensing reasons)
-- [Apache Karaf](https://karaf.apache.org/) 4.2.4 unpacked at an arbitrary directory `$KARAF_HOME`
+- [Apache Karaf](https://karaf.apache.org/) 4.2.5 unpacked at an arbitrary directory `$KARAF_HOME`
 
 ### Procedure
-- Copy the configuration file `$APROMORE_HOME/etc/org.apromore.cfg` into `$KARAF_HOME/etc/`.
 - Running under JRE 8 will normally fail (BPMN documents will fail to import) because it has an earlier version of the JAXB library (2.2.8).
   You may work around this problem by replacing `$KARAF_HOME/etc/jre.properties` with `APROMORE_HOME/etc/jre.properties`.
   This will force the use of JAXB 2.3.1 under JRE 8.
@@ -57,7 +55,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
   - `$KARAF_HOME/apromore.trace.db`
   - `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`
 - To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
-  
+- Execute `mvn javadoc:aggregate` to generate source documentation at `$APROMORE_HOME/target/site/apidocs/index.html`.
 
 
 ## MySQL
@@ -117,4 +115,4 @@ These instructions use the University of Melbourne's central authentication serv
 ### Procedure
 - Copy the file `$APROMORE_HOME/etc/centaur.xml` to `$KARAF_HOME/deploy/`.
   This provides a JAAS login module named "centaur" backed by the University of Melbourne's central authentication server.
-- Edit `KARAF_HOME/etc/org.apromore.cfg` and change the property `jaas.loginConfigurationName` to `centaur`.
+- Edit `KARAF_HOME/etc/org.apromore.cfg` and change the property `jaas.loginConfigurationName` to `centaur` and copy it into `$KARAF_HOME/etc/`.

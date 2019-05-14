@@ -31,7 +31,6 @@
           <instructions>
             <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
             <Import-Package>
-              org.osgi.service.useradmin; version="[1.1,2.0)",
               *
             </Import-Package>
             <DynamicImport-Package>
@@ -79,11 +78,11 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>ui-api</artifactId>
+      <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>ui-spi</artifactId>
+      <artifactId>user-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>

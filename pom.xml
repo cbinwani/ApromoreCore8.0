@@ -44,8 +44,10 @@
     <module>shell-commands</module>
     <module>spex-osgi</module>
     <module>ui</module>
-    <module>ui-api</module>
     <module>ui-spi</module>
+    <module>user-api</module>
+    <module>user-logic</module>
+    <module>user-ui</module>
     <module>xes-item</module>
     <module>xes-item-jpa</module>
     <module>xes-item-jpa-eclipselink</module>
@@ -94,7 +96,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.0.1</version>
           <configuration>
-            <!-- <additionalOptions>-html5</additionalOptions> -->
+            <!-- <additionalOptions>-html5</additionalOptions>  Option only supported in JDK 9+ -->
             <docfilessubdirs>true</docfilessubdirs>
             <links>
               <link>https://docs.oracle.com/javase/9/docs/api</link> <!-- TODO: update to current JDK once Oracle fixes their package-list -->

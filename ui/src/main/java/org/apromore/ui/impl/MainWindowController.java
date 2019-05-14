@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apromore.item.Item;
-import org.apromore.item.User;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.user.User;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.blueprint.container.BlueprintContainer;
@@ -46,6 +46,11 @@ public final class MainWindowController extends SelectorComposer<Component>
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MainWindowController.class);
+
+    /** Magically know where UserService stores the authenticated user. */
+    @SuppressWarnings("checkstyle:TodoComment")
+    private static final String ZK_SESSION_USER_ATTRIBUTE = "user";
+        // TODO: Inject UserService instead of magically knowing this
 
     /** The menubar. */
     @Wire
@@ -211,8 +216,7 @@ public final class MainWindowController extends SelectorComposer<Component>
 
             @Override
             public User getUser() {
-                return (User) getSessionAttribute(
-                    UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE);
+                return (User) getSessionAttribute(ZK_SESSION_USER_ATTRIBUTE);
             }
 
             @Override
@@ -222,8 +226,7 @@ public final class MainWindowController extends SelectorComposer<Component>
                     ? "User logged out"
                     : "User logged in: " + newUser.getId());
 
-                putSessionAttribute(UIServiceImpl.ZK_SESSION_USER_ATTRIBUTE,
-                    newUser);
+                putSessionAttribute(ZK_SESSION_USER_ATTRIBUTE, newUser);
 
                 generateMenubar(menubar, parent, selection,
                     getUIPluginContext());

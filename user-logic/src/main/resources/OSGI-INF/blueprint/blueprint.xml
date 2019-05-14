@@ -1,0 +1,26 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+
+    <!-- Configuration from $KARAF_HOME/etc/org.apromore.cfg -->
+    <cm:property-placeholder persistent-id="org.apromore" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="jaas.loginConfigurationName" value="karaf"/>
+            <cm:property name="jaas.userPrincipalClass" value="org.apache.karaf.jaas.boot.principal.UserPrincipal"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <!-- Imported services -->
+    <!-- Custom database-backed user admin service not yet implemented
+    <reference id="userAdmin" interface="org.osgi.service.useradmin.UserAdmin"/>
+    -->
+
+    <!-- User service -->
+    <service interface="org.apromore.user.UserService">
+        <bean class="org.apromore.user.impl.UserServiceImpl">
+            <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
+            <!-- <property name="userAdmin" ref="userAdmin"/> -->
+            <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
+        </bean>
+    </service>
+
+</blueprint>

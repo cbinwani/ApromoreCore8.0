@@ -51,11 +51,11 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>ui-api</artifactId>
+      <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>ui-spi</artifactId>
+      <artifactId>user-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>

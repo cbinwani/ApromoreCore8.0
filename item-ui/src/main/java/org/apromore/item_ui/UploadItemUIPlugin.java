@@ -4,10 +4,10 @@ import java.io.IOException;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
-import org.apromore.ui.UIService;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.user.UserService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
      * unauthenticated.
      */
     @Reference
-    private UIService uiService;
+    private UserService userService;
 
     /** Sole constructor. */
     public UploadItemUIPlugin() {
@@ -67,7 +67,7 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        uiService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
+        userService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
             new Runnable() {
 
             /**

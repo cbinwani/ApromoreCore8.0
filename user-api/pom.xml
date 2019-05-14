@@ -10,12 +10,12 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>ui-spi</artifactId>
+  <artifactId>user-api</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: ui-spi</name>
+  <name>Apromore :: user-api</name>
   <description>
-     SPI for adding item viewers and menu items to the user interface.
+    Offers services related to user management.
   </description>
 
   <build>
@@ -23,16 +23,10 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
         <configuration>
-          <unpackBundle>false</unpackBundle>
           <instructions>
-            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
-            <Import-Package>
-              *
-            </Import-Package>
             <Export-Package>
-              org.apromore.ui.spi
+              org.apromore.user
             </Export-Package>
           </instructions>
         </configuration>
@@ -42,20 +36,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apromore</groupId>
       <artifactId>item-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>user-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-    </dependency>
-  </dependencies>
+  </dependencies> 
 </project>

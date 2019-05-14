@@ -3,7 +3,7 @@ package org.apromore.ui.spi;
 import java.util.Map;
 import java.util.Set;
 import org.apromore.item.Item;
-import org.apromore.item.User;
+import org.apromore.user.User;
 import org.zkoss.zk.ui.Component;
 
 /**

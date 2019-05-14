@@ -33,15 +33,6 @@
         <reference-listener ref="uiPluginListener" bind-method="onBind" unbind-method="onUnbind"/>
     </reference-list>
 
-    <!-- User interface service -->
-    <service interface="org.apromore.ui.UIService">
-        <bean class="org.apromore.ui.impl.UIServiceImpl">
-            <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
-            <!-- <property name="userAdmin" ref="userAdmin"/> -->
-            <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
-        </bean>
-    </service>
-
     <!-- ZK listener for cleanup when a session is destroyed -->
     <service interface="javax.servlet.http.HttpSessionListener">
         <service-properties>
