@@ -55,7 +55,6 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
   - `$KARAF_HOME/apromore.trace.db`
   - `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`
 - To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
-- Execute `mvn javadoc:aggregate` to generate source documentation at `$APROMORE_HOME/target/site/apidocs/index.html`.
 
 
 ## MySQL
