@@ -6,17 +6,17 @@
  
 <suppressions>
   <!-- The following classes are designed to be subclassed. -->
-  <suppress checks="DesignForExtension" files="AbstractUIPlugin.java"/>
-  <suppress checks="DesignForExtension" files="ItemWrapper.java"/>
+  <suppress checks="DesignForExtension" files="AbstractUIPlugin\.java"/>
+  <suppress checks="DesignForExtension" files="ItemWrapper\.java"/>
 
   <!-- Citing an external URL in a doc comment that can't be line-broken -->
-  <suppress checks="LineLength" files="CustomZULComponent.java" lines="8"/>
+  <suppress checks="LineLength" files="CustomZULComponent\.java" lines="8"/>
 
   <!-- To do: notifications, once item observer plugins are implemented -->
-  <suppress checks="TodoComment" files="FolderPluginImpl.java"/>
-  <suppress checks="TodoComment" files="ItemServiceImpl.java"/>
-  <suppress checks="TodoComment" files="SelectItemUIPlugin.java"/>
+  <suppress checks="TodoComment" files="FolderPluginImpl\.java"/>
+  <suppress checks="TodoComment" files="ItemServiceImpl\.java"/>
+  <suppress checks="TodoComment" files="SelectItemUIPlugin\.java"/>
 
   <!-- To do: better error handling when interacting with login modules -->
-  <suppress checks="TodoComment" files="UIServiceImpl.java"/>
+  <suppress checks="TodoComment" files="UIServiceImpl\.java"/>
 </suppressions>
