@@ -35,7 +35,7 @@
     <version>2.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Apromore :: BPMN diagram parser service</name>
-    <inceptionYear>2012</inceptionYear>
+    <inceptionYear>2015</inceptionYear>
 
     <build>
         <plugins>
