@@ -37,6 +37,7 @@
     <packaging>bundle</packaging>
     <name>Apromore :: metrics-ui</name>
     <description>Metrics tool user interface</description>
+    <inceptionYear>2016</inceptionYear>
 
     <build>
         <plugins>
