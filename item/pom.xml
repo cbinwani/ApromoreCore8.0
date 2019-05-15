@@ -17,6 +17,7 @@
   <description>
       An item is any kind of durable and owned asset, e.g. a process model, event log, or folder.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

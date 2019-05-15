@@ -17,6 +17,7 @@
   <description>
      SPI for adding item viewers and menu items to the user interface.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

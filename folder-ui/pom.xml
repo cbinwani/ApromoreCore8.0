@@ -17,6 +17,7 @@
   <description>
      UI for operations on folders and their contents.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

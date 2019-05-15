@@ -19,6 +19,7 @@
     Presents a desktop for organizing and selecting the various content types (e.g. models, logs) provided by content plugins.
     Presents a menubar dynamically populated by menu items to access tool plugins.
   </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>

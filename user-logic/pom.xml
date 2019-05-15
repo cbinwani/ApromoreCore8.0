@@ -17,6 +17,7 @@
   <description>
       User management services.
   </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>

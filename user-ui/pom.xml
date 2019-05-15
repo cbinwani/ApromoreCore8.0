@@ -17,6 +17,7 @@
   <description>
      UI for operations manipulating users.
   </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>

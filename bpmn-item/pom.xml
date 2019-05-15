@@ -17,6 +17,7 @@
   <description>
      BPMN process models as Apromore items.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

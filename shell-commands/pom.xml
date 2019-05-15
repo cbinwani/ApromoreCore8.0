@@ -17,6 +17,7 @@
   <description>
       Karaf shell commands for Apromore
   </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>

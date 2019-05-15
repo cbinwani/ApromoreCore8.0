@@ -20,6 +20,8 @@
   <properties>
     <java.source.version>1.8</java.source.version>
     <java.target.version>${java.source.version}</java.target.version>
+    <license.licenseName>lgpl_v3</license.licenseName>
+    <license.organizationName>The Apromore Initiative</license.organizationName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -89,6 +91,30 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.20</version>
+        <configuration>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+          <!-- Because package doc comments precede the package declaration, the license plugin's remove-file-header goal breaks them. -->
+          <excludes>
+            <exclude>**/package-info.java</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>update-file-header</id>
+            <goals>
+              <goal>update-file-header</goal>
+            </goals>
+            <phase>process-sources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- license:update-file-header before checkstyle -->
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>3.0.0</version>
@@ -102,7 +128,7 @@
         <executions>
           <execution>
             <id>validate</id>
-            <phase>validate</phase>
+            <phase>process-sources</phase>
             <configuration>
               <configLocation>checkstyle.xml</configLocation>
               <encoding>UTF-8</encoding>

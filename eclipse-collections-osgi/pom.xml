@@ -33,6 +33,7 @@
     <artifactId>eclipse-collections-osgi</artifactId>
     <version>1.1</version>
     <packaging>bundle</packaging>
+    <inceptionYear>2018</inceptionYear>
 
     <build>
         <plugins>

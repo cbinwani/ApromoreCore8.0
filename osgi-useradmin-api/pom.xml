@@ -17,6 +17,7 @@
   <description>
       Just the org.osgi.service.useradmin.* packages from OSGi R6.
   </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>

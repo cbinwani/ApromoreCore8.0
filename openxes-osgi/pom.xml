@@ -34,6 +34,7 @@
     <packaging>bundle</packaging>
     <name>Apromore :: openxes-osgi</name>
     <description>OpenXES OSGi wrapper</description>
+    <inceptionYear>2019</inceptionYear>
 
     <build>
         <plugins>

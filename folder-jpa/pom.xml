@@ -17,6 +17,7 @@
   <description>
       JPA persistence layer for folders.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

@@ -14,7 +14,6 @@
   <inceptionYear>2018</inceptionYear>
 
   <modules>
-    <module>apromore-parent</module>
     <module>bpmn-diagram-importer</module>
     <module>bpmn-item</module>
     <module>bpmn-item-jpa</module>

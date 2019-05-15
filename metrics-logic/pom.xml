@@ -36,6 +36,7 @@
     <packaging>bundle</packaging>
     <name>Apromore :: metrics</name>
     <description>Calculates scalar statistics for process models and event logs</description>
+    <inceptionYear>2016</inceptionYear>
 
     <build>
         <plugins>

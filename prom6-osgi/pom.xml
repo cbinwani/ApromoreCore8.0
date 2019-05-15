@@ -34,6 +34,7 @@
     <packaging>bundle</packaging>
     <name>Apromore :: prom6-osgi</name>
     <description>ProM6 OSGi wrapper</description>
+    <inceptionYear>2019</inceptionYear>
 
     <build>
         <plugins>

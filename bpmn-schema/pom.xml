@@ -36,6 +36,7 @@
     <packaging>bundle</packaging>
     <url>http://apromore.org/</url>
     <name>Apromore :: BPMN Schema</name>
+    <inceptionYear>2012</inceptionYear>
 
     <dependencies>
         <dependency>

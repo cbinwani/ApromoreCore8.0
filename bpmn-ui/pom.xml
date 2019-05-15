@@ -17,6 +17,7 @@
   <description>
      Adapts bpmn.io's BPMN editor as an Apromore item viewer.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

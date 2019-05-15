@@ -34,6 +34,7 @@
     <packaging>bundle</packaging>
     <name>Apromore :: spex-osgi</name>
     <description>Spex OSGi wrapper</description>
+    <inceptionYear>2019</inceptionYear>
 
     <build>
         <plugins>

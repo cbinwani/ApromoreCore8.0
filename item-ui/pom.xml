@@ -17,6 +17,7 @@
   <description>
      UI for operations applicable to any item.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

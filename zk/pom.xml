@@ -17,6 +17,7 @@
   <description>
     Bundlized version of the ZK web libraries.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <properties>
     <embedded.dependencies>atlantic|commons-fileupload|commons-io|javassist|sapphire|silvertail|zcommon|zel|zk|zul|zweb</embedded.dependencies>

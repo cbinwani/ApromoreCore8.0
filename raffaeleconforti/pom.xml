@@ -32,6 +32,7 @@
     <artifactId>raffaeleconforti-osgi</artifactId>
     <version>1.2</version>
     <packaging>bundle</packaging>
+    <inceptionYear>2019</inceptionYear>
 
     <build>
         <plugins>

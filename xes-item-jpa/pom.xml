@@ -17,6 +17,7 @@
   <description>
       JPA persistence layer for XES items.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>

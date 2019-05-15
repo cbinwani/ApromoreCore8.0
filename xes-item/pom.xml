@@ -17,6 +17,7 @@
   <description>
      XES event logs as Apromore items.
   </description>
+  <inceptionYear>2018</inceptionYear>
 
   <build>
     <plugins>
