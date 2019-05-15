@@ -1,9 +1,7 @@
 package org.apromore.user;
 
 /**
- * User interface services.
- *
- * The services offered involve user management.
+ * User account services.
  */
 public interface UserService {
 

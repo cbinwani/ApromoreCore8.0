@@ -27,7 +27,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
- * User session management service.
+ * User account management service.
  */
 public final class UserServiceImpl implements UserService {
 
