@@ -2,6 +2,27 @@
 This document provides hints for modifying Apromore.
 
 
+## Style guide
+All source files with a `.java` extension will have a license header automatically inserted.
+The copyright notice is based on the `inceptionYear` element in the `pom.xml`.
+License header generation can also be performed from the command line:
+
+```
+mvn license:update-file-header
+```
+
+A style checker will then validate the Java sources.
+The style is defined in `$APROMORE_HOME/apromore-parent/checkstyle.xml`.
+Global exceptions to the style check are defined in `$APROMORE_HOME/apromore-parent/checkstyle-suppressions.xml`.
+Local exceptions to the style check within particular files are annotated with `@SuppressWarning`.
+
+### Requirements
+- No line exceeding 80 characters
+- No tab characters 
+- No trailing whitespace 
+- Doc comments
+
+
 ## API documentation generation
 Documentation of the Java classes can be generated using Javadoc.
 
@@ -18,7 +39,17 @@ If additional libraries are required, they may be added to this embedded reposit
 - The library to be installed (e.g. `OpenXES-20181205.jar`)
 
 ### Procedure
-- From `$APROMORE_HOME`, execute `mvn install:install-file -DlocalRepositoryPath=repository -DgroupId=org.deckfour -DartifactId=openxes -Dversion=2.26 -Dpackaging=jar -Dfile=OpenXES-20181205.jar` (e.g. to install as `org.deckfour.openxes-2.26.jar`)
+- From `$APROMORE_HOME`, to install `OpenXES-20181205.jar` as `org.deckfour.openxes-2.26.jar`:
+
+  ```
+  mvn install:install-file \
+     -DlocalRepositoryPath=repository \
+     -DgroupId=org.deckfour \
+     -DartifactId=openxes \
+     -Dversion=2.26 \
+     -Dpackaging=jar \
+     -Dfile=OpenXES-20181205.jar
+  ```
 
 
 ## Icon generation
