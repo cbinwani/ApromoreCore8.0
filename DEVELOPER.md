@@ -54,13 +54,14 @@ If additional libraries are required, they may be added to this embedded reposit
 
 ## Icon generation
 The graphic elements in the user interface are mostly derived from vector images in SVG format, but must be rasterized as PNG files before they can be used in bundles.
-The SVG icons are sourced from [Font Awesome](https://fontawesome.com/icons).
 
 ### Requirements
 - [Apache Batik](https://xmlgraphics.apache.org/batik/) 1.11 unpacked in `$APROMORE_HOME/src/batik-1.11/`
-- GNU Make 3.81
 
 ### Procedure
-- Icon dimensions can be controlled by editing the `ICON_SIZE` variable in `$APROMORE_HOME/Makefile`.
 - Icon color can be controlled by editing `$APROMORE_HOME/src/icon.css`.
-- From `$APROMORE_HOME`, execute `make`.  This will generate the icons and copy them into the source tree.
+- From `$APROMORE_HOME`, execute the following command:
+
+  ```
+  java -jar src/batik-1.11/batik-rasterizer-1.11.jar src/BPMN-logo.svg -d target -cssUser src/icon.css -maxw 24 -maxh 24
+  ```
