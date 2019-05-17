@@ -59,7 +59,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public SelectItemUIPlugin() {
-        super("item.group", "selectItem.label");
+        super("item.group", "selectItem.label", "selectItem.iconSclass");
     }
 
     /** {@inheritDoc}

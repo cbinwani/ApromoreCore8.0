@@ -1,3 +1,9 @@
+.z-menuitem-image {
+    color: blue;
+    background-color: red;
+    fill: yellow;
+}
+
 @media (prefers-color-scheme: dark) {
     html, .z-grid, .z-grid .z-cell, .z-grid .z-row-inner, .z-grid-body, .z-grid-body .z-cell, .z-messagebox-window, .z-page, .z-row, .z-row-content, .z-window, .z-window-content, .z-window-modal, .z-window-shadow {
         color: white;

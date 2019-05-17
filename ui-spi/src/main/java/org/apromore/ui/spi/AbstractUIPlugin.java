@@ -52,19 +52,53 @@ public abstract class AbstractUIPlugin implements UIPlugin {
     private String labelKey;
 
     /**
+     * Key into rhe "Labels" {@link ResourceBundle} within the subclass bundle.
+     */
+    private String iconSclassKey;
+
+    /**
      * @param newGroupLabelKey  localization key for the menu
      * @param newLabelKey  localization key for the menu item
      */
+/*
     protected AbstractUIPlugin(final String newGroupLabelKey,
                                final String newLabelKey) {
 
         this.groupLabelKey = newGroupLabelKey;
         this.labelKey      = newLabelKey;
+        this.iconSclassKey = null;
+    }
+*/
+
+    /**
+     * @param newGroupLabelKey  localization key for the menu
+     * @param newLabelKey  localization key for the menu item
+     * @param newIconSclassKey  location key for the menu icon CSS style class
+     */
+    protected AbstractUIPlugin(final String newGroupLabelKey,
+                               final String newLabelKey,
+                               final String newIconSclassKey) {
+
+        this.groupLabelKey = newGroupLabelKey;
+        this.labelKey      = newLabelKey;
+        this.iconSclassKey = newIconSclassKey;
     }
 
     @Override
     public String getGroupLabel() {
         return getLocalizedString(groupLabelKey);
+    }
+
+    /** {@inheritDoc}
+     *
+     * Default implementation is to return
+     * <code>"z-icon-puzzle-piece z-icon-lg"</code>.
+     */
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
+    public String getIconSclass() {
+        return iconSclassKey == null
+            ? "z-icon-puzzle-piece z-icon-lg"
+            : getLocalizedString(iconSclassKey);
     }
 
     /** {@inheritDoc}

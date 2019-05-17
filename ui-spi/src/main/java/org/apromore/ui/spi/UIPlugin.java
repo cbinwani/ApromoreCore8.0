@@ -35,7 +35,24 @@ public interface UIPlugin {
     /** @return the menu in which this plugin's menuitem will appear */
     String getGroupLabel();
 
-    /** @return the icon appearing on the plugin's menuitem */
+    /**
+     * Specify the icon as a CSS style class.
+     *
+     * A typical value to return would be <code>z-icon-bell</code>,
+     * where "bell" is the name of a glyph from the Font Awesome
+     * catalogue.
+     *
+     * @return the icon's CSS style class
+     * @see <a href="https://www.zkoss.org/wiki/ZK_Component_Reference/Base_Components/LabelImageElement#IconSclass">ZK Component Reference: IconSclass</a>
+     * @see <a href="https://fontawesome.com/icons">Font Awesome</a>
+     */
+    String getIconSclass();
+
+    /**
+     * Specify the icon as an explicit image.
+     *
+     * @return the icon appearing on the plugin's menuitem
+     */
     RenderedImage getIcon();
 
     /** @return the text appearing on the plugin's menuitem */

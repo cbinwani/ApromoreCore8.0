@@ -52,7 +52,7 @@ public final class PQLUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public PQLUIPlugin() {
-        super("analyze.group", "search.label");
+        super("analyze.group", "search.label", "search.iconSclass");
     }
 
     /** {@inheritDoc}

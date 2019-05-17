@@ -4,7 +4,7 @@
         id="window" closable="true" position="center" title="${labels.selectItem.title}">
     <vbox width="100%">
       <hlayout>
-        <button id="homeButton" label="${labels.selectItem.home}"/>
+        <button id="homeButton" iconSclass="${labels.selectItem.home.iconSclass}"/>
         <label id="currentFolderLabel">?</label>
       </hlayout>
       <hlayout>

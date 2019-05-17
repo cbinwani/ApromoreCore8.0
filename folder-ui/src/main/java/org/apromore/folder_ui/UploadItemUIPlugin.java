@@ -83,7 +83,7 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public UploadItemUIPlugin() {
-        super("item.group", "uploadItem.label");
+        super("item.group", "uploadItem.label", "uploadItem.iconSclass");
     }
 
     /** {@inheritDoc}

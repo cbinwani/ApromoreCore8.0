@@ -41,7 +41,7 @@ public final class LoginAccountUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public LoginAccountUIPlugin() {
-        super("account.group", "loginAccount.label");
+        super("account.group", "loginAccount.label", "loginAccount.iconSclass");
     }
 
 

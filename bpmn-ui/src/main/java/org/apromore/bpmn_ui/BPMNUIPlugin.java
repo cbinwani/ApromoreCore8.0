@@ -51,7 +51,7 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public BPMNUIPlugin() {
-        super("item.group", "editBPMN.label");
+        super("item.group", "editBPMN.label", "editBPMN.iconSclass");
     }
 
     /** @return whether the selection is a single BPMN process model */

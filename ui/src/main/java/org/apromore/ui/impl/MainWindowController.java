@@ -315,7 +315,8 @@ public final class MainWindowController extends SelectorComposer<Component>
             // Create the menu item
             Menu menu = menuMap.get(menuName);
             Menuitem menuitem = new Menuitem();
-            menuitem.setImageContent(plugin.getIcon());
+            menuitem.setIconSclass(plugin.getIconSclass());
+            //menuitem.setImageContent(plugin.getIcon());
             menuitem.setLabel(plugin.getLabel());
             menuitem.setDisabled(!plugin.isEnabled(uiPluginContext));
 

@@ -35,7 +35,9 @@ public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public LogoutAccountUIPlugin() {
-        super("account.group", "logoutAccount.label");
+        super("account.group",
+              "logoutAccount.label",
+              "logoutAccount.iconSclass");
     }
 
     /** {@inheritDoc}

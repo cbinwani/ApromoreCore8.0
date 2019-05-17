@@ -68,7 +68,7 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
 
     /** Sole constructor. */
     public MetricsUIPlugin() {
-        super("analyze.group", "measure.label");
+        super("analyze.group", "measure.label", "measure.iconSclass");
     }
 
     /** {@inheritDoc}
