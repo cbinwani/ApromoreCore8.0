@@ -29,6 +29,7 @@ import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
+import org.apromore.item.Selection;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
@@ -184,7 +185,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             new EventListener<MouseEvent>() {
 
             public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                for (Item selectedItem: context.getSelection()) {
+                for (Item selectedItem: Selection.getSelection()) {
                     if (selectedItem instanceof Folder) {
                         LOGGER.info("Entering folder " + selectedItem.getId());
                         context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
@@ -207,7 +208,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                 Folder folder = (Folder)
                     context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
-                for (Item selectedItem: context.getSelection()) {
+                for (Item selectedItem: Selection.getSelection()) {
                     LOGGER.info("Removing " + selectedItem);
                     //folderService.removePath(folder, );
                 }
@@ -266,7 +267,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             }
         }
 
-        model.setSelection(context.getSelection());
+        model.setSelection(Selection.getSelection());
         listbox.setModel(model);
 
         listbox.setPaginal((Paging) window.getFellow("paging"));
@@ -289,7 +290,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             public void onEvent(final SelectEvent selectEvent)
                 throws Exception {
 
-                context.setSelection(
+                Selection.setSelection(
                    ((Selectable<Item>) listbox.getModel()).getSelection()
                 );
             }

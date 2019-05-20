@@ -26,6 +26,7 @@ import java.util.Iterator;
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
 import org.apromore.item.Item;
+import org.apromore.item.Selection;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
@@ -57,10 +58,10 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
     /** @return whether the selection is a single BPMN process model */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
-        return context.getSelection()
-                      .stream()
-                      .filter(item -> BPMNItem.TYPE.equals(item.getType()))
-                      .count() == 1;
+        return Selection.getSelection()
+                        .stream()
+                        .filter(item -> BPMNItem.TYPE.equals(item.getType()))
+                        .count() == 1;
     }
 
     /**
@@ -74,7 +75,7 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
     @Override
     public void execute(final UIPluginContext context) {
         try {
-            Iterator<Item> i = context.getSelection().iterator();
+            Iterator<Item> i = Selection.getSelection().iterator();
             if (!i.hasNext()) {
                 Messagebox.show("Please select one BPMN model", "Attention",
                     Messagebox.OK, Messagebox.ERROR);

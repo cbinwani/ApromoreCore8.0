@@ -25,12 +25,10 @@ package org.apromore.ui.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apromore.item.Item;
@@ -69,10 +67,11 @@ public final class MainWindowController extends SelectorComposer<Component>
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MainWindowController.class);
 
+    /** Magically know where FolderService stores the selection. */
+    private static final String ZK_SESSION_SELECTION_ATTRIBUTE = "selection";
+
     /** Magically know where UserService stores the authenticated user. */
-    @SuppressWarnings("checkstyle:TodoComment")
     private static final String ZK_SESSION_USER_ATTRIBUTE = "user";
-        // TODO: Inject UserService instead of magically knowing this
 
     /** The menubar. */
     @Wire
@@ -86,21 +85,15 @@ public final class MainWindowController extends SelectorComposer<Component>
     @Wire("#status")
     private Label status;
 
-    /**
-     * Keeps track of the current selection provided to {@link UIPlugin}s via
-     * {@link UIPluginContext#getSelection}.
-     *
-     * Initially empty.
-     */
-    private final Set<Item> selection = new HashSet<>();
-
     @Override
     public void doAfterCompose(final Component component) throws Exception {
         super.doAfterCompose(component);
 
+        // Propagate the ui.theme configuration property to ZK
         Library.setProperty("org.zkoss.theme.preferred",
             (String) blueprintContainer().getComponentInstance("uiTheme"));
 
+        // Propagate the ui.sessionTimeout configuration property to ZK
         try {
             String sessionTimeout = (String)
                 blueprintContainer().getComponentInstance("uiSessionTimeout");
@@ -127,7 +120,7 @@ public final class MainWindowController extends SelectorComposer<Component>
 
         // Replace the menubar in the ZUL with a dynamically-generated one based
         // on the UIPlugin list
-        generateMenubar(menubar, parent, selection, getUIPluginContext());
+        generateMenubar(menubar, getUIPluginContext());
     }
 
     /** @return the OSGi Blueprint container from the servlet context */
@@ -159,6 +152,7 @@ public final class MainWindowController extends SelectorComposer<Component>
      * <dl>
      * <dt>onBind</dt>   <dd>new {@link UIPlugin} appeared</dd>
      * <dt>onLogin</dt>  <dd>user authentication of this session changed</dd>
+     * <dt>onSelect</dt> <dd>items were selected/deselected in this session</dd>
      * <dt>onUnbind</dt> <dd>existing {@link UIPlugin} went away</dd>
      * </dl>
      *
@@ -169,8 +163,9 @@ public final class MainWindowController extends SelectorComposer<Component>
         switch (event.getName()) {
         case "onBind":    // new UIPlugin appeared
         case "onLogin":   // User property changed
+        case "onSelect":  // Selection property changed
         case "onUnbind":  // existing UIPlugin went away
-            generateMenubar(menubar, parent, selection, getUIPluginContext());
+            generateMenubar(menubar, getUIPluginContext());
             break;
         default:
             LOGGER.warn("Main window ignoring unrecognized event: "
@@ -223,47 +218,66 @@ public final class MainWindowController extends SelectorComposer<Component>
             }
 
             @Override
-            public Set<Item> getSelection() {
-                return Collections.unmodifiableSet(selection);
-            }
-
-            @Override
-            public void setSelection(final Set<Item> newSelection) {
-                LOGGER.debug("Setting selection to " + newSelection);
-                selection.clear();
-                selection.addAll(newSelection);
-                generateMenubar(menubar, parent, selection,
-                    getUIPluginContext());
-            }
-
-            @Override
             public User getUser() {
                 return (User) getSessionAttribute(ZK_SESSION_USER_ATTRIBUTE);
             }
 
             @Override
-            @SuppressWarnings("checkstyle:AvoidInlineConditionals")
             public void setUser(final User newUser) {
+                putSessionAttribute(ZK_SESSION_USER_ATTRIBUTE, newUser);
+
+                /*
+                // Post-notification
                 LOGGER.debug(newUser == null
                     ? "User logged out"
                     : "User logged in: " + newUser.getId());
 
-                putSessionAttribute(ZK_SESSION_USER_ATTRIBUTE, newUser);
-
                 generateMenubar(menubar, parent, selection,
                     getUIPluginContext());
+                */
             }
 
             @Override
             public Object getSessionAttribute(final String attribute) {
+
+                switch (attribute) {
+                case ZK_SESSION_SELECTION_ATTRIBUTE:
+                    if (Sessions.getCurrent().getAttribute(attribute)
+                        == null) {
+
+                        putSessionAttribute(attribute, new HashSet<Item>());
+                    }
+                    break;
+
+                default:
+                }
+
                 return Sessions.getCurrent().getAttribute(attribute);
             }
 
             @Override
+            @SuppressWarnings("checkstyle:AvoidInlineConditionals")
             public void putSessionAttribute(final String attribute,
                                             final Object newValue) {
 
                 Sessions.getCurrent().setAttribute(attribute, newValue);
+
+                // Post-notification
+                switch (attribute) {
+                case ZK_SESSION_SELECTION_ATTRIBUTE:
+                    LOGGER.debug("Set selection to " + newValue);
+                    generateMenubar(menubar, getUIPluginContext());
+                    break;
+
+                case ZK_SESSION_USER_ATTRIBUTE:
+                    LOGGER.debug(newValue == null
+                        ? "User logged out"
+                        : "User logged in: " + ((User) newValue).getId());
+                    generateMenubar(menubar, getUIPluginContext());
+                    break;
+
+                default:
+                }
             }
     }
 
@@ -271,13 +285,9 @@ public final class MainWindowController extends SelectorComposer<Component>
      * Regenerates the main window's menubar.
      *
      * @param newMenubar  the menubar to update
-     * @param newParent  unused
-     * @param newSelection  unused
      * @param uiPluginContext  used to determine menu item enablement
      */
     private void generateMenubar(final Menubar newMenubar,
-                                 final Component newParent,
-                                 final Set<Item> newSelection,
                                  final UIPluginContext uiPluginContext) {
 
         // If present, this comparator expresses the preferred ordering for
@@ -313,32 +323,39 @@ public final class MainWindowController extends SelectorComposer<Component>
             assert menuMap.containsKey(menuName);
 
             // Create the menu item
-            Menu menu = menuMap.get(menuName);
-            Menuitem menuitem = new Menuitem();
-            menuitem.setIconSclass(plugin.getIconSclass());
-            //menuitem.setImageContent(plugin.getIcon());
-            menuitem.setLabel(plugin.getLabel());
-            menuitem.setDisabled(!plugin.isEnabled(uiPluginContext));
+            try {
+                Menu menu = menuMap.get(menuName);
+                Menuitem menuitem = new Menuitem();
+                menuitem.setIconSclass(plugin.getIconSclass());
+                //menuitem.setImageContent(plugin.getIcon());
+                menuitem.setLabel(plugin.getLabel());
+                menuitem.setDisabled(!plugin.isEnabled(uiPluginContext));
 
-            // Insert the menu item alphabetically into the menu
-            Menuitem precedingMenuitem = null;
-            List<Menuitem> existingMenuitems =
-                menu.getMenupopup().getChildren();
-            for (Menuitem existingMenuitem: existingMenuitems) {
-                if (menuitem.getLabel()
-                            .compareTo(existingMenuitem.getLabel()) <= 0) {
-                    precedingMenuitem = existingMenuitem;
-                    break;
+                // Insert the menu item alphabetically into the menu
+                Menuitem precedingMenuitem = null;
+                List<Menuitem> existingMenuitems =
+                    menu.getMenupopup().getChildren();
+                for (Menuitem existingMenuitem: existingMenuitems) {
+                    if (menuitem.getLabel()
+                                .compareTo(existingMenuitem.getLabel()) <= 0) {
+                        precedingMenuitem = existingMenuitem;
+                        break;
+                    }
                 }
+                menu.getMenupopup().insertBefore(menuitem, precedingMenuitem);
+
+                menuitem.addEventListener("onClick",
+                    new EventListener<Event>() {
+
+                    @Override
+                    public void onEvent(final Event event) throws Exception {
+                        plugin.execute(uiPluginContext);
+                    }
+                });
+
+            } catch (Throwable e) {
+                LOGGER.error("Unable to create menu item in " + menuName, e);
             }
-            menu.getMenupopup().insertBefore(menuitem, precedingMenuitem);
-
-            menuitem.addEventListener("onClick", new EventListener<Event>() {
-                @Override
-                public void onEvent(final Event event) throws Exception {
-                    plugin.execute(uiPluginContext);
-                }
-            });
         }
 
         // Replace the existing menubar contents

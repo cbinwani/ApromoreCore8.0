@@ -23,8 +23,6 @@ package org.apromore.ui.spi;
  */
 
 import java.util.Map;
-import java.util.Set;
-import org.apromore.item.Item;
 import org.apromore.user.User;
 import org.zkoss.zk.ui.Component;
 
@@ -62,17 +60,6 @@ public interface UIPluginContext {
      *     main window
      */
     void setComponent(Component component);
-
-    /**
-     * @return selected elements, possibly empty but never <code>null</code>
-     */
-    Set<Item> getSelection();
-
-    /**
-     * @param newSelection  selected elements, possibly empty but never
-     *     <code>null</code>
-     */
-    void setSelection(Set<Item> newSelection);
 
     /**
      * @return the currently authenticated user, or <code>null</code> for an

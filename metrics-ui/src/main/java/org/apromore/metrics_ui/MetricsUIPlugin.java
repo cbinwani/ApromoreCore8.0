@@ -44,6 +44,7 @@ import org.zkoss.zul.Window;
 // Local packages
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.item.Item;
+import org.apromore.item.Selection;
 import org.apromore.service.metrics.MetricsService;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
@@ -78,11 +79,12 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
-        return context.getSelection()
-                      .stream()
-                      .filter(item -> Arrays.asList(BPMNItem.TYPE, XESItem.TYPE)
-                                            .contains(item.getType()))
-                      .count() == 1;
+        return Selection.getSelection()
+                        .stream()
+                        .filter(item -> Arrays.asList(BPMNItem.TYPE,
+                                                      XESItem.TYPE)
+                                              .contains(item.getType()))
+                        .count() == 1;
     }
 
     /** {@inheritDoc}
@@ -93,7 +95,7 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
     @Override
     public void execute(final UIPluginContext context) {
 
-        Set<Item> selection = context.getSelection();
+        Set<Item> selection = Selection.getSelection();
         if (selection.size() != 1) {
             Messagebox.show("Please select just one item", "Attention",
                 Messagebox.OK, Messagebox.ERROR);
