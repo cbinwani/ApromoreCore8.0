@@ -239,7 +239,8 @@ public final class UserServiceImpl implements UserService {
     /**
      * Mutator for the <i>user</i> property.
      *
-     * Queue "q" is notified whenever the authenticated user changes.
+     * Queue "q" receives an "onLogin" event whenever the authenticated
+     * user changes.
      *
      * @param userId  the authenticated user, or <code>null</code> to
      *     deauthenticate this user session
