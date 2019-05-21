@@ -26,15 +26,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.apromore.item.Item;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
-import org.apromore.user.User;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.blueprint.container.BlueprintContainer;
@@ -66,12 +63,6 @@ public final class MainWindowController extends SelectorComposer<Component>
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MainWindowController.class);
-
-    /** Magically know where FolderService stores the selection. */
-    private static final String ZK_SESSION_SELECTION_ATTRIBUTE = "selection";
-
-    /** Magically know where UserService stores the authenticated user. */
-    private static final String ZK_SESSION_USER_ATTRIBUTE = "user";
 
     /** The menubar. */
     @Wire
@@ -220,18 +211,6 @@ public final class MainWindowController extends SelectorComposer<Component>
             @Override
             public Object getSessionAttribute(final String attribute) {
 
-                switch (attribute) {
-                case ZK_SESSION_SELECTION_ATTRIBUTE:
-                    if (Sessions.getCurrent().getAttribute(attribute)
-                        == null) {
-
-                        putSessionAttribute(attribute, new HashSet<Item>());
-                    }
-                    break;
-
-                default:
-                }
-
                 return Sessions.getCurrent().getAttribute(attribute);
             }
 
@@ -241,23 +220,6 @@ public final class MainWindowController extends SelectorComposer<Component>
                                             final Object newValue) {
 
                 Sessions.getCurrent().setAttribute(attribute, newValue);
-
-                // Post-notification
-                switch (attribute) {
-                case ZK_SESSION_SELECTION_ATTRIBUTE:
-                    LOGGER.debug("Set selection to " + newValue);
-                    generateMenubar(menubar, getUIPluginContext());
-                    break;
-
-                case ZK_SESSION_USER_ATTRIBUTE:
-                    LOGGER.debug(newValue == null
-                        ? "User logged out"
-                        : "User logged in: " + ((User) newValue).getId());
-                    generateMenubar(menubar, getUIPluginContext());
-                    break;
-
-                default:
-                }
             }
     }
 
