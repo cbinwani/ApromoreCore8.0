@@ -25,6 +25,7 @@ package org.apromore.user_ui;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.user.Users;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -46,7 +47,7 @@ public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public boolean isEnabled(final UIPluginContext context) {
-        return context.getUser() != null;
+        return Users.getUser() != null;
     }
 
     /** {@inheritDoc}
@@ -55,6 +56,6 @@ public final class LogoutAccountUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public void execute(final UIPluginContext context) {
-        context.setUser(null);
+        Users.setUser(null);
     }
 }

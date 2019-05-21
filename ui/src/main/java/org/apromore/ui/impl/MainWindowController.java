@@ -218,26 +218,6 @@ public final class MainWindowController extends SelectorComposer<Component>
             }
 
             @Override
-            public User getUser() {
-                return (User) getSessionAttribute(ZK_SESSION_USER_ATTRIBUTE);
-            }
-
-            @Override
-            public void setUser(final User newUser) {
-                putSessionAttribute(ZK_SESSION_USER_ATTRIBUTE, newUser);
-
-                /*
-                // Post-notification
-                LOGGER.debug(newUser == null
-                    ? "User logged out"
-                    : "User logged in: " + newUser.getId());
-
-                generateMenubar(menubar, parent, selection,
-                    getUIPluginContext());
-                */
-            }
-
-            @Override
             public Object getSessionAttribute(final String attribute) {
 
                 switch (attribute) {

@@ -23,7 +23,6 @@ package org.apromore.ui.spi;
  */
 
 import java.util.Map;
-import org.apromore.user.User;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -60,18 +59,6 @@ public interface UIPluginContext {
      *     main window
      */
     void setComponent(Component component);
-
-    /**
-     * @return the currently authenticated user, or <code>null</code> for an
-     *     anonymous user session
-     */
-    User getUser();
-
-    /**
-     * @param newUser  the new authenticated user, or <code>null</code> to
-     *     de-authenticate the current user session (i.e. log out).
-     */
-    void setUser(User newUser);
 
     /**
      * @param attribute  a session attribute name
