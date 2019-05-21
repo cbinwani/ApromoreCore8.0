@@ -21,31 +21,51 @@ package org.apromore.item;
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
 
 /**
- * The {@link Item}s selected for actions in user interface.
+ * The {@link Item}s selected for actions in the user interface.
  */
 public abstract class Selection {
 
-    /** @return selection */
+    /**
+     * Key of the selection attribute on the ZK session.
+     */
+    private static final String ATTRIBUTE = "selection";
+
+    /**
+     * @return the currently selected {@link Item}s; this is always
+     *     an immutable set and never <code>null</code>, but might be
+     *     empty
+     */
     public static Set<Item> getSelection() {
         Set<Item> result = (Set<Item>)
-            Sessions.getCurrent().getAttribute("selection");
+            Sessions.getCurrent().getAttribute(ATTRIBUTE);
         if (result == null) {
-            result = new HashSet<Item>();
+            result = Collections.emptySet();
         }
         return result;
     }
 
-    /** @param newSelection */
+    /**
+     * Change the selection.
+     *
+     * The {@link org.zkoss.zk.ui.event.EventQueue} "q" will receive an
+     * "onSelect" {@link Event}.
+     *
+     * @param newSelection  the new set of selected {@link Item}s
+     * @throws IllegalArgumentException if <i>newSelection</i> is
+     *     <code>null</code>
+     */
     public static void setSelection(final Set<Item> newSelection) {
-        Sessions.getCurrent().setAttribute("selection", newSelection);
+        Sessions.getCurrent().setAttribute(
+            ATTRIBUTE,
+            Collections.unmodifiableSet(newSelection)
+        );
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onSelect"));
     }

@@ -47,6 +47,11 @@ public abstract class Users {
     }
 
     /**
+     * Change the authenticated user.
+     *
+     * The {@link org.zkoss.zk.ui.event.EventQueue} "q" will receive an
+     * "onLogin" {@link Event}.
+     *
      * @param newUser  the new authenticated user, or <code>null</code> to
      *     de-authenticate the current user session (i.e. log out).
      */
