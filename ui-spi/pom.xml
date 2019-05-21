@@ -47,14 +47,6 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>item-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>user-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zk</artifactId>
     </dependency>
