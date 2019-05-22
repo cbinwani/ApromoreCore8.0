@@ -11,12 +11,7 @@
         <rows>
             <row>
                 <label value="${win$composer.labels.preferences_theme}"/>
-                <listbox id="themeListbox" mold="select">
-                    <listitem label="Atlantic" value="atlantic"/>
-                    <listitem label="Breeze" value="breeze" selected="true"/>
-                    <listitem label="Sapphire" value="sapphire"/>
-                    <listitem label="Silvertail" value="silvertail"/>
-                </listbox>
+                <listbox id="themeListbox" mold="select"/>
             </row>
             <row>
                 <cell colspan="2" style="text-align: center">

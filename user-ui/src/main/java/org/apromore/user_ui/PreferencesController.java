@@ -36,6 +36,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.ListModelArray;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.theme.Themes;
 
@@ -59,6 +60,14 @@ public class PreferencesController extends SelectorComposer<Component> {
     /** The current ZK theme. */
     @Wire("#themeListbox")
     private Listbox themeListbox;
+
+    /** {@inheritDoc} */
+    @Override
+    public void doFinally() {
+        ListModelArray model = new ListModelArray(Themes.getThemes());
+        model.addToSelection(Themes.getCurrentTheme());
+        themeListbox.setModel(model);
+    }
 
     /** @param event  button click */
     @Listen("onClick = #okButton")
