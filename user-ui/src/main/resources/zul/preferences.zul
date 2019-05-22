@@ -1,0 +1,28 @@
+<window xmlns:n="http://www.zkoss.org/2005/zk/native"
+        xmlns:w="http://www.zkoss.org/2005/zk/client"
+        xmlns:z="http://www.zkoss.org/2005/zul"
+        id="win" width="450px" closable="true" position="center" title="${win$composer.labels.preferences_title}"
+        apply="org.apromore.user_ui.PreferencesController">
+    <grid>
+        <columns>
+            <column width="140px"/>
+            <column width="200px"/>
+        </columns>
+        <rows>
+            <row>
+                <label value="${win$composer.labels.preferences_theme}"/>
+                <listbox id="themeListbox" mold="select">
+                    <listitem label="Atlantic" value="atlantic"/>
+                    <listitem label="Breeze" value="breeze" selected="true"/>
+                    <listitem label="Sapphire" value="sapphire"/>
+                    <listitem label="Silvertail" value="silvertail"/>
+                </listbox>
+            </row>
+            <row>
+                <cell colspan="2" style="text-align: center">
+                    <button id="okButton" label="${labels.ok}" tabindex="1"/>
+                </cell>
+           </row>
+        </rows>
+    </grid>
+</window>
