@@ -22,18 +22,22 @@ package org.apromore.user_ui;
  * #L%
  */
 
-//import java.util.Properties;
 import java.util.ResourceBundle;
+import org.apromore.ui.spi.UIPluginContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.theme.Themes;
 
 /**
  * Controller for <code>preferences.zul</code>.
@@ -60,5 +64,16 @@ public class PreferencesController extends SelectorComposer<Component> {
     @Listen("onClick = #okButton")
     public void onClickOk(final Event event) {
         win.detach();
+    }
+
+    /** @param selectEvent  theme selected */
+    @Listen("onSelect = #themeListbox")
+    public void onSelectTheme(final SelectEvent<Listitem, String> selectEvent) {
+        String newTheme = selectEvent.getReference().getValue();
+        LOGGER.info(String.format("Changed ZK theme: %s", newTheme));
+        UIPluginContext context =
+            (UIPluginContext) win.getAttribute("UIPluginContext");
+        Themes.setTheme(Executions.getCurrent(), newTheme);
+        Executions.sendRedirect("");
     }
 }

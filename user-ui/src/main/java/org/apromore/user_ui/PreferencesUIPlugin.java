@@ -80,6 +80,7 @@ public final class PreferencesUIPlugin extends AbstractUIPlugin {
             properties.setProperty("test", "Test value");
             window = (Window) Executions.createComponentsDirectly(reader, "zul",
                 context.getParentComponent(), properties);
+            window.setAttribute("UIPluginContext", context);
 
         } catch (IOException e) {
             throw new Error("ZUL resource login.zul could not be created as as "
