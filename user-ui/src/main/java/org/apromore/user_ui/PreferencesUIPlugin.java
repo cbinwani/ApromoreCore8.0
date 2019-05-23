@@ -68,7 +68,6 @@ public final class PreferencesUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public void execute(final UIPluginContext context) {
-        Window window;
         try {
             Reader reader = new InputStreamReader(
                 PreferencesUIPlugin.class
@@ -78,12 +77,12 @@ public final class PreferencesUIPlugin extends AbstractUIPlugin {
             );
             Properties properties = new Properties();
             properties.setProperty("test", "Test value");
-            window = (Window) Executions.createComponentsDirectly(reader, "zul",
-                context.getParentComponent(), properties);
+            Window window = (Window) Executions.createComponentsDirectly(reader,
+                "zul", context.getParentComponent(), properties);
             window.setAttribute("UIPluginContext", context);
 
         } catch (IOException e) {
-            throw new Error("ZUL resource login.zul could not be created as as "
+            throw new Error("ZUL resource login.zul could not be created as a "
                 + "ZK component", e);
         }
     }
