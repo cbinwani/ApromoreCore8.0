@@ -25,14 +25,10 @@ package org.apromore.folder_ui;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.List;
-import org.apromore.folder.Folder;
+import java.util.HashMap;
+import java.util.Map;
 import org.apromore.folder.FolderService;
-import org.apromore.folder.PathAlreadyExistsException;
-import org.apromore.item.Item;
 import org.apromore.item.ItemService;
-import org.apromore.item.NotAuthorizedException;
-import org.apromore.item.Selection;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
@@ -41,21 +37,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.KeyEvent;
-import org.zkoss.zk.ui.event.MouseEvent;
-import org.zkoss.zk.ui.event.SelectEvent;
-//import org.zkoss.zul.Button;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListitemRenderer;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.ext.Selectable;
 
 /**
  * {@link UIPlugin} for the Item/Select Item mkII command.
@@ -121,201 +103,16 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
                     .getResourceAsStream("zul/selectItem.zul"),
                 "UTF-8"
             );
+            Map<String, Object> arg = new HashMap<>();
+            arg.put("UIPluginContext", context);
+            arg.put("FolderService", folderService);
+            arg.put("ItemService", itemService);
             Window window = (Window) Executions.createComponentsDirectly(reader,
-                "zul", context.getParentComponent(), null);
-            window.setAttribute("UIPluginContext", context);
-            window.setAttribute("FolderService", folderService);
-            window.setAttribute("ItemService", itemService);
+                "zul", context.getParentComponent(), arg);
 
         } catch (IOException e) {
             throw new Error("ZUL resource login.zul could not be created as a "
                 + "ZK component", e);
         }
-    }
-
-    /**
-     * @param context  used to update the main window
-     */
-    @SuppressWarnings({"checkstyle:AvoidInlineConditionals",
-                       "checkstyle:MethodLength"})
-    private void refresh(final UIPluginContext context) {
-        Window window = (Window) context.createComponent(
-            SelectItemUIPlugin.class.getClassLoader(),
-            "zul/selectItem.zul",
-            null);
-
-        window.getFellow("homeButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
-                refresh(context);
-            }
-        });
-
-        Label currentFolderLabel =
-            (Label) window.getFellow("currentFolderLabel");
-
-        Folder currentFolder =
-            (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
-        currentFolderLabel.setValue(currentFolder == null
-            ? "/"
-            : folderService.findPathByItem(currentFolder));
-
-        window.getFellow("createFolderButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                int counter = 1;
-                String newFolderName = "New folder";
-                Folder parentFolder = (Folder)
-                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
-                // Beware: this loop is awful code and you need to be
-                // particularly alert while modifying it
-                do {
-                    try {
-                        folderService.createFolder(parentFolder, newFolderName);
-                        refresh(context);
-                        return;
-
-                    } catch (PathAlreadyExistsException e) {
-                        // Generate a new folder name and retry
-                        counter++;
-                        newFolderName = "New folder " + counter;
-                        continue;
-
-                    } catch (Throwable e) {
-                        LOGGER.info("Unable to create folder", e);
-                        Messagebox.show("Unable to create folder\n"
-                            + e.getMessage(),
-                            "Attention", Messagebox.OK, Messagebox.ERROR);
-                        return;
-                    }
-                } while (counter <= FOLDER_NAME_RETRY_LIMIT);
-
-                // Achievement!  Created more than FOLDER_NAME_RETRY_LIMIT
-                // folders without renaming any.  Proud of yourself?
-                Messagebox.show("Too many new folders.\n"
-                    + "Rename or delete some folders.",
-                    "Attention", Messagebox.OK, Messagebox.ERROR);
-            }
-        });
-
-        window.getFellow("enterFolderButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                for (Item selectedItem: Selection.getSelection()) {
-                    if (selectedItem instanceof Folder) {
-                        LOGGER.info("Entering folder " + selectedItem.getId());
-                        context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
-                            selectedItem);
-                        refresh(context);
-
-                    } else {
-                        Messagebox.show("Selection is not a folder",
-                            "Attention", Messagebox.OK, Messagebox.ERROR);
-                    }
-                }
-            }
-        });
-
-        window.getFellow("removeItemButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-
-                Folder folder = (Folder)
-                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
-                for (Item selectedItem: Selection.getSelection()) {
-                    LOGGER.info("Removing " + selectedItem);
-                    //folderService.removePath(folder, );
-                }
-            }
-        });
-
-        Listbox listbox = (Listbox) window.getFellow("listbox");
-
-        listbox.setItemRenderer(new ListitemRenderer<Item>() {
-            public void render(final Listitem listitem,
-                               final Item     item,
-                               final int      index) {
-
-                String name = "error";
-                Long itemId = null;
-                String type = "error";
-
-                if (item != null) {
-                    String path = folderService.findPathByItem(item);
-                    name = path.substring(path.lastIndexOf("/") + 1,
-                        path.length());
-                    itemId = item.getId();
-                    type = item.getType();
-                }
-
-                listitem.appendChild(new Listcell(Integer.valueOf(index)
-                                                         .toString()));
-                listitem.appendChild(new Listcell(name));
-                listitem.appendChild(new Listcell("" + itemId));
-                listitem.appendChild(new Listcell(type));
-                listitem.appendChild(new Listcell("-"));
-            }
-        });
-
-        ListModelList<Item> model = new ListModelList<>();
-
-        Folder folder = (Folder)
-            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-        List<String> paths;
-        if (folder == null) {
-            paths = folderService.getRootFolderPaths();
-            LOGGER.info("Got root folder paths " + paths);
-
-        } else {
-            paths = folder.getPaths();
-            LOGGER.info("Got folder paths " + paths);
-        }
-
-        for (String path: paths) {
-            try {
-                model.add(folderService.findItemByFolderAndName(folder, path));
-
-            } catch (NotAuthorizedException e) {
-                // Silently hide unauthorized content
-                LOGGER.warn("Unauthorized path " + path, e);
-            }
-        }
-
-        model.setSelection(Selection.getSelection());
-        listbox.setModel(model);
-
-        listbox.setPaginal((Paging) window.getFellow("paging"));
-
-        listbox.addEventListener("onKeyPress", new EventListener<KeyEvent>() {
-            public void onEvent(final KeyEvent keyEvent) throws Exception {
-                LOGGER.debug("Key press " + keyEvent);
-                if ((keyEvent.isCtrlKey() && keyEvent.getKeyCode() == 'a')) {
-                    if (listbox.getSelectedCount() > 0) {
-                        listbox.selectAll();
-
-                    } else {
-                        listbox.clearSelection();
-                    }
-                }
-            }
-        });
-
-        listbox.addEventListener("onSelect", new EventListener<SelectEvent>() {
-            public void onEvent(final SelectEvent selectEvent)
-                throws Exception {
-
-                Selection.setSelection(
-                   ((Selectable<Item>) listbox.getModel()).getSelection()
-                );
-            }
-        });
     }
 }

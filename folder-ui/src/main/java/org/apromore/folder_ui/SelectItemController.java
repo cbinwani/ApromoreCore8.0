@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -43,7 +44,6 @@ import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-//import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
@@ -91,22 +91,16 @@ public class SelectItemController extends SelectorComposer<Component> {
     private Window win;
 
     /** UI plugin context. */
-    private UIPluginContext context;
+    private UIPluginContext context = (UIPluginContext)
+        Executions.getCurrent().getArg().get("UIPluginContext");
 
     /** Used to access the details of the selected folders. */
-    private FolderService folderService;
+    private FolderService folderService = (FolderService)
+        Executions.getCurrent().getArg().get("FolderService");
 
     /** Used to access the details of the selected items. */
-    private ItemService itemService;
-
-    /** {@inheritDoc} */
-    @Override
-    public void doFinally() {
-        LOGGER.info(String.format("win = %s", win));
-        context = (UIPluginContext) win.getAttribute("UIPluginContext");
-        folderService = (FolderService) win.getAttribute("FolderService");
-        itemService = (ItemService) win.getAttribute("ItemService");
-    }
+    private ItemService itemService = (ItemService)
+        Executions.getCurrent().getArg().get("ItemService");
 
     /** @param context2 */
     private void refresh(final UIPluginContext context2) {
@@ -187,22 +181,28 @@ public class SelectItemController extends SelectorComposer<Component> {
         }
     }
 
-    /** @param window  refactored variable */
+    /** Current folder label. */
+    @Wire("#currentFolderLabel")
+    private Label currentFolderLabel;
+
+    /** Listbox. */
+    @Wire("#listbox")
+    private Listbox listbox;
+
+    /** {@inheritDoc} */
+    @Override
     @SuppressWarnings("checkstyle:AvoidInlineConditionals")
-    private void foo(final Window window) {
+    public void doFinally() {
 
-        Label currentFolderLabel =
-            (Label) window.getFellow("currentFolderLabel");
-
+        //Label currentFolderLabel =
+        //    (Label) window.getFellow("currentFolderLabel");
         Folder currentFolder =
             (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
         currentFolderLabel.setValue(currentFolder == null
             ? "/"
             : folderService.findPathByItem(currentFolder));
 
-        Listbox listbox = (Listbox) window.getFellow("listbox");
-
+        //Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
             public void render(final Listitem listitem,
                                final Item     item,
@@ -256,7 +256,7 @@ public class SelectItemController extends SelectorComposer<Component> {
         model.setSelection(Selection.getSelection());
         listbox.setModel(model);
 
-        listbox.setPaginal((Paging) window.getFellow("paging"));
+        listbox.setPaginal((Paging) win.getFellow("paging"));
 
         listbox.addEventListener("onKeyPress", new EventListener<KeyEvent>() {
             public void onEvent(final KeyEvent keyEvent) throws Exception {
