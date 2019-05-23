@@ -1,5 +1,11 @@
-/* Adding dark mode support to Breeze
+/* Make menu item icons bigger in Iceblue themes */
+body.iceblue > .z-menupopup .z-menuitem-content i { font-size: 150% }
 
+/* Selected menu items have colored icons in Iceblue theme */
+body.iceblue > .z-menupopup .z-menuitem-content i { color: #0093f9 }
+body.iceblue > .z-menupopup .z-menuitem-content[disabled] i { color: inherit }
+
+/* Dark mode
 @media (prefers-color-scheme: dark) {
     html, .z-grid, .z-grid .z-cell, .z-grid .z-row-inner, .z-grid-body, .z-grid-body .z-cell, .z-messagebox-window, .z-page, .z-row, .z-row-content, .z-window, .z-window-content, .z-window-modal, .z-window-shadow {
         color: white;

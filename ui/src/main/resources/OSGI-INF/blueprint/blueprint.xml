@@ -4,7 +4,7 @@
     <!-- Configuration from $KARAF_HOME/etc/org.apromore.cfg -->
     <cm:property-placeholder persistent-id="org.apromore" update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="ui.theme" value="breeze"/>
+            <cm:property name="ui.theme" value="iceblue"/>
             <cm:property name="ui.menuOrder" value="Account,Item,Discover,Analyze,Redesign,Implement,Monitor"/>
             <cm:property name="ui.sessionTimeout" value="1800"/>
         </cm:default-properties>
