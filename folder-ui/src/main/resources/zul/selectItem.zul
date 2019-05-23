@@ -1,25 +1,26 @@
 <window xmlns:n="http://www.zkoss.org/2005/zk/native"
         xmlns:w="http://www.zkoss.org/2005/zk/client"
         xmlns:z="http://www.zkoss.org/2005/zul"
-        id="window" closable="true" position="center" title="${labels.selectItem.title}">
+        id="win" closable="true" position="center" title="${win$composer.labels.selectItem_title}"
+        apply="org.apromore.folder_ui.SelectItemController">
     <vbox width="100%">
       <hlayout>
-        <button id="homeButton" iconSclass="${labels.selectItem.home.iconSclass}"/>
+        <button id="homeButton" iconSclass="${win$composer.labels.selectItem_home_iconSclass}"/>
         <label id="currentFolderLabel">?</label>
       </hlayout>
       <hlayout>
         <paging id="paging"/>
-        <button id="createFolderButton" label="${labels.selectItem.createFolder}"/>
-        <button id="enterFolderButton" label="${labels.selectItem.enterFolder}"/>
-        <button id="removeItemButton" label="${labels.selectItem.removeItem}"/>
+        <button id="createFolderButton" label="${win$composer.labels.selectItem_createFolder}"/>
+        <button id="enterFolderButton" label="${win$composer.labels.selectItem_enterFolder}"/>
+        <button id="removeItemButton" label="${win$composer.labels.selectItem_removeItem}"/>
       </hlayout>
       <listbox id="listbox" width="100%" vflex="1" multiple="true">
         <listhead sizable="false">
-          <listheader label="${labels.selectItem.index}"   hflex="0.5" align="center"/>
-          <listheader label="${labels.selectItem.name}"    hflex="1"/>
-          <listheader label="${labels.selectItem.id}"      hflex="1" align="center"/>
-          <listheader label="${labels.selectItem.type}"    hflex="1"/>
-          <listheader label="${labels.selectItem.creator}" hflex="1"/>
+          <listheader label="${win$composer.labels.selectItem_index}"   hflex="0.5" align="center"/>
+          <listheader label="${win$composer.labels.selectItem_name}"    hflex="1"/>
+          <listheader label="${win$composer.labels.selectItem_id}"      hflex="1" align="center"/>
+          <listheader label="${win$composer.labels.selectItem_type}"    hflex="1"/>
+          <listheader label="${win$composer.labels.selectItem_creator}" hflex="1"/>
         </listhead>
         <!--
         <template name="model">

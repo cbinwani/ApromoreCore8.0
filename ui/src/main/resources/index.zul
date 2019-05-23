@@ -8,8 +8,5 @@
       <menubar id="menubar" hflex="1" vflex="0"/>
     </hbox>
     <box id="parent" width="100%" vflex="1" style="border: 1px solid black"/>
-    <hlayout width="100%" vflex="0">
-      <label id="status" value="${labels.index.footer}" sclass="start-font large-text"/>
-    </hlayout>
   </window>
 </zk>

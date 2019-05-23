@@ -22,10 +22,8 @@ package org.apromore.folder_ui;
  * #L%
  */
 
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
+import java.util.ResourceBundle;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
@@ -33,18 +31,18 @@ import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.Selection;
-import org.apromore.ui.spi.AbstractUIPlugin;
-import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.zk.ui.Executions;
+import org.zkoss.util.Locales;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
 //import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
@@ -58,10 +56,9 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
 
 /**
- * {@link UIPlugin} for the Item/Select Item mkII command.
+ * Controller for <code>selectItem.zul</code>.
  */
-@Component(service = {UIPlugin.class})
-public final class SelectItemUIPlugin extends AbstractUIPlugin {
+public class SelectItemController extends SelectorComposer<Component> {
 
     /**
      * When creating a new folder, this is the highest number that
@@ -73,7 +70,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(SelectItemUIPlugin.class);
+        LoggerFactory.getLogger(SelectItemController.class);
 
     /**
      * Session attribute for the user's current location in the folder
@@ -84,74 +81,115 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
      */
     public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
 
+    /** @return localized text catalogue */
+    public ResourceBundle getLabels() {
+        return ResourceBundle.getBundle("Labels", Locales.getCurrent());
+    }
+
+    /** Window. */
+    @Wire
+    private Window win;
+
+    /** UI plugin context. */
+    private UIPluginContext context;
+
     /** Used to access the details of the selected folders. */
-    @Reference
     private FolderService folderService;
 
     /** Used to access the details of the selected items. */
-    @Reference
     private ItemService itemService;
 
-    /** Sole constructor. */
-    public SelectItemUIPlugin() {
-        super("item.group", "selectItem.label", "selectItem.iconSclass");
+    /** {@inheritDoc} */
+    @Override
+    public void doFinally() {
+        LOGGER.info(String.format("win = %s", win));
+        context = (UIPluginContext) win.getAttribute("UIPluginContext");
+        folderService = (FolderService) win.getAttribute("FolderService");
+        itemService = (ItemService) win.getAttribute("ItemService");
     }
 
-    /** {@inheritDoc}
-     *
-     * This implementation is always enabled.
-     */
-    @Override
-    public boolean isEnabled(final UIPluginContext context) {
-        return true;
+    /** @param context2 */
+    private void refresh(final UIPluginContext context2) {
     }
 
-    /** {@inheritDoc}
-     *
-     * This implementation displays a listbox of the selected items.
-     */
-    @Override
-    public void execute(final UIPluginContext context) {
-        //refresh(context);
+    /** @param mouseEvent  clicked home */
+    @Listen("onClick = #homeButton")
+    public void onClickHomeButton(final MouseEvent mouseEvent) {
+        context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
+        refresh(context);
+    }
 
-        try {
-            Reader reader = new InputStreamReader(
-                SelectItemUIPlugin.class
-                    .getClassLoader()
-                    .getResourceAsStream("zul/selectItem.zul"),
-                "UTF-8"
-            );
-            Window window = (Window) Executions.createComponentsDirectly(reader,
-                "zul", context.getParentComponent(), null);
-            window.setAttribute("UIPluginContext", context);
-            window.setAttribute("FolderService", folderService);
-            window.setAttribute("ItemService", itemService);
+    /** @param mouseEvent  clicked create folder */
+    @Listen("onClick = #createFolderButton")
+    public void onClickCreateFolderButton(final MouseEvent mouseEvent) {
+        int counter = 1;
+        String newFolderName = "New folder";
+        Folder parentFolder = (Folder)
+            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
-        } catch (IOException e) {
-            throw new Error("ZUL resource login.zul could not be created as a "
-                + "ZK component", e);
+        // Beware: this loop is awful code and you need to be
+        // particularly alert while modifying it
+        do {
+            try {
+                folderService.createFolder(parentFolder, newFolderName);
+                refresh(context);
+                return;
+
+            } catch (PathAlreadyExistsException e) {
+                // Generate a new folder name and retry
+                counter++;
+                newFolderName = "New folder " + counter;
+                continue;
+
+            } catch (Throwable e) {
+                LOGGER.info("Unable to create folder", e);
+                Messagebox.show("Unable to create folder\n"
+                    + e.getMessage(),
+                    "Attention", Messagebox.OK, Messagebox.ERROR);
+                return;
+            }
+        } while (counter <= FOLDER_NAME_RETRY_LIMIT);
+
+        // Achievement!  Created more than FOLDER_NAME_RETRY_LIMIT
+        // folders without renaming any.  Proud of yourself?
+        Messagebox.show("Too many new folders.\n"
+            + "Rename or delete some folders.",
+            "Attention", Messagebox.OK, Messagebox.ERROR);
+    }
+
+    /** @param mouseEvent  clicked enter folder */
+    @Listen("onClick = #enterFolderButton")
+    public void onClickEnterFolderButton(final MouseEvent mouseEvent) {
+        for (Item selectedItem: Selection.getSelection()) {
+            if (selectedItem instanceof Folder) {
+                LOGGER.info("Entering folder " + selectedItem.getId());
+                context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
+                    selectedItem);
+                refresh(context);
+
+            } else {
+                Messagebox.show("Selection is not a folder",
+                    "Attention", Messagebox.OK, Messagebox.ERROR);
+            }
         }
     }
 
-    /**
-     * @param context  used to update the main window
-     */
-    @SuppressWarnings({"checkstyle:AvoidInlineConditionals",
-                       "checkstyle:MethodLength"})
-    private void refresh(final UIPluginContext context) {
-        Window window = (Window) context.createComponent(
-            SelectItemUIPlugin.class.getClassLoader(),
-            "zul/selectItem.zul",
-            null);
+    /** @param mouseEvent  clicked remove item */
+    @Listen("onClick = #removeItemButton")
+    public void onClickRemoveItemButton(final MouseEvent mouseEvent) {
 
-        window.getFellow("homeButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
+        Folder folder = (Folder)
+            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
-                refresh(context);
-            }
-        });
+        for (Item selectedItem: Selection.getSelection()) {
+            LOGGER.info("Removing " + selectedItem);
+            //folderService.removePath(folder, );
+        }
+    }
+
+    /** @param window  refactored variable */
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
+    private void foo(final Window window) {
 
         Label currentFolderLabel =
             (Label) window.getFellow("currentFolderLabel");
@@ -162,80 +200,6 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
         currentFolderLabel.setValue(currentFolder == null
             ? "/"
             : folderService.findPathByItem(currentFolder));
-
-        window.getFellow("createFolderButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                int counter = 1;
-                String newFolderName = "New folder";
-                Folder parentFolder = (Folder)
-                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
-                // Beware: this loop is awful code and you need to be
-                // particularly alert while modifying it
-                do {
-                    try {
-                        folderService.createFolder(parentFolder, newFolderName);
-                        refresh(context);
-                        return;
-
-                    } catch (PathAlreadyExistsException e) {
-                        // Generate a new folder name and retry
-                        counter++;
-                        newFolderName = "New folder " + counter;
-                        continue;
-
-                    } catch (Throwable e) {
-                        LOGGER.info("Unable to create folder", e);
-                        Messagebox.show("Unable to create folder\n"
-                            + e.getMessage(),
-                            "Attention", Messagebox.OK, Messagebox.ERROR);
-                        return;
-                    }
-                } while (counter <= FOLDER_NAME_RETRY_LIMIT);
-
-                // Achievement!  Created more than FOLDER_NAME_RETRY_LIMIT
-                // folders without renaming any.  Proud of yourself?
-                Messagebox.show("Too many new folders.\n"
-                    + "Rename or delete some folders.",
-                    "Attention", Messagebox.OK, Messagebox.ERROR);
-            }
-        });
-
-        window.getFellow("enterFolderButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-                for (Item selectedItem: Selection.getSelection()) {
-                    if (selectedItem instanceof Folder) {
-                        LOGGER.info("Entering folder " + selectedItem.getId());
-                        context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
-                            selectedItem);
-                        refresh(context);
-
-                    } else {
-                        Messagebox.show("Selection is not a folder",
-                            "Attention", Messagebox.OK, Messagebox.ERROR);
-                    }
-                }
-            }
-        });
-
-        window.getFellow("removeItemButton").addEventListener("onClick",
-            new EventListener<MouseEvent>() {
-
-            public void onEvent(final MouseEvent mouseEvent) throws Exception {
-
-                Folder folder = (Folder)
-                    context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-
-                for (Item selectedItem: Selection.getSelection()) {
-                    LOGGER.info("Removing " + selectedItem);
-                    //folderService.removePath(folder, );
-                }
-            }
-        });
 
         Listbox listbox = (Listbox) window.getFellow("listbox");
 
