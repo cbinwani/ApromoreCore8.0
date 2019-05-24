@@ -57,6 +57,22 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
 
 
+## User Interface Configuration
+The following properties affect the user interface:
+- `ui.menuOrder` controls the ordering of menus in the menu bar.  The default value is `Account,Item,Discover,Analyze,Redesign,Implement,Monitor`.  No spaces may be present on either side of the comma separator.  Menus which do not occur in the ordering will appear first in the menu bar, and ordered alphabetically among themselves.
+- `ui.sessionTimeout` is the number of seconds of inactivity before a user is logged out.  The default value is `1800`, i.e. half an hour.
+- `ui.theme` may be one of: atlantic, iceblue, sapphire, silvertail`.  The default value is `iceblue`.
+
+### Procedure
+To set the theme to `sapphire`, enter the following at the Karaf command line:
+
+```
+config:edit org.apromore
+config:property-set ui.theme sapphire
+config:update
+```
+
+
 ## MySQL
 As distributed, the system creates an embedded H2 database.
 With additional configuration, an external MySQL database management system can be used instead.
@@ -104,8 +120,11 @@ With additional configuration, an external MySQL database management system can 
 
 ## LDAP
 As distributed, the Apromore application uses the same credentials as the Karaf server.
-With addition configuration, credentials can instead be provided by an external LDAP server.
+The relevant configuration properties are the following:
+- `jaas.loginConfigurationName` (default value: `karaf`)
+- `jaas.userPrincipalClass` (default value: `org.apache.karaf.jaas.boot.principal.UserPrincipal`)
 
+Credentials can instead be provided by an external LDAP server.
 These instructions use the University of Melbourne's central authentication server as an example.
 
 ### Requirements
@@ -113,5 +132,40 @@ These instructions use the University of Melbourne's central authentication serv
 
 ### Procedure
 - Copy the file `$APROMORE_HOME/etc/centaur.xml` to `$KARAF_HOME/deploy/`.
+
+  ```
+  <?xml version="1.0" encoding="UTF-8"?>
+  <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+             xmlns:jaas="http://karaf.apache.org/xmlns/jaas/v1.1.0">
+
+  <description>Provide a JAAS login module for the University of Melbourne "centaur" central authentication LDAP service.</description>
+
+  <!-- See https://karaf.apache.org/manual/latest/#_schema -->
+
+  <jaas:config name="centaur">
+    <jaas:module className="org.apache.karaf.jaas.modules.ldap.LDAPLoginModule" flags="required">
+        connection.url = ldaps://centaur.unimelb.edu.au
+        user.base.dn = ou=people,o=unimelb
+        user.filter = (uid=%u)
+        user.search.subtree = true
+        role.base.dn = ou=people,o=unimelb
+        role.filter = (member:=uid=%u)
+        role.name.attribute = cn
+        role.search.subtree = true
+        authentication = simple
+        ssl.protocol = SSL
+    </jaas:module>
+  </jaas:config>
+
+  </blueprint>
+  ```
   This provides a JAAS login module named "centaur" backed by the University of Melbourne's central authentication server.
-- Edit `KARAF_HOME/etc/org.apromore.cfg` and change the property `jaas.loginConfigurationName` to `centaur` and copy it into `$KARAF_HOME/etc/`.
+- From the Karaf command line:
+
+  ```
+  config:edit org.apromore
+  config:property-set jaas.loginConfigurationName centaur
+  config:update
+  ```
+  This will write the required property into `KARAF_HOME/etc/org.apromore.cfg`.
+  You may also directly edit the file.
