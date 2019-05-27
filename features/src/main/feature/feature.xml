@@ -235,6 +235,7 @@
     </feature>
 
     <feature name="apromore-user-api" version="1.0-SNAPSHOT" description="Apromore user API">
+        <feature>apromore-zk</feature>
         <bundle>mvn:org.apromore/user-api/1.0-SNAPSHOT</bundle>
     </feature>
 

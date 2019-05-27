@@ -27,7 +27,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Dependency versions -->
-    <karaf.version>4.2.4</karaf.version>
+    <karaf.version>4.2.5</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <zk.version>8.6.0.1</zk.version>
   </properties>
@@ -82,6 +82,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
