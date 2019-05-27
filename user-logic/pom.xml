@@ -34,7 +34,6 @@
               *
             </Import-Package>
             <Export-Package>
-              org.apromore.user
             </Export-Package>
           </instructions>
         </configuration>
