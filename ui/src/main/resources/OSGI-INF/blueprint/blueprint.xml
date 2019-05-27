@@ -58,7 +58,8 @@
             <entry key="osgi.http.whiteboard.servlet.pattern" value="/zkau/*"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="auEngine"/>
         </service-properties>
-        <bean class="org.zkoss.zk.au.http.DHtmlUpdateServlet"/>
+        <!-- <bean class="org.zkoss.zk.au.http.DHtmlUpdateServlet"/> -->
+        <bean class="org.apromore.ui.impl.DHtmlUpdateServlet"/>
     </service>
 
     <!-- Resource service -->
