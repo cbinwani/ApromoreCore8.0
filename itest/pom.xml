@@ -2,9 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apromore</groupId>
-        <artifactId>apromore-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../apromore-parent/pom.xml</relativePath>
+        <artifactId>apromore</artifactId>
+        <version>8.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.apromore.itest</groupId>
