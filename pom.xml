@@ -50,7 +50,7 @@
     <module>xes-item-jpa</module>
     <module>xes-item-jpa-eclipselink</module>
     <module>xes-item-logic</module>
-    <module>zk</module>
+    <module>zk-osgi</module>
   </modules>
 
   <licenses>
