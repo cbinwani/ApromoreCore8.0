@@ -23,12 +23,23 @@ package org.apromore.ui.impl;
  */
 
 import javax.servlet.ServletException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.UiException;
+import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
 
 /**
  * Kludge to work around a race condition with ZK's ZUL layout servlet.
  */
 public class DHtmlUpdateServlet
     extends org.zkoss.zk.au.http.DHtmlUpdateServlet {
+
+    /** Logger.  Named after this class. */
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(DHtmlUpdateServlet.class);
+
+    /** Milliseconds delay before retrying {@link init}. */
+    private static final int DELAY = 100;
 
     /**
      * This implementation does nothing but defer to its superclass.
@@ -40,6 +51,22 @@ public class DHtmlUpdateServlet
      */
     @Override
     public void init() throws ServletException {
-        super.init();
+
+        // Delay so DHtmlLayoutServlet can start
+        try {
+            Thread.sleep(DELAY);
+
+        } catch (InterruptedException e2) {
+            LOGGER.warn("Pause interrupted", e2);
+        }
+
+        try {
+            super.init();
+
+        } catch (UiException e) {
+            LOGGER.warn("Race condition detected with "
+                + DHtmlLayoutServlet.class.getName());
+            throw e;
+        }
     }
 }
