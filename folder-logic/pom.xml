@@ -10,12 +10,12 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>xes-item</artifactId>
+  <artifactId>folder-logic</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: xes-item</name>
+  <name>Apromore :: folder-logic</name>
   <description>
-     XES event logs as Apromore items.
+     Folders as Apromore items.
   </description>
   <inceptionYear>2018</inceptionYear>
 
@@ -33,7 +33,7 @@
               *
             </Import-Package>
             <Export-Package>
-              org.apromore.xes_item
+              org.apromore.folder
             </Export-Package>
           </instructions>
         </configuration>
@@ -42,11 +42,6 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>javax.persistence-api</artifactId>
@@ -63,7 +58,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
@@ -75,16 +69,11 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>xes-item-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.deckfour</groupId>
-      <artifactId>openxes</artifactId>
+      <artifactId>folder-jpa</artifactId>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>

@@ -13,19 +13,19 @@
         <feature version="[1.0.3,2)">useradmin-filestore</feature>
 
         <feature version="[1,2)">apromore-item-jpa-eclipselink</feature>
-        <feature version="[1,2)">apromore-item</feature>
+        <feature version="[1,2)">apromore-item-logic</feature>
         <feature version="[1,2)">apromore-item-ui</feature>
 
         <feature version="[1,2)">apromore-folder-jpa-eclipselink</feature>
-        <feature version="[1,2)">apromore-folder</feature>
+        <feature version="[1,2)">apromore-folder-logic</feature>
         <feature version="[1,2)">apromore-folder-ui</feature>
 
         <feature version="[1,2)">apromore-bpmn-item-jpa-eclipselink</feature>
-        <feature version="[1,2)">apromore-bpmn-item</feature>
+        <feature version="[1,2)">apromore-bpmn-item-logic</feature>
         <feature version="[1,2)">apromore-bpmn-ui</feature>
 
         <feature version="[1,2)">apromore-xes-item-jpa-eclipselink</feature>
-        <feature version="[1,2)">apromore-xes-item</feature>
+        <feature version="[1,2)">apromore-xes-item-logic</feature>
 
         <feature version="[1,2)">apromore-metrics-ui</feature>
 
@@ -37,13 +37,6 @@
         <feature>prom6</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/bpmndiagramimporter-logic/2.0-SNAPSHOT</bundle>
-    </feature>
-
-    <feature name="apromore-bpmn-item" version="1.0-SNAPSHOT" description="Apromore BPMN item provider">
-        <feature>apromore-bpmn-diagram-importer</feature>
-        <feature>apromore-bpmn-item-jpa</feature>
-        <feature>scr</feature>
-        <bundle>mvn:org.apromore/bpmn-item/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-bpmn-item-jpa" version="1.0-SNAPSHOT" description="Apromore BPMN item JPA provider API">
@@ -66,12 +59,19 @@
         <bundle>mvn:org.apromore/bpmn-item-jpa-eclipselink/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-bpmn-item-logic" version="1.0-SNAPSHOT" description="Apromore BPMN item provider">
+        <feature>apromore-bpmn-diagram-importer</feature>
+        <feature>apromore-bpmn-item-jpa</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/bpmn-item-logic/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-bpmn-schema" version="1.2" description="JAXB object model for BPMN 2.0">
         <bundle>mvn:org.apromore/bpmn-schema/1.2</bundle>
     </feature>
 
     <feature name="apromore-bpmn-ui" version="1.0-SNAPSHOT" description="Apromore BPMN editor (bpmn.io)">
-        <feature>apromore-bpmn-item</feature>
+        <feature>apromore-bpmn-item-logic</feature>
         <feature>apromore-ui-spi</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/bpmn-ui/1.0-SNAPSHOT</bundle>
@@ -101,12 +101,6 @@
         </capability>
     </feature>
 
-    <feature name="apromore-folder" version="1.0-SNAPSHOT" description="Apromore folder provider">
-        <feature>apromore-folder-jpa</feature>
-        <feature>scr</feature>
-        <bundle>mvn:org.apromore/folder/1.0-SNAPSHOT</bundle>
-    </feature>
-
     <feature name="apromore-folder-jpa" version="1.0-SNAPSHOT" description="Apromore folder JPA provider API">
         <feature>transaction</feature>
         <feature>jndi</feature>
@@ -127,8 +121,14 @@
         <bundle>mvn:org.apromore/folder-jpa-eclipselink/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-folder-logic" version="1.0-SNAPSHOT" description="Apromore folder provider">
+        <feature>apromore-folder-jpa</feature>
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/folder-logic/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-folder-ui" version="1.0-SNAPSHOT" description="Apromore folder-based UI">
-        <feature>apromore-folder</feature>
+        <feature>apromore-folder-logic</feature>
         <feature>apromore-item-api</feature>
         <feature>apromore-ui-spi</feature>
         <feature>apromore-user-api</feature>
@@ -137,22 +137,16 @@
         <bundle>mvn:org.apromore/folder-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-item" version="1.0-SNAPSHOT" description="Apromore item service">
-        <feature>apromore-item-api</feature>
-        <feature>apromore-item-jpa</feature>
-        <feature>apromore-item-spi</feature>
-        <feature>apromore-user-api</feature>
-        <bundle>mvn:org.apromore/item/1.0-SNAPSHOT</bundle>
-    </feature>
-
     <feature name="apromore-item-api" version="1.0-SNAPSHOT" description="Apromore item service API">
         <bundle>mvn:org.apromore/item-api/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-item-spi" version="1.0-SNAPSHOT" description="Apromore item plugin SPI">
+    <feature name="apromore-item-logic" version="1.0-SNAPSHOT" description="Apromore item service">
         <feature>apromore-item-api</feature>
-        <feature>guava</feature>
-        <bundle>mvn:org.apromore/item-spi/1.0-SNAPSHOT</bundle>
+        <feature>apromore-item-jpa</feature>
+        <feature>apromore-item-spi</feature>
+        <feature>apromore-user-api</feature>
+        <bundle>mvn:org.apromore/item-logic/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-item-jpa" version="1.0-SNAPSHOT" description="Apromore item JPA provider API">
@@ -175,6 +169,12 @@
         <bundle>mvn:org.apromore/item-jpa-eclipselink/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-item-spi" version="1.0-SNAPSHOT" description="Apromore item plugin SPI">
+        <feature>apromore-item-api</feature>
+        <feature>guava</feature>
+        <bundle>mvn:org.apromore/item-spi/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-item-ui" version="1.0-SNAPSHOT" description="Apromore item user interface plugin">
         <feature>apromore-item-api</feature>
         <feature>apromore-ui-spi</feature>
@@ -184,17 +184,17 @@
         <bundle>mvn:org.apromore/item-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-metrics" version="2.0-SNAPSHOT" description="Measurement service">
+    <feature name="apromore-metrics-logic" version="2.0-SNAPSHOT" description="Measurement service">
         <feature>raffaeleconforti</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/metrics-logic/2.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-metrics-ui" version="1.0-SNAPSHOT" description="Measurement service user interface plugin">
-        <feature version="[2,3)">apromore-metrics</feature>
-        <feature>apromore-bpmn-item</feature>
-        <feature>apromore-xes-item</feature>
+        <feature>apromore-bpmn-item-logic</feature>
+        <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature>apromore-ui-spi</feature>
+        <feature>apromore-xes-item-logic</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/metrics-ui/1.0-SNAPSHOT</bundle>
     </feature>
@@ -257,13 +257,6 @@
         <bundle>mvn:org.apromore/user-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-xes-item" version="1.0-SNAPSHOT" description="Apromore XES item provider">
-        <feature>apromore-xes-item-jpa</feature>
-        <feature>scr</feature>
-        <feature>openxes</feature>
-        <bundle>mvn:org.apromore/xes-item/1.0-SNAPSHOT</bundle>
-    </feature>
-
     <feature name="apromore-xes-item-jpa" version="1.0-SNAPSHOT" description="Apromore XES item JPA provider API">
         <feature>transaction</feature>
         <feature>jndi</feature>
@@ -282,6 +275,13 @@
     <feature name="apromore-xes-item-jpa-eclipselink" version="1.0-SNAPSHOT" description="Apromore XES item Eclipselink JPA provider">
         <feature version="[1, 2)">apromore-xes-item-jpa</feature>
         <bundle>mvn:org.apromore/xes-item-jpa-eclipselink/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-xes-item-logic" version="1.0-SNAPSHOT" description="Apromore XES item provider">
+        <feature>apromore-xes-item-jpa</feature>
+        <feature>scr</feature>
+        <feature>openxes</feature>
+        <bundle>mvn:org.apromore/xes-item-logic/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-zk" version="${zk.version}" description="ZK UI toolkit">

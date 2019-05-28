@@ -10,10 +10,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>item</artifactId>
+  <artifactId>item-logic</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: item</name>
+  <name>Apromore :: item-logic</name>
   <description>
       An item is any kind of durable and owned asset, e.g. a process model, event log, or folder.
   </description>

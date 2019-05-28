@@ -196,22 +196,22 @@
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>bpmn-item</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apromore</groupId>
         <artifactId>bpmn-item-jpa</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>folder</artifactId>
+        <artifactId>bpmn-item-logic</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
         <artifactId>folder-jpa</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apromore</groupId>
+        <artifactId>folder-logic</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>

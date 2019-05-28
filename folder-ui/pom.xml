@@ -57,7 +57,7 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>folder</artifactId>
+      <artifactId>folder-logic</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>

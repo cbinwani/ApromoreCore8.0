@@ -16,21 +16,21 @@
   <modules>
     <module>apromore-parent</module>
     <module>bpmn-diagram-importer</module>
-    <module>bpmn-item</module>
     <module>bpmn-item-jpa</module>
     <module>bpmn-item-jpa-eclipselink</module>
+    <module>bpmn-item-logic</module>
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
     <module>eclipse-collections-osgi</module>
     <module>features</module>
-    <module>folder</module>
     <module>folder-jpa</module>
     <module>folder-jpa-eclipselink</module>
+    <module>folder-logic</module>
     <module>folder-ui</module>
-    <module>item</module>
     <module>item-api</module>
     <module>item-jpa</module>
     <module>item-jpa-eclipselink</module>
+    <module>item-logic</module>
     <module>item-spi</module>
     <module>item-ui</module>
     <module>metrics-logic</module>
@@ -48,9 +48,9 @@
     <module>user-api</module>
     <module>user-logic</module>
     <module>user-ui</module>
-    <module>xes-item</module>
     <module>xes-item-jpa</module>
     <module>xes-item-jpa-eclipselink</module>
+    <module>xes-item-logic</module>
     <module>zk</module>
   </modules>
 

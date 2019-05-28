@@ -52,7 +52,7 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>bpmn-item</artifactId>
+      <artifactId>bpmn-item-logic</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
