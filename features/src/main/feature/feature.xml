@@ -151,6 +151,7 @@
 
     <feature name="apromore-item-spi" version="1.0-SNAPSHOT" description="Apromore item plugin SPI">
         <feature>apromore-item-api</feature>
+        <feature>guava</feature>
         <bundle>mvn:org.apromore/item-spi/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -291,8 +292,9 @@
         <bundle>mvn:org.apromore/eclipse-collections-osgi/1.1</bundle>
     </feature>
 
-    <feature name="guava" version="14.0.1" description="Google Java libraries">
-        <bundle>mvn:com.google.guava/guava/14.0.1</bundle>
+    <feature name="guava" version="27.1-jre" description="Google Java libraries">
+        <bundle>mvn:com.google.guava/failureaccess/1.0.1</bundle>
+        <bundle>mvn:com.google.guava/guava/27.1-jre</bundle>
     </feature>
 
     <feature name="openxes" version="2.26" description="OpenXES log utilities">
