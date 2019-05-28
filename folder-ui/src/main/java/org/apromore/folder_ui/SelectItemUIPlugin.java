@@ -36,8 +36,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zul.Window;
+//import org.zkoss.zk.ui.Executions;
+//import org.zkoss.zul.Window;
 
 /**
  * {@link UIPlugin} for the Item/Select Item mkII command.
@@ -107,8 +107,12 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
             arg.put("UIPluginContext", context);
             arg.put("FolderService", folderService);
             arg.put("ItemService", itemService);
+            /*
             Window window = (Window) Executions.createComponentsDirectly(reader,
                 "zul", context.getParentComponent(), arg);
+            */
+            context.createComponent(SelectItemUIPlugin.class.getClassLoader(),
+                "zul/selectItem.zul", arg);
 
         } catch (IOException e) {
             throw new Error("ZUL resource login.zul could not be created as a "
