@@ -61,8 +61,8 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
      * Session attribute for the user's current location in the folder
      * hierarchy.
      *
-     * This will be a {@link Folder} instance, or <code>null</code> if the user
-     * is at the root of the folder hierarchy.
+     * This will be a {@link org.apromore.folder.Folder} instance, or
+     * <code>null</code> if the user is at the root of the folder hierarchy.
      */
     public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
 
