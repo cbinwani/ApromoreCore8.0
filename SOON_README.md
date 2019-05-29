@@ -1,5 +1,6 @@
 # Coming Soon
-This document contains configuration notes for features that aren't yet stable enough for the main README document.
+This document contains configuration notes for features that don't actually work yet.
+When they do work, they'll move to the main README document.
 
 ## Sandbox Security
 VM-level sandboxing for OSGi bundles is supported.
@@ -70,3 +71,41 @@ Then magic doesn't yet happen, and:
 - Start Apromore.
 - From the Karaf prompt, issue the command `feature:install apromore-pql-ui`.
   "Query with PQL" should become available as a new option under the "Analyze" menu.
+
+
+## Private Maven Repository
+See the [Karaf Cave manual](http://karaf.apache.org/manual/cave/latest-4/).
+
+From the Karaf command line:
+
+```
+feature:repo-add cave
+feature:install cave
+cave:repository-create apromore
+```
+
+
+## Clustering
+Once we have a private repo for distributing the application, we can deploy it across a cluster.
+See the [Karaf Cellar manual](http://karaf.apache.org/manual/cellar/latest-4/).
+
+```
+feature:repo-add cellar
+feature:install cellar
+feature:install cellar-dosgi
+```
+
+Distributed services are flagged with the `service.exported.interfaces` property:
+
+```
+<service ref="MyService" interface="my.interface">
+  <service-properties>
+    <entry key="service.exported.interfaces" value="*"/>
+  </service-properties>
+</service>
+```
+
+Commands:
+- `cluster:node-list` lists the nodes of the cluster.
+- `cluster:services-list` shows the distributed services.
+

@@ -12,9 +12,9 @@ mvn license:update-file-header
 ```
 
 A style checker will then validate the Java sources.
-The style is defined in `$APROMORE_HOME/apromore-parent/checkstyle.xml`.
-Global exceptions to the style check are defined in `$APROMORE_HOME/apromore-parent/checkstyle-suppressions.xml`.
-Local exceptions to the style check within particular files are annotated with `@SuppressWarning`.
+The style is defined in `$APROMORE_HOME/checkstyle.xml`.
+Global exceptions to the style check are defined in `$APROMORE_HOME/checkstyle-suppressions.xml`.
+Local exceptions to the style check within particular files are annotated with `@SuppressWarnings`.
 
 ### Requirements
 - No line exceeding 80 characters
@@ -52,16 +52,29 @@ If additional libraries are required, they may be added to this embedded reposit
   ```
 
 
-## Icon generation
-The graphic elements in the user interface are mostly derived from vector images in SVG format, but must be rasterized as PNG files before they can be used in bundles.
+## Icons (Font-based)
+ZK 8 bundles Font Awesome 4.3 which is quite different from the current version 5+.
+These can be accessed by assigning the iconSclass property on ZK buttons and labels.
+For example, the Font Awesome `fa-bell` icon would be obtained by setting iconSclass to `z-icon-bell`.
+James Croft's [cheat sheet](https://fontawesome.bootstrapcheatsheets.com) summarizes the available icons.
+
+
+## Icons (SVG)
+Graphic elements in the user interface can be derived from vector images in SVG format, but must be rasterized as PNG files before they can be used in ZK.
 
 ### Requirements
-- [Apache Batik](https://xmlgraphics.apache.org/batik/) 1.11 unpacked in `$APROMORE_HOME/src/batik-1.11/`
+- [Apache Batik](https://xmlgraphics.apache.org/batik/) 1.11
 
 ### Procedure
-- Icon color can be controlled by editing `$APROMORE_HOME/src/icon.css`.
-- From `$APROMORE_HOME`, execute the following command:
+- Icon color can be controlled by editing `icon.css`.
 
   ```
-  java -jar src/batik-1.11/batik-rasterizer-1.11.jar src/BPMN-logo.svg -d target -cssUser src/icon.css -maxw 24 -maxh 24
+  svg {
+    color: #888;
+  }
+  ```
+- Execute the following command:
+
+  ```
+  java -jar batik-1.11/batik-rasterizer-1.11.jar icon.svg -d target -cssUser icon.css -maxw 24 -maxh 24
   ```
