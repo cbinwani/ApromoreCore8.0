@@ -53,7 +53,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - To manually reset the Apromore application, remove the following files:
   - `$KARAF_HOME/apromore.h2.db`
   - `$KARAF_HOME/apromore.trace.db`
-  - `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`
+  - `$KARAF_HOME/etc/org.ops4j.datasource-apromore-h2.cfg`
 - To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
 
 
@@ -61,7 +61,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 The following properties affect the user interface:
 - `ui.menuOrder` controls the ordering of menus in the menu bar.  The default value is `Account,Item,Discover,Analyze,Redesign,Implement,Monitor`.  No spaces may be present on either side of the comma separator.  Menus which do not occur in the ordering will appear first in the menu bar, and ordered alphabetically among themselves.
 - `ui.sessionTimeout` is the number of seconds of inactivity before a user is logged out.  The default value is `1800`, i.e. half an hour.
-- `ui.theme` may be one of: atlantic, iceblue, sapphire, silvertail`.  The default value is `iceblue`.
+- `ui.theme` may be one of: `atlantic`, `iceblue`, `sapphire`, `silvertail`.  The default value is `iceblue`.
 
 ### Procedure
 To set the theme to `sapphire`, enter the following at the Karaf command line:
