@@ -75,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>org.apromore</groupId>
-            <artifactId>xes-item-logic</artifactId>
+            <artifactId>xes-item-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

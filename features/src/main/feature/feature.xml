@@ -27,6 +27,7 @@
         <feature version="[1,2)">apromore-xes-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-xes-item-logic</feature>
 
+        <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature version="[1,2)">apromore-metrics-ui</feature>
 
         <feature version="[1,2)">apromore-shell-commands</feature>
@@ -78,7 +79,7 @@
     </feature>
 
     <feature name="apromore-datasource-h2" version="1.0-SNAPSHOT" description="Apromore database on H2">
-        <config name="org.ops4j.datasource-apromore">
+        <config name="org.ops4j.datasource-apromore-h2">
             osgi.jdbc.driver.class=org.h2.Driver
             databaseName=apromore;create=true
             dataSourceName=apromore
@@ -89,7 +90,7 @@
     </feature>
 
     <feature name="apromore-datasource-mysql" version="1.0-SNAPSHOT" description="Apromore database on MySQL">
-        <config name="org.ops4j.datasource-apromore">
+        <config name="org.ops4j.datasource-apromore-mysql">
             osgi.jdbc.driver.class=org.mariadb.jdbc.Driver
             databaseName=apromore2
             dataSourceName=apromore
@@ -194,7 +195,7 @@
         <feature>apromore-bpmn-item-logic</feature>
         <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature>apromore-ui-spi</feature>
-        <feature>apromore-xes-item-logic</feature>
+        <feature>apromore-xes-item-api</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/metrics-ui/1.0-SNAPSHOT</bundle>
     </feature>
@@ -257,6 +258,12 @@
         <bundle>mvn:org.apromore/user-ui/1.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-xes-item-api" version="1.0-SNAPSHOT" description="Apromore XES item provider API">
+        <feature>apromore-item-api</feature>
+        <feature>openxes</feature>
+        <bundle>mvn:org.apromore/xes-item-api/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-xes-item-jpa" version="1.0-SNAPSHOT" description="Apromore XES item JPA provider API">
         <feature>transaction</feature>
         <feature>jndi</feature>
@@ -278,6 +285,7 @@
     </feature>
 
     <feature name="apromore-xes-item-logic" version="1.0-SNAPSHOT" description="Apromore XES item provider">
+        <feature>apromore-xes-item-api</feature>
         <feature>apromore-xes-item-jpa</feature>
         <feature>scr</feature>
         <feature>openxes</feature>

@@ -31,9 +31,6 @@
             <Import-Package>
               *
             </Import-Package>
-            <Export-Package>
-              org.apromore.xes_item
-            </Export-Package>
           </instructions>
         </configuration>
       </plugin>
@@ -71,6 +68,10 @@
     <dependency>
       <groupId>org.apromore</groupId>
       <artifactId>item-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>xes-item-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
