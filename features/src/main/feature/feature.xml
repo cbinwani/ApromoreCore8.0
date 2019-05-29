@@ -40,6 +40,11 @@
         <bundle>mvn:org.apromore/bpmndiagramimporter-logic/2.0-SNAPSHOT</bundle>
     </feature>
 
+    <feature name="apromore-bpmn-item-api" version="1.0-SNAPSHOT" description="Apromore BPMN item provider API">
+        <feature>prom6</feature>
+        <bundle>mvn:org.apromore/bpmn-item-api/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-bpmn-item-jpa" version="1.0-SNAPSHOT" description="Apromore BPMN item JPA provider API">
         <feature>transaction</feature>
         <feature>jndi</feature>
@@ -62,6 +67,7 @@
 
     <feature name="apromore-bpmn-item-logic" version="1.0-SNAPSHOT" description="Apromore BPMN item provider">
         <feature>apromore-bpmn-diagram-importer</feature>
+        <feature>apromore-bpmn-item-api</feature>
         <feature>apromore-bpmn-item-jpa</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/bpmn-item-logic/1.0-SNAPSHOT</bundle>

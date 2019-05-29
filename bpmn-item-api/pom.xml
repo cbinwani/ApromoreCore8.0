@@ -9,12 +9,12 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>bpmn-ui</artifactId>
+  <artifactId>bpmn-item-api</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: bpmn-ui</name>
+  <name>Apromore :: bpmn-item-api</name>
   <description>
-     Adapts bpmn.io's BPMN editor as an Apromore item viewer.
+     BPMN process models as Apromore items.
   </description>
   <inceptionYear>2018</inceptionYear>
 
@@ -32,7 +32,7 @@
               *
             </Import-Package>
             <Export-Package>
-              org.apromore.bpmn_ui
+              org.apromore.bpmn_item
             </Export-Package>
           </instructions>
         </configuration>
@@ -41,29 +41,14 @@
   </build>
 
   <dependencies>
-    <dependency>  <!-- Required only for JDK 1.8 back-compatibility -->
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>bpmn-item-api</artifactId>
+      <artifactId>item-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>ui-spi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.cmpn</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zul</artifactId>
+      <groupId>org.processmining</groupId>
+      <artifactId>bpmn</artifactId>
+      <version>6.5.20180622</version>
     </dependency>
   </dependencies>
 </project>
