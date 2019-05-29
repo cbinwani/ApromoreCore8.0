@@ -112,10 +112,9 @@ With additional configuration, an external MySQL database management system can 
 
 - Edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and under the element `<feature name="apromore">` replace the first dependency `apromore-datasource-h2` with `apromore-datasource-mysql`.
 - Install the modifications to `feature.xml` by issuing the command `mvn install -pl :features`.
-- Remove any pre-existing database configuration file `$KARAF_HOME/etc/org.ops4j.datasource-apromore.cfg`.
 
 ### Notes
-- To use a different database password, name, or user: edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and modify the contents of the element `<feature name="apromore-datasource-mysql">`.
+- To use a different database password, name, or user: edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and modify the contents of the element `<feature name="apromore-datasource-mysql">` to set new defaults.  Modify the file `$KARAF_HOME/etc/org.ops4j.datasource-apromore-mysql.cfg` to set new values for an existing database.
 
 
 ## LDAP
