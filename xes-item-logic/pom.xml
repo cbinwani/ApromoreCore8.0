@@ -23,16 +23,6 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <unpackBundle>false</unpackBundle>
-          <instructions>
-            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
-            <Import-Package>
-              *
-            </Import-Package>
-          </instructions>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -42,6 +32,16 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <scope>test</scope>
+    </dependency>
+    <!-- Bundle compiler complains if it doesn't know javax.enterprise.util.Nonbinding annotation -->
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+    </dependency>
+    <!-- Bundle compiler complains if it doesn't know javax.interceptor.InterceptorBinding annotation -->
+    <dependency>
+      <groupId>javax.interceptor</groupId>
+      <artifactId>javax.interceptor-api</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
@@ -77,9 +77,16 @@
       <groupId>org.apromore</groupId>
       <artifactId>xes-item-jpa</artifactId>
     </dependency>
+<!--
     <dependency>
       <groupId>org.deckfour</groupId>
       <artifactId>openxes</artifactId>
+    </dependency>
+-->
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>openxes-osgi</artifactId>
+      <version>2.26</version>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>

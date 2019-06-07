@@ -90,8 +90,8 @@
             <version>2.26</version>
         </dependency>
         <dependency>
-            <groupId>org.deckfour</groupId>
-            <artifactId>spex</artifactId>
+            <groupId>org.apromore</groupId>
+            <artifactId>spex-osgi</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -21,13 +21,9 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 - [Apache Maven](https://maven.apache.org/) 3.6.0
 
 ### Procedure
-- Obtain the Apromore fork of Raffaele Conforti's research code repository using `git clone https://github.com/apromore/ResearchCode.git`.
-- Enter the `ResearchCode` directory and build it using `mvn clean install`.
 - Obtain the Apromore source tree using `git clone https://github.com/apromore/ApromoreCore8.0.git`.
 - Enter the `ApromoreCore8.0` directory (henceforth `$APROMORE_HOME`) and execute `mvn clean install`.
 
-### Notes
-- The source documentation landing page is `$APROMORE_HOME/target/site/apidocs/index.html`.
 
 ## Running
 ### Requirements
@@ -55,6 +51,16 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
   - `$KARAF_HOME/apromore.trace.db`
   - `$KARAF_HOME/etc/org.ops4j.datasource-apromore-h2.cfg`
 - To manually reset the features installed on the Karaf server, remove the contents of `$KARAF_HOME/data/`.
+
+
+## Metrics Tool
+The metrics tool is still dependent on dependent on deprecated libraries, but can be enabled as follows.
+
+### Procedure
+- Obtain the Apromore fork of Raffaele Conforti's research code repository using `git clone https://github.com/apromore/ResearchCode.git`.
+- Enter the `ResearchCode` directory and build it using `mvn clean install`.
+- Enter each for the following subirectories of `$APROMORE_HOME` and execute `mvn clean install`.
+- From the Karaf prompt, execute `feature:install metrics-ui`.
 
 
 ## User Interface Configuration

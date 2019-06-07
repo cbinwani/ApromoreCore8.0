@@ -38,6 +38,16 @@
   </build>
 
   <dependencies>
+    <!-- Bundle compiler complains if it doesn't know javax.enterprise.util.Nonbinding annotation -->
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+    </dependency>
+    <!-- Bundle compiler complains if it doesn't know javax.interceptor.InterceptorBinding annotation -->
+    <dependency>
+      <groupId>javax.interceptor</groupId>
+      <artifactId>javax.interceptor-api</artifactId>
+    </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>javax.persistence-api</artifactId>
