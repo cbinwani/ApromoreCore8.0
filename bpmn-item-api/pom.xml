@@ -46,9 +46,16 @@
       <artifactId>item-api</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>prom6-osgi</artifactId>
+      <version>6.5.20180622</version>
+    </dependency>
+<!--
+    <dependency>
       <groupId>org.processmining</groupId>
       <artifactId>bpmn</artifactId>
       <version>6.5.20180622</version>
     </dependency>
+-->
   </dependencies>
 </project>

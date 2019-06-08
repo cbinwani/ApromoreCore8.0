@@ -35,6 +35,13 @@
     <description>OpenXES OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 
+    <repositories>
+      <repository>
+        <id>project-repository</id>
+        <url>file://${project.basedir}/repository</url>
+      </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>

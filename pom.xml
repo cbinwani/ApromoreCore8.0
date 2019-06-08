@@ -110,13 +110,6 @@
     <zk.version>8.6.0.1</zk.version>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>project-repository</id>
-      <url>file://${project.basedir}/../repository</url>
-    </repository>
-  </repositories>
-
   <build>
     <pluginManagement>
       <plugins>
