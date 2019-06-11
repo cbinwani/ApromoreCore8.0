@@ -27,8 +27,10 @@
         <feature version="[1,2)">apromore-xes-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-xes-item-logic</feature>
 
+<!--
         <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature version="[1,2)">apromore-metrics-ui</feature>
+-->
 
         <feature version="[1,2)">apromore-shell-commands</feature>
     </feature>

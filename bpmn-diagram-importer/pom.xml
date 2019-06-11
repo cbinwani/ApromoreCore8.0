@@ -80,9 +80,15 @@
             <version>1.2</version>
         </dependency>
         <dependency>
+            <groupId>org.apromore</groupId>
+            <artifactId>prom6-osgi</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>osgi.cmpn</artifactId>
         </dependency>
+<!--
         <dependency>
             <groupId>org.processmining</groupId>
             <artifactId>bpmn</artifactId>
@@ -93,6 +99,7 @@
             <artifactId>prom6-models</artifactId>
             <version>6.5.20180622</version>
         </dependency>
+-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

@@ -33,14 +33,18 @@
     <module>item-logic</module>
     <module>item-spi</module>
     <module>item-ui</module>
+<!--
     <module>metrics-logic</module>
     <module>metrics-ui</module>
+-->
     <module>openxes-osgi</module>
     <module>osgi-useradmin-api</module>
     <module>pql-logic</module>
     <module>pql-ui</module>
     <module>prom6-osgi</module>
+<!--
     <module>raffaeleconforti</module>
+-->
     <module>shell-commands</module>
     <module>spex-osgi</module>
     <module>ui</module>
@@ -105,13 +109,6 @@
     <osgi.version>6.0.0</osgi.version>
     <zk.version>8.6.0.1</zk.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>project-repository</id>
-      <url>file://${project.basedir}/repository</url>
-    </repository>
-  </repositories>
 
   <build>
     <pluginManagement>
@@ -252,6 +249,12 @@
         <version>27.1-jre</version>
       </dependency>
       <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>2.0.SP1</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
         <groupId>javax.interceptor</groupId>
         <artifactId>javax.interceptor-api</artifactId>
         <version>1.2</version>
@@ -323,8 +326,18 @@
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
+        <artifactId>openxes-osgi</artifactId>
+        <version>2.26</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apromore</groupId>
         <artifactId>raffaeleconforti-osgi</artifactId>
         <version>1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apromore</groupId>
+        <artifactId>spex-osgi</artifactId>
+        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
@@ -345,16 +358,6 @@
         <groupId>org.apromore</groupId>
         <artifactId>xes-item-jpa</artifactId>
         <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.deckfour</groupId>
-        <artifactId>openxes</artifactId>
-        <version>2.26</version>
-      </dependency>
-      <dependency>
-        <groupId>org.deckfour</groupId>
-        <artifactId>spex</artifactId>
-        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>

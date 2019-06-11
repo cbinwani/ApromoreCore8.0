@@ -11,7 +11,7 @@
   <groupId>org.apromore</groupId>
   <artifactId>osgi-useradmin-api</artifactId>
   <packaging>bundle</packaging>
-  <version>${osgi.version}</version>
+  <version>6.0.0</version>
   <name>OSGi R6 User Admin API</name>
   <description>
       Just the org.osgi.service.useradmin.* packages from OSGi R6.
@@ -41,6 +41,7 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

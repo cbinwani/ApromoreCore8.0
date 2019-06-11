@@ -32,25 +32,37 @@ Documentation of the Java classes can be generated using Javadoc.
 
 
 ## Embedding third-party libraries
-Third party libraries that are not available from [Maven Central](https://search.maven.org) are kept in an embedded Maven repository `$APROMORE_HOME/repository/`.
+Third party libraries that are not available from [Maven Central](https://search.maven.org) can be kept in embedded Maven repositories.
 If additional libraries are required, they may be added to this embedded repository.
 
 ### Requirements
 - The library to be installed (e.g. `OpenXES-20181205.jar`)
 
 ### Procedure
-- From `$APROMORE_HOME`, to install `OpenXES-20181205.jar` as `org.deckfour.openxes-2.26.jar`:
+- From the `$APROMORE_HOME/openxes-osgi`, to install `OpenXES-20181205.jar` as `org.deckfour.openxes-2.26.jar`:
 
   ```
   mvn install:install-file \
+     -Dfile=OpenXES-20181205.jar \
      -DlocalRepositoryPath=repository \
      -DgroupId=org.deckfour \
      -DartifactId=openxes \
      -Dversion=2.26 \
      -Dpackaging=jar \
-     -Dfile=OpenXES-20181205.jar
+     -DcreateChecksum=true
+  ```
+- Add the following declaration in the module's `pom.xml`:
+
+  ```
+  <repositories>
+    <repository>
+      <id>project-repository</id>
+      <url>file://${project.basedir}/repository</url>
+    </repository>
+  </repositories>
   ```
 
+- Other modules should not declare dependencies to the embedded artifacts, because they will not initially be present in a downloader's local Maven repository.
 
 ## Icons (Font-based)
 ZK 8 bundles Font Awesome 4.3 which is quite different from the current version 5+.

@@ -35,6 +35,13 @@
     <description>ProM6 OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 
+    <repositories>
+      <repository>
+        <id>project-repository</id>
+        <url>file://${project.basedir}/repository</url>
+      </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
@@ -77,9 +84,15 @@
             <artifactId>bsh</artifactId>
             <version>1.3.0</version>
         </dependency>
+        <!-- Prevents bundle compiler from remarking on org.junit.runner.RunWith annotation -->
         <dependency>
-            <groupId>org.deckfour</groupId>
-            <artifactId>openxes</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apromore</groupId>
+            <artifactId>openxes-osgi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.processmining</groupId>
