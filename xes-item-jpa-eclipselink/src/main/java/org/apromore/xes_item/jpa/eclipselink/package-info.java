@@ -1,3 +1,3 @@
-/** EclipseLink JPA provider for {@link org.apromore.xes_item.XESItem}s.
+/** EclipseLink JPA provider for <code>org.apromore.xes_item.XESItem</code>s.
  */
 package org.apromore.xes_item.jpa.eclipselink;

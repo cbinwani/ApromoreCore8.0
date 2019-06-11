@@ -1,3 +1,3 @@
-/** EclipseLink JPA provider for {@link org.apromore.folder.Folder}s.
+/** EclipseLink JPA provider for <code>org.apromore.folder.Folder</code>s.
  */
 package org.apromore.folder.jpa.eclipselink;

@@ -29,7 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Data access object for common fields of {@link org.apromore.item.Item}
+ * Data access object for common fields of <code>org.apromore.item.Item</code>
  * instances.
  *
  * The fields specific to any particular concrete subtype are stored in

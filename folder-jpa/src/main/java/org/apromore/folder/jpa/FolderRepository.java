@@ -35,8 +35,8 @@ public interface FolderRepository {
     /**
      * @param parent  may by <code>null</code>
      * @param name  never <code>null</code>
-     * @return primary key of the {@link org.apromore.item.Item} content if it
-     *     exists, <code>null</code> otherwise
+     * @return primary key of the <code>org.apromore.item.Item</code> content if
+     *     it exists, <code>null</code> otherwise
      */
     Long findItemIdByParentAndName(PathDAO parent, String name);
 
@@ -56,12 +56,12 @@ public interface FolderRepository {
      * Look up a path by its content.
      *
      * Note that more than one path may have the same content; this occurs
-     * whenever a generic {@link org.apromore.item.Item} is copied, for
+     * whenever a generic <code>org.apromore.item.Item</code> is copied, for
      * instance.
-     * {@link org.apromore.folder.Folder}s are the exception, and never have
-     * multiple path.
+     * <code>org.apromore.folder.Folder</code>s are the exception, and never
+     * have multiple paths.
      *
-     * @param itemId  primary key of an {@link org.apromore.item.Item}
+     * @param itemId  primary key of an <code>org.apromore.item.Item</code>
      * @return the corresponding path, or <code>null</code> if the number of
      *      paths with that item isn't exactly one
      */

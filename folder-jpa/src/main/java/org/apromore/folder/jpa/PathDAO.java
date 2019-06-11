@@ -32,7 +32,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Data access object for {@link org.apromore.folder.Folder}.
+ * Data access object for <code>org.apromore.folder.Folder</code>.
  */
 @Entity
 @Table(name = "PATH")

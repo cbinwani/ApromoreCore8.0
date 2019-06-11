@@ -1,2 +1,2 @@
-/** JPA provider interface for {@link org.apromore.folder.Folder}s. */
+/** JPA provider interface for <code>org.apromore.folder.Folder</code>s. */
 package org.apromore.folder.jpa;

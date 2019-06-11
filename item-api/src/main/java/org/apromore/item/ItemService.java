@@ -66,4 +66,11 @@ public interface ItemService {
      *     item from being created
      */
     Item getById(Long id) throws NotAuthorizedException;
+
+    /**
+     * @param item  an {@link Item} to be removed from storage
+     * @throws NotAuthorizedException if a lack of authorization prevents the
+     *     item from being deleted
+     */
+    void remove(Item item) throws NotAuthorizedException;
 }

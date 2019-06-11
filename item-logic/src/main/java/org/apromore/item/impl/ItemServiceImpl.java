@@ -177,6 +177,21 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
             .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public Item getById(final Long id) {
+        return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));
+    }
+
+    @Override
+    @Transactional(Transactional.TxType.REQUIRED)
+    public void remove(final Item item) {
+        itemRepository.remove(item.getId());
+    }
+
+
+    // Internal methods
+
     /**
      * @param item  any {@list Item} instance, not <code>null</code>
      * @return a subclass of {@list Item} corresponding to the <i>item</i>
@@ -197,12 +212,6 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
         LOGGER.warn("Encountered item type " + item.getType()
             + " without a corresponding item plugin.");
         return item;
-    }
-
-    @Override
-    @Transactional(Transactional.TxType.SUPPORTS)
-    public Item getById(final Long id) {
-        return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));
     }
 
 

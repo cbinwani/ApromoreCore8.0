@@ -28,7 +28,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Data access object for {@link org.apromore.bpmn_item.BPMNItem}.
+ * Data access object for <code>org.apromore.bpmn_item.BPMNItem</code>.
  */
 @Entity
 @Table(name = "BPMN_ITEM")

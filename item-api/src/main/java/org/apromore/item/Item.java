@@ -27,7 +27,7 @@ package org.apromore.item;
  * log or a process model.
  *
  * Conceptually, items are abstract; a separate SPI
- * {@link org.apromore.item.spi.ItemPlugin} provides concrete subtypes of
+ * <code>org.apromore.item.spi.ItemPlugin</code> provides concrete subtypes of
  * items, e.g. BPMN models.
  *
  * Items are persistent.
@@ -40,8 +40,9 @@ public interface Item {
      * Every item has a unique primary key.
      *
      * Furthermore, each item ought to have some concrete subtype instance with
-     * the same key, e.g. a {@link org.apromore.bpmn_item.BPMNItem}.
-     * "Ought", because if the subtype {@link org.apromore.item.spi.ItemPlugin}
+     * the same key, e.g. a <code>org.apromore.bpmn_item.BPMNItem</code>.
+     * "Ought", because if the subtype
+     * <code>org.apromore.item.spi.ItemPlugin</code>
      * is uninstalled, an item might be orphaned until the plugin is
      * reinstalled.
      *
@@ -57,8 +58,8 @@ public interface Item {
      *
      * @return MIME- or UTI-style identifier for the content of this item, e.g
      *     <code>org.omg.bpmn</code> for a BPMN process model
-     * @see org.apromore.bpmn_item.BPMNItem#TYPE
-     * @see org.apromore.xes_item.XESItem#TYPE
+     * @see <code>org.apromore.bpmn_item.BPMNItem#TYPE</code>
+     * @see <code>org.apromore.xes_item.XESItem#TYPE</code>
      */
     String getType();
 }

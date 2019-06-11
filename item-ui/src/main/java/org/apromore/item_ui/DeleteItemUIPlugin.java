@@ -22,6 +22,7 @@ package org.apromore.item_ui;
  * #L%
  */
 
+import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.Selection;
 import org.apromore.ui.spi.AbstractUIPlugin;
@@ -86,11 +87,20 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
         userService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
             new Runnable() {
 
-            public void run() {  // perform the upload if login is successful
-                Messagebox.show("Not implemented",
-                                "Attention",
-                                Messagebox.OK,
-                                Messagebox.ERROR);
+            public void run() {  // perform the deletion if login is successful
+                for (Item item: Selection.getSelection()) {
+                    try {
+                        itemService.remove(item);
+
+                    } catch (Throwable e) {
+                        LOGGER.error("Item deletion failed", e);
+                        Messagebox.show("Item deletion failed",
+                            "Attention",
+                            Messagebox.OK,
+                            Messagebox.ERROR);
+                        return;
+                    }
+                }
             }
         }, null);  // do nothing if login is cancelled
     }

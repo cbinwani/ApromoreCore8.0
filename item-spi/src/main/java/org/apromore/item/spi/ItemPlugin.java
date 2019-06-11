@@ -53,7 +53,7 @@ public interface ItemPlugin<T extends Item> {
 
     /**
      * Used to convert instances of {@link Item} to their particular concrete
-     * subtype (for example, {@link org.apromore.bpmn_item.BPMNItem}).
+     * subtype (for example, <code>org.apromore.bpmn_item.BPMNItem</code>).
      *
      * @param item  an existing item of the subtype managed by this plugin
      * @return the corresponding instance of a concrete subclass of {@link Item}
