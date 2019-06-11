@@ -21,7 +21,6 @@
     <module>bpmn-item-logic</module>
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
-    <module>eclipse-collections-osgi</module>
     <module>features</module>
     <module>folder-jpa</module>
     <module>folder-jpa-eclipselink</module>

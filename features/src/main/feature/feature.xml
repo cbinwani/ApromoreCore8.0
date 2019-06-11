@@ -305,7 +305,8 @@
     </feature>
 
     <feature name="eclipse-collections" version="9.2.0" description="Eclipse collections">
-        <bundle>mvn:org.apromore/eclipse-collections-osgi/1.1</bundle>
+        <bundle>wrap:mvn:org.eclipse.collections/eclipse-collections-api/9.2.0$Export-Package=org.eclipse.collections.api.*;version=&quot;9.2.0&quot;</bundle>
+        <bundle>wrap:mvn:org.eclipse.collections/eclipse-collections/9.2.0$Export-Package=org.eclipse.collections.impl.*;version=&quot;9.2.0&quot;</bundle>
     </feature>
 
     <feature name="guava" version="27.1-jre" description="Google Java libraries">
