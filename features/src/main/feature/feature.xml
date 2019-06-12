@@ -301,7 +301,14 @@
     </feature>
 
     <feature name="apromore-zk" version="${zk.version}" description="ZK UI toolkit">
-        <bundle>mvn:org.apromore/zk-osgi/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.apromore/zk/1.0-SNAPSHOT</bundle>
+        <!-- <bundle>wrap:mvn:org.zkoss.common/zcommon/8.6.0.1</bundle> --> <!--$Export-Package=org.zkoss.*;version=&quot;8.6.0.1&quot;-->
+        <!-- <bundle>wrap:mvn:org.zkoss.common/zel/8.6.0.1</bundle> -->
+        <!-- <bundle>wrap:mvn:org.zkoss.common/zweb/8.6.0.1</bundle> -->
+        <!-- <bundle>wrap:mvn:org.zkoss.theme/atlantic/8.6.0.1</bundle> -->
+        <!-- <bundle>wrap:mvn:org.zkoss.theme/sapphire/8.6.0.1</bundle> -->
+        <!-- <bundle>wrap:mvn:org.zkoss.theme/silvertail/8.6.0.1</bundle> -->
+        <!-- <bundle>wrap:mvn:org.zkoss.zk/zul/8.6.0.1</bundle> -->
     </feature>
 
     <feature name="eclipse-collections" version="9.2.0" description="Eclipse collections">
@@ -319,7 +326,7 @@
         <feature>guava</feature>
         <feature>spex</feature>
         <feature>xstream</feature>
-        <bundle>mvn:org.apromore/openxes-osgi/2.26</bundle>
+        <bundle>mvn:org.apromore/openxes/2.26</bundle>
     </feature>
 
     <feature name="osgi-useradmin-api" version="6.0.0" description="OSGi R6 User Admin API">
@@ -331,16 +338,16 @@
     <feature name="prom6" version="6.5.20180622" description="Process Mining library">
         <feature>http</feature>
         <feature>openxes</feature>
-        <bundle>mvn:org.apromore/prom6-osgi/6.5.20180622</bundle>
+        <bundle>mvn:org.apromore/prom6/6.5.20180622</bundle>
     </feature>
 
     <feature name="raffaeleconforti" version="1.2" description="Process mining utilities">
         <feature>openxes</feature>
-        <bundle>mvn:org.apromore/raffaeleconforti-osgi/1.2</bundle>
+        <bundle>mvn:org.apromore/raffaeleconforti/1.2</bundle>
     </feature>
 
     <feature name="spex" version="1.0" description="XML serializer library">
-        <bundle>mvn:org.apromore/spex-osgi/1.0</bundle>
+        <bundle>mvn:org.apromore/spex/1.0</bundle>
     </feature>
 
     <feature name="useradmin" version="1.0.4-SNAPSHOT" description="User Admin service">

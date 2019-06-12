@@ -28,10 +28,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>prom6-osgi</artifactId>
+    <artifactId>prom6</artifactId>
     <version>6.5.20180622</version>
     <packaging>bundle</packaging>
-    <name>Apromore :: prom6-osgi</name>
+    <name>Apromore :: prom6</name>
     <description>ProM6 OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 

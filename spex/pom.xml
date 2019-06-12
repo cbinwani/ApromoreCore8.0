@@ -28,10 +28,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>spex-osgi</artifactId>
+    <artifactId>spex</artifactId>
     <version>1.0</version>
     <packaging>bundle</packaging>
-    <name>Apromore :: spex-osgi</name>
+    <name>Apromore :: spex</name>
     <description>Spex OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 

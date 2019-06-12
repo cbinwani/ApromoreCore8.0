@@ -36,16 +36,16 @@
     <module>metrics-logic</module>
     <module>metrics-ui</module>
 -->
-    <module>openxes-osgi</module>
+    <module>openxes</module>
     <module>osgi-useradmin-api</module>
     <module>pql-logic</module>
     <module>pql-ui</module>
-    <module>prom6-osgi</module>
+    <module>prom6</module>
 <!--
     <module>raffaeleconforti</module>
 -->
     <module>shell-commands</module>
-    <module>spex-osgi</module>
+    <module>spex</module>
     <module>ui</module>
     <module>ui-spi</module>
     <module>user-api</module>
@@ -55,7 +55,7 @@
     <module>xes-item-jpa</module>
     <module>xes-item-jpa-eclipselink</module>
     <module>xes-item-logic</module>
-    <module>zk-osgi</module>
+    <module>zk</module>
   </modules>
 
   <licenses>

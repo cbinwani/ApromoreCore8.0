@@ -28,10 +28,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>openxes-osgi</artifactId>
+    <artifactId>openxes</artifactId>
     <version>2.26</version>
     <packaging>bundle</packaging>
-    <name>Apromore :: openxes-osgi</name>
+    <name>Apromore :: openxes</name>
     <description>OpenXES OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 

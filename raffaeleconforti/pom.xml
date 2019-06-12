@@ -28,7 +28,7 @@
     </parent>
 
     <groupId>org.apromore</groupId>
-    <artifactId>raffaeleconforti-osgi</artifactId>
+    <artifactId>raffaeleconforti</artifactId>
     <version>1.2</version>
     <packaging>bundle</packaging>
     <inceptionYear>2019</inceptionYear>
