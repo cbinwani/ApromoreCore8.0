@@ -85,8 +85,7 @@
 -->
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>openxes-osgi</artifactId>
-      <version>2.26</version>
+      <artifactId>openxes</artifactId>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>

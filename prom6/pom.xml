@@ -92,7 +92,7 @@
         </dependency>
         <dependency>
             <groupId>org.apromore</groupId>
-            <artifactId>openxes-osgi</artifactId>
+            <artifactId>openxes</artifactId>
         </dependency>
         <dependency>
             <groupId>org.processmining</groupId>

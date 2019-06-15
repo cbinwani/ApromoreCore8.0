@@ -81,7 +81,7 @@
         </dependency>
         <dependency>
             <groupId>org.apromore</groupId>
-            <artifactId>prom6-osgi</artifactId>
+            <artifactId>prom6</artifactId>
             <version>6.5.20180622</version>
         </dependency>
         <dependency>

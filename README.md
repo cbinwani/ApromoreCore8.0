@@ -93,10 +93,10 @@ With additional configuration, an external MySQL database management system can 
   mysqladmin -u root password MAcri
   ```
 
-- Create a database named "apromore2" in your MySQL server:
+- Create a database named "apromore8" in your MySQL server:
 
   ```
-  mysqladmin --user=root --password=MAcri create apromore2
+  mysqladmin --user=root --password=MAcri create apromore8
   ```
 
 - Create user "apromore" with appropriate permissions:
@@ -104,7 +104,7 @@ With additional configuration, an external MySQL database management system can 
   ```
   mysql --user=root --password=MAcri
       CREATE USER 'apromore'@'localhost' IDENTIFIED BY 'MAcri';
-      GRANT SELECT, INSERT, UPDATE, DELETE, LOCK TABLES, EXECUTE, SHOW VIEW ON apromore2.* TO 'apromore'@'localhost';
+      GRANT SELECT, INSERT, UPDATE, DELETE, LOCK TABLES, EXECUTE, SHOW VIEW ON apromore8.* TO 'apromore'@'localhost';
   ```
   During development, security can be traded for convenience by permitting Apromore to create its own tables.
   To do this, grant the user "apromore" the additional permissions `ALTER`, `CREATE` and `DROP`.
@@ -113,7 +113,7 @@ With additional configuration, an external MySQL database management system can 
   This step is optional if the additional user permissions were granted in the previous step.
 
   ```
-  mysql --user=root --password=MAcri apromore2 < src/sql/db-mysql.sql
+  mysql --user=root --password=MAcri apromore8 < src/sql/db-mysql.sql
   ```
 
 - Edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and under the element `<feature name="apromore">` replace the first dependency `apromore-datasource-h2` with `apromore-datasource-mysql`.

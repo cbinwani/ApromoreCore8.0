@@ -64,6 +64,7 @@ If additional libraries are required, they may be added to this embedded reposit
 
 - Other modules should not declare dependencies to the embedded artifacts, because they will not initially be present in a downloader's local Maven repository.
 
+
 ## Icons (Font-based)
 ZK 8 bundles Font Awesome 4.3 which is quite different from the current version 5+.
 These can be accessed by assigning the iconSclass property on ZK buttons and labels.

@@ -98,7 +98,7 @@
         </dependency>
         <dependency>
             <groupId>org.apromore</groupId>
-            <artifactId>spex-osgi</artifactId>
+            <artifactId>spex</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

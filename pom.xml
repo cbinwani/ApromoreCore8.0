@@ -22,6 +22,7 @@
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
     <module>features</module>
+    <module>folder-api</module>
     <module>folder-jpa</module>
     <module>folder-jpa-eclipselink</module>
     <module>folder-logic</module>
@@ -330,7 +331,7 @@
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>folder-logic</artifactId>
+        <artifactId>folder-api</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
@@ -350,17 +351,17 @@
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>openxes-osgi</artifactId>
+        <artifactId>openxes</artifactId>
         <version>2.26</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>raffaeleconforti-osgi</artifactId>
+        <artifactId>raffaeleconforti</artifactId>
         <version>1.2</version>
       </dependency>
       <dependency>
         <groupId>org.apromore</groupId>
-        <artifactId>spex-osgi</artifactId>
+        <artifactId>spex</artifactId>
         <version>1.0</version>
       </dependency>
       <dependency>
