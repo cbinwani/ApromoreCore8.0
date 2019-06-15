@@ -18,19 +18,14 @@
     <module>features</module>
     <module>folder</module>
     <module>item</module>
+    <module>lib</module>
     <module>metrics</module>
-    <module>openxes</module>
-    <module>osgi-useradmin-api</module>
     <module>pql</module>
-    <module>prom6</module>
-    <module>raffaeleconforti</module>
     <module>shell-commands</module>
-    <module>spex</module>
     <module>ui</module>
     <module>ui-spi</module>
     <module>user</module>
     <module>xes</module>
-    <module>zk</module>
   </modules>
 
   <licenses>

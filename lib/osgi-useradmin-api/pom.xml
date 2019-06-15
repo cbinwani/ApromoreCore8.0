@@ -1,21 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.apromore</groupId>
-    <artifactId>apromore</artifactId>
+    <artifactId>lib</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
   <artifactId>osgi-useradmin-api</artifactId>
   <packaging>bundle</packaging>
   <version>6.0.0</version>
-  <name>OSGi R6 User Admin API</name>
-  <description>
-      Just the org.osgi.service.useradmin.* packages from OSGi R6.
-  </description>
+  <name>Apromore :: lib :: OSGi R6 User Admin API</name>
+  <description>Just the org.osgi.service.useradmin.* packages from OSGi R6.</description>
   <inceptionYear>2019</inceptionYear>
 
   <build>

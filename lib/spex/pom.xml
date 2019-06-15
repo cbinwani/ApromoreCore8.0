@@ -21,18 +21,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apromore</groupId>
-        <artifactId>apromore</artifactId>
+        <artifactId>lib</artifactId>
         <version>8.0-SNAPSHOT</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>openxes</artifactId>
-    <version>2.26</version>
+    <artifactId>spex</artifactId>
+    <version>1.0</version>
     <packaging>bundle</packaging>
-    <name>Apromore :: openxes</name>
-    <description>OpenXES OSGi wrapper</description>
+    <name>Apromore :: lib :: spex</name>
+    <description>Spex OSGi wrapper</description>
     <inceptionYear>2019</inceptionYear>
 
     <repositories>
@@ -50,30 +50,13 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Embed-Dependency>openxes</Embed-Dependency>
+                        <Embed-Dependency>spex</Embed-Dependency>
                         <Embed-Directory>OSGI-INF/lib</Embed-Directory>
-                        <Import-Package>
-                            org.deckfour.spex,
-<!--
-                            org.deckfour.spex.util,
-                            org.eclipse.collections.api.map,
-                            org.eclipse.collections.impl.map.mutable,
-                            org.eclipse.collections.impl.map.mutable.primitive,
-                            org.eclipse.collections.impl.set.mutable,
--->
-                            com.google.common.collect,
-                            *
-                        </Import-Package>
-                        <DynamicImport-Package>*</DynamicImport-Package>
+                        <Import-Package>*</Import-Package>
                         <Export-Package>
-                            org.deckfour.xes.*
+                            org.deckfour.spex,
+                            org.deckfour.spex.util
                         </Export-Package>
-<!--
-                        <Private-Package>
-                            org.deckfour.xes.info.impl,
-                            org.deckfour.xes.model.impl
-                        </Private-Package>
--->
                     </instructions>
                 </configuration>
             </plugin>
@@ -82,24 +65,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.deckfour</groupId>
-            <artifactId>openxes</artifactId>
-            <version>2.26</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apromore</groupId>
             <artifactId>spex</artifactId>
-            <scope>test</scope>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
