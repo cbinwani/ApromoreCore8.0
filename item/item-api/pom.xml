@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>item</artifactId>
+    <version>8.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.apromore</groupId>
+  <artifactId>item-api</artifactId>
+  <packaging>bundle</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Apromore :: item :: item-api</name>
+  <description>
+     Assets are durable resources such as folders, processes and logs.
+     Items are owned by JAAS Principals and are organized into directories.
+  </description>
+  <inceptionYear>2018</inceptionYear>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Import-Package>
+              *
+            </Import-Package>
+            <Export-Package>
+              org.apromore.item
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -14,48 +14,22 @@
   <inceptionYear>2018</inceptionYear>
 
   <modules>
-    <module>bpmn-diagram-importer</module>
-    <module>bpmn-item-api</module>
-    <module>bpmn-item-jpa</module>
-    <module>bpmn-item-jpa-eclipselink</module>
-    <module>bpmn-item-logic</module>
-    <module>bpmn-schema</module>
-    <module>bpmn-ui</module>
+    <module>bpmn</module>
     <module>features</module>
-    <module>folder-api</module>
-    <module>folder-jpa</module>
-    <module>folder-jpa-eclipselink</module>
-    <module>folder-logic</module>
-    <module>folder-ui</module>
-    <module>item-api</module>
-    <module>item-jpa</module>
-    <module>item-jpa-eclipselink</module>
-    <module>item-logic</module>
-    <module>item-spi</module>
-    <module>item-ui</module>
-<!--
-    <module>metrics-logic</module>
-    <module>metrics-ui</module>
--->
+    <module>folder</module>
+    <module>item</module>
+    <module>metrics</module>
     <module>openxes</module>
     <module>osgi-useradmin-api</module>
-    <module>pql-logic</module>
-    <module>pql-ui</module>
+    <module>pql</module>
     <module>prom6</module>
-<!--
     <module>raffaeleconforti</module>
--->
     <module>shell-commands</module>
     <module>spex</module>
     <module>ui</module>
     <module>ui-spi</module>
-    <module>user-api</module>
-    <module>user-logic</module>
-    <module>user-ui</module>
-    <module>xes-item-api</module>
-    <module>xes-item-jpa</module>
-    <module>xes-item-jpa-eclipselink</module>
-    <module>xes-item-logic</module>
+    <module>user</module>
+    <module>xes</module>
     <module>zk</module>
   </modules>
 
@@ -245,7 +219,7 @@
           <execution>
             <id>attach-javadocs</id>
             <goals>
-              <goal>jar</goal>
+              <!-- <goal>jar</goal> -->
             </goals>
           </execution>
         </executions>

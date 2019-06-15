@@ -6,11 +6,10 @@
     <feature name="apromore" version="${project.version}" description="Apromore application">
         <feature version="[1,2)">apromore-datasource-h2</feature>
 
+        <feature version="[1,2)">apromore-ui</feature>
+
         <feature version="[1,2)">apromore-user-logic</feature>
         <feature version="[1,2)">apromore-user-ui</feature>
-
-        <feature version="[1,2)">apromore-ui</feature>
-        <feature version="[1.0.3,2)">useradmin-filestore</feature>
 
         <feature version="[1,2)">apromore-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-item-logic</feature>
@@ -27,10 +26,8 @@
         <feature version="[1,2)">apromore-xes-item-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-xes-item-logic</feature>
 
-<!--
-        <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature version="[1,2)">apromore-metrics-ui</feature>
--->
+        <feature version="[1,2)">apromore-pql-ui</feature>
 
         <feature version="[1,2)">apromore-shell-commands</feature>
     </feature>
@@ -80,7 +77,7 @@
     </feature>
 
     <feature name="apromore-bpmn-ui" version="1.0-SNAPSHOT" description="Apromore BPMN editor (bpmn.io)">
-        <feature>apromore-bpmn-item-logic</feature>
+        <feature>apromore-bpmn-item-api</feature>
         <feature>apromore-ui-spi</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/bpmn-ui/1.0-SNAPSHOT</bundle>
@@ -206,7 +203,7 @@
     </feature>
 
     <feature name="apromore-metrics-ui" version="1.0-SNAPSHOT" description="Measurement service user interface plugin">
-        <feature>apromore-bpmn-item-logic</feature>
+        <feature>apromore-bpmn-item-api</feature>
         <feature version="[2,3)">apromore-metrics-logic</feature>
         <feature>apromore-ui-spi</feature>
         <feature>apromore-xes-item-api</feature>
@@ -241,7 +238,7 @@
         <feature>apromore-zk</feature>
         <feature>http-whiteboard</feature>
         <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.runtime.HttpServiceRuntime)</requirement>
-        <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle>
+        <!-- <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle> -->
         <bundle>mvn:org.apromore/ui/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -258,7 +255,7 @@
     <feature name="apromore-user-logic" version="1.0-SNAPSHOT" description="Apromore user logic">
         <feature>apromore-user-api</feature>
         <feature>apromore-zk</feature>
-        <feature>osgi-useradmin-api</feature>
+        <!-- <feature>osgi-useradmin-api</feature> -->
         <feature dependency="true">aries-blueprint</feature>
         <!-- <feature>useradmin</feature> -->
         <bundle>mvn:org.apromore/user-logic/1.0-SNAPSHOT</bundle>
@@ -356,6 +353,7 @@
         <bundle>mvn:org.apromore/spex/1.0</bundle>
     </feature>
 
+    <!--
     <feature name="useradmin" version="1.0.4-SNAPSHOT" description="User Admin service">
         <feature dependency="true">aries-blueprint</feature>
         <feature>osgi-useradmin-api</feature>
@@ -367,6 +365,7 @@
         <feature>useradmin</feature>
         <bundle>mvn:org.apache.felix/org.apache.felix.useradmin.filestore/1.0.3-SNAPSHOT</bundle>
     </feature>
+    -->
 
     <feature name="xpp" version="1.1.4-c_7" description="XML pull parser">
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xpp3/1.1.4c_7</bundle>

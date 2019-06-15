@@ -144,6 +144,7 @@
                             org.processmining.basicutils.plugins,
                             org.processmining.basicutils.utils,
                             org.processmining.connections.logmodel,
+<!--
                             org.processmining.contexts.cli,
                             org.processmining.contexts.scripting,
                             org.processmining.contexts.test,
@@ -156,6 +157,7 @@
                             org.processmining.contexts.uitopia.packagemanager,
                             org.processmining.contexts.util,
                             org.processmining.contexts.util.jgraph,
+-->
                             org.processmining.converting,
                             org.processmining.exporting,
                             org.processmining.filtering,
@@ -167,6 +169,7 @@
                             org.processmining.filtering.xfilter.interfaces,
                             org.processmining.filtering.xflog.implementations,
                             org.processmining.filtering.xflog.interfaces,
+<!--
                             org.processmining.framework,
                             org.processmining.framework.abstractplugins,
                             org.processmining.framework.annotations,
@@ -229,6 +232,7 @@
                             org.processmining.framework.util.ui.widgets.traceview.masterdetail,
                             org.processmining.framework.util.ui.wizard,
                             org.processmining.framework.xstream,
+-->
                             org.processmining.importing,
                             org.processmining.log.algorithms,
                             org.processmining.log.connections,
@@ -259,6 +263,7 @@
                             org.processmining.models.animation,
                             org.processmining.models.animation.visualization,
                             org.processmining.models.animation.visualization.painters,
+<!--
                             org.processmining.models.connections,
                             org.processmining.models.connections.opennet,
                             org.processmining.models.connections.petrinets,
@@ -318,9 +323,11 @@
                             org.processmining.models.semantics.petrinet.providers,
                             org.processmining.models.shapes,
                             org.processmining.models.util,
+-->
                             org.processmining.plugins,
                             org.processmining.plugins.astar.petrinet,
                             org.processmining.plugins.astar.petrinet.impl,
+<!--
                             org.processmining.plugins.bpmn,
                             org.processmining.plugins.bpmn.converter,
                             org.processmining.plugins.bpmn.diagram,
@@ -336,6 +343,7 @@
                             org.processmining.plugins.bpmn.miner.util,
                             org.processmining.plugins.bpmn.parameters,
                             org.processmining.plugins.bpmn.plugins,
+-->
                             org.processmining.plugins.connectionfactories.logpetrinet,
                             org.processmining.plugins.filtering,
                             org.processmining.plugins.flowerMiner,

@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>user</artifactId>
+    <version>8.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.apromore</groupId>
+  <artifactId>user-ui</artifactId>
+  <packaging>bundle</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Apromore :: user :: user-ui</name>
+  <description>UI for operations manipulating user accounts.</description>
+  <inceptionYear>2019</inceptionYear>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Import-Package>
+              *
+            </Import-Package>
+            <Export-Package>
+              org.apromore.user_ui
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>ui-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>user-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zcommon</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>apromore</artifactId>
+    <version>8.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.apromore</groupId>
+  <artifactId>bpmn</artifactId>
+  <version>8.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Apromore :: BPMN</name>
+  <description>BPMN process model support for Apromore</description>
+  <inceptionYear>2018</inceptionYear>
+
+  <modules>
+    <module>bpmn-diagram-importer</module>
+    <module>bpmn-item-api</module>
+    <module>bpmn-item-jpa</module>
+    <module>bpmn-item-jpa-eclipselink</module>
+    <module>bpmn-item-logic</module>
+    <module>bpmn-schema</module>
+    <module>bpmn-ui</module>
+  </modules>
+
+</project>
