@@ -36,7 +36,7 @@ import javax.security.auth.login.LoginException;
 import org.apromore.user.NotAuthorizedException;
 import org.apromore.user.User;
 import org.apromore.user.UserService;
-import org.osgi.service.useradmin.UserAdmin;
+//import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Executions;
@@ -67,7 +67,7 @@ public final class UserServiceImpl implements UserService {
     private String loginConfigurationName;
 
     /** OSGi R6 container-provided user administration service. */
-    private UserAdmin userAdmin;
+    //private UserAdmin userAdmin;
 
     /** Which {@link Principal} class identifies a user?
      *
@@ -90,6 +90,7 @@ public final class UserServiceImpl implements UserService {
     }
 
     /** @param newUserAdmin  newly-bound service */
+    /*
     public void setUserAdmin(final UserAdmin newUserAdmin) {
         LOGGER.info("Binding new user admin to UI service, was "
             + this.userAdmin);
@@ -99,6 +100,7 @@ public final class UserServiceImpl implements UserService {
         LOGGER.info("Bound new user admin to UI service, now "
             + this.userAdmin);
     }
+    */
 
     /**
      * @param newUserPrincipalClass  of the various principals associated

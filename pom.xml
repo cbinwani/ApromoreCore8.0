@@ -21,7 +21,6 @@
     <module>lib</module>
     <module>metrics</module>
     <module>pql</module>
-    <module>shell-commands</module>
     <module>ui</module>
     <module>ui-spi</module>
     <module>user</module>

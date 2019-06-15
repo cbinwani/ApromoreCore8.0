@@ -22,6 +22,7 @@
     <module>folder-api</module>
     <module>folder-jpa</module>
     <module>folder-jpa-eclipselink</module>
+    <module>folder-karaf</module>
     <module>folder-logic</module>
     <module>folder-ui</module>
   </modules>

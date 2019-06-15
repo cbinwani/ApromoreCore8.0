@@ -1,8 +1,8 @@
-package org.apromore.karaf.shell;
+package org.apromore.folder_karaf;
 
 /*-
  * #%L
- * Apromore :: shell-commands
+ * Apromore :: folder :: karaf
  * %%
  * Copyright (C) 2019 The Apromore Initiative
  * %%
@@ -27,26 +27,26 @@ import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 import org.apache.karaf.shell.support.table.ShellTable;
-import org.osgi.service.useradmin.UserAdmin;
+import org.apromore.folder.FolderService;
 
 /**
- * Command <code>apromore:list-users</code> for the Karaf shell.
+ * Command <code>apromore:list-contents</code> for the Karaf shell.
  */
 @Service
 @Command(scope       = "apromore",
-         name        = "list-users",
-         description = "List apromore users")
-public class ListUsersCommand implements Action {
+         name        = "list-contents",
+         description = "List folder contents")
+public class ListContentsCommand implements Action {
 
-    /** User administration service. */
+    /** Folder service. */
     @Reference
-    private UserAdmin userAdmin;
+    private FolderService folderService;
 
     /** {@inheritDoc} */
     @Override
     public Object execute() throws Exception {
         ShellTable table = new ShellTable();
-        table.column("User ID");
+        table.column("Name");
         table.addRow().addContent("Dummy");
         table.print(System.out);
         return null;

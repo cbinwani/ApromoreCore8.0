@@ -4,4 +4,4 @@
  * The subshell is named <code>apromore</code>, e.g.
  * <code>apromore:list-users</code> etc.
  */
-package org.apromore.karaf.shell;
+package org.apromore.folder_karaf;

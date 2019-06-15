@@ -3,19 +3,17 @@
 
   <parent>
     <groupId>org.apromore</groupId>
-    <artifactId>apromore</artifactId>
+    <artifactId>folder</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>shell-commands</artifactId>
+  <artifactId>folder-karaf</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: shell-commands</name>
-  <description>
-      Karaf shell commands for Apromore
-  </description>
+  <name>Apromore :: folder :: karaf</name>
+  <description>Karaf shell commands for Apromore folders</description>
   <inceptionYear>2019</inceptionYear>
 
   <build>
@@ -42,7 +40,6 @@
           <instructions>
             <Import-Package>
               org.apache.karaf.shell*;version="[4,5)",
-              org.osgi.service.useradmin; version="[1.1,2.0)",
               *
             </Import-Package>
           </instructions>
@@ -58,12 +55,8 @@
       <version>${karaf.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.cmpn</artifactId>
+      <groupId>org.apromore</groupId>
+      <artifactId>folder-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
