@@ -65,6 +65,10 @@ If additional libraries are required, they may be added to this embedded reposit
 - Other modules should not declare dependencies to the embedded artifacts, because they will not initially be present in a downloader's local Maven repository.
 
 
+## Diagrams
+The diagrams in `$APROMORE_HOME/src/draw.io/` can be edited by [draw.io](https://www.draw.io).
+
+
 ## Icons (Font-based)
 ZK 8 bundles Font Awesome 4.3 which is quite different from the current version 5+.
 These can be accessed by assigning the iconSclass property on ZK buttons and labels.
