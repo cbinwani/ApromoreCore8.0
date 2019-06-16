@@ -22,12 +22,15 @@ package org.apromore.folder_karaf;
  * #L%
  */
 
+import java.util.List;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.apache.karaf.shell.support.table.Row;
 import org.apache.karaf.shell.support.table.ShellTable;
 import org.apromore.folder.FolderService;
+import org.apromore.item.Item;
 
 /**
  * Command <code>apromore:list-contents</code> for the Karaf shell.
@@ -46,9 +49,18 @@ public class ListContentsCommand implements Action {
     @Override
     public Object execute() throws Exception {
         ShellTable table = new ShellTable();
-        table.column("Name");
-        table.addRow().addContent("Dummy");
+        List<String> paths = folderService.getRootFolderPaths();
+        table.column("ID");
+        table.column("Path");
+        table.column("Type");
+        for (String path: paths) {
+            Item item = folderService.findItemByPath(path);
+            Row row = table.addRow();
+            row.addContent(item.getId());
+            row.addContent(path);
+            row.addContent(item.getType());
+        }
         table.print(System.out);
-        return null;
+        return String.format("Displayed %d result(s)", paths.size());
     }
 }
