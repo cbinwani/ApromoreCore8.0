@@ -3,6 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.3.0 http://karaf.apache.org/xmlns/features/v1.3.0">
 
+    <repository>mvn:org.apache.aries.jax.rs/org.apache.aries.jax.rs.features/1.0.3/xml</repository>
+
     <feature name="apromore" version="${project.version}" description="Apromore application">
         <feature version="[1,2)">apromore-datasource-h2</feature>
 
@@ -18,6 +20,7 @@
         <feature version="[1,2)">apromore-folder-jpa-eclipselink</feature>
         <feature version="[1,2)">apromore-folder-karaf</feature>
         <feature version="[1,2)">apromore-folder-logic</feature>
+        <feature version="[1,2)">apromore-folder-rest</feature>
         <feature version="[1,2)">apromore-folder-ui</feature>
 
         <feature version="[1,2)">apromore-bpmn-item-jpa-eclipselink</feature>
@@ -107,6 +110,11 @@
         </capability>
     </feature>
 
+    <feature name="apromore-folder-api" version="1.0-SNAPSHOT" description="Apromore folder API">
+        <feature>apromore-item-api</feature>
+        <bundle>mvn:org.apromore/folder-api/1.0-SNAPSHOT</bundle>
+    </feature>
+
     <feature name="apromore-folder-jpa" version="1.0-SNAPSHOT" description="Apromore folder JPA provider API">
         <feature>transaction</feature>
         <feature>jndi</feature>
@@ -127,9 +135,9 @@
         <bundle>mvn:org.apromore/folder-jpa-eclipselink/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-folder-api" version="1.0-SNAPSHOT" description="Apromore folder API">
-        <feature>apromore-item-api</feature>
-        <bundle>mvn:org.apromore/folder-api/1.0-SNAPSHOT</bundle>
+    <feature name="apromore-folder-karaf" version="1.0-SNAPSHOT" description="Karaf shell commands">
+        <feature>scr</feature>
+        <bundle>mvn:org.apromore/folder-karaf/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-folder-logic" version="1.0-SNAPSHOT" description="Apromore folder provider">
@@ -137,6 +145,16 @@
         <feature>apromore-folder-jpa</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/folder-logic/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-folder-rest" version="1.0-SNAPSHOT" description="Apromore folder REST endpoint">
+        <feature dependency="true">apromore-folder-api</feature>
+        <feature>aries-jax-rs-whiteboard</feature>
+        <feature>aries-jax-rs-whiteboard-jackson</feature>
+        <feature>scr</feature>
+        <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/${servicemix-spec.version}</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix-spec.version}</bundle>
+        <bundle>mvn:org.apromore/folder-rest/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-folder-ui" version="1.0-SNAPSHOT" description="Apromore folder-based UI">
@@ -220,11 +238,6 @@
         <feature>apromore-pql-logic</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/pql-ui/1.0-SNAPSHOT</bundle>
-    </feature>
-
-    <feature name="apromore-folder-karaf" version="1.0-SNAPSHOT" description="Karaf shell commands">
-        <feature>scr</feature>
-        <bundle>mvn:org.apromore/folder-karaf/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-ui" version="1.0-SNAPSHOT" description="Apromore web user interface">

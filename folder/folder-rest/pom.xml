@@ -45,5 +45,9 @@
       <groupId>org.apromore</groupId>
       <artifactId>folder-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+    </dependency>
   </dependencies>
 </project>
