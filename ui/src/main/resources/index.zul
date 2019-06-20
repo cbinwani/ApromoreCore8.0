@@ -5,7 +5,7 @@
   <style src="css/index.css"/>
   <window id="mainWindow" height="100%" apply="org.apromore.ui.impl.MainWindowController">
     <hbox width="100%">
-      <menubar id="menubar" hflex="1" vflex="0"/>
+      <menubar id="menubar" hflex="1" vflex="0" apply="org.apromore.ui.impl.MenubarController"/>
     </hbox>
     <box id="parent" width="100%" vflex="1" style="border: 1px solid black"/>
   </window>
