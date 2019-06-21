@@ -26,8 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.lang.Library;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.metainfo.ComponentInfo;
-import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
@@ -41,11 +40,16 @@ public final class MainWindowController extends SelectorComposer<Component> {
         LoggerFactory.getLogger(MainWindowController.class);
 
     @Override
-    public ComponentInfo doBeforeCompose(final Page page,
-        final Component component,
-        final ComponentInfo info) {
+    public void doAfterCompose(final Component component) throws Exception {
 
-        super.doBeforeCompose(page, component, info);
+        super.doAfterCompose(component);
+
+        LOGGER.info("Context path: " + Executions.getCurrent()
+                                                 .getContextPath());
+        LOGGER.info("Atributes: " + Executions.getCurrent()
+                                              .getAttributes());
+        LOGGER.info("Parameter: " + Executions.getCurrent()
+                                              .getParameterMap());
 
         // Propagate the ui.theme configuration property to ZK
         Library.setProperty("org.zkoss.theme.preferred",
@@ -70,7 +74,5 @@ public final class MainWindowController extends SelectorComposer<Component> {
         } catch (NumberFormatException e) {
             LOGGER.warn("Malformed session timeout in configuration", e);
         }
-
-        return info;
     }
 }
