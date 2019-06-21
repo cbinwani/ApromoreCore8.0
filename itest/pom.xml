@@ -40,6 +40,19 @@
 
         <dependency>
             <groupId>org.apromore</groupId>
+            <artifactId>ui</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apromore</groupId>
+            <artifactId>ui-spi</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apromore</groupId>
             <artifactId>user-logic</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>

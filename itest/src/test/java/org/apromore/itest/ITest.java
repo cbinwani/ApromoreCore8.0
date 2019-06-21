@@ -45,6 +45,7 @@ import org.ops4j.pax.exam.options.MavenUrlReference;
 //import org.ops4j.pax.exam.sample8.ds.Calculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.Sessions;
 
 @RunWith(PaxExam.class)
 public class ITest {
@@ -90,6 +91,7 @@ public class ITest {
             features(karafStandardRepo , "scr"),
             features(karafStandardRepo , "aries-blueprint"),
             features(karafStandardRepo , "http"),
+            features(karafStandardRepo , "http-whiteboard"),
             features(karafStandardRepo , "jpa"),
             mavenBundle()
                 .groupId("org.apromore")
@@ -97,11 +99,15 @@ public class ITest {
                 .versionAsInProject().start(),
             mavenBundle()
                 .groupId("org.apromore")
-                .artifactId("user-api")
+                .artifactId("ui-spi")
                 .versionAsInProject().start(),
             mavenBundle()
                 .groupId("org.apromore")
-                .artifactId("osgi-useradmin-api")
+                .artifactId("ui")
+                .versionAsInProject().start(),
+            mavenBundle()
+                .groupId("org.apromore")
+                .artifactId("user-api")
                 .versionAsInProject().start(),
             mavenBundle()
                 .groupId("org.apromore")
@@ -112,7 +118,7 @@ public class ITest {
 
     public static String karafVersion() {
         ConfigurationManager cm = new ConfigurationManager();
-        String karafVersion = cm.getProperty("pax.exam.karaf.version", "3.0.0");
+        String karafVersion = cm.getProperty("pax.exam.karaf.version", "4.2.5");
         return karafVersion;
     }
 
@@ -120,6 +126,7 @@ public class ITest {
     public void testGetUser() {
         LOG.info("Get user service: {}", userService);
         Assert.assertNotNull(userService);
+        Assert.assertNotNull(Sessions.getCurrent());
         try {
             User user = userService.getUser();
         LOG.info("Get user: {}", user);
