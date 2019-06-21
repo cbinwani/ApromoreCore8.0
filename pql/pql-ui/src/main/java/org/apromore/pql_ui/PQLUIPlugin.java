@@ -69,7 +69,7 @@ public final class PQLUIPlugin extends AbstractUIPlugin {
             new EventListener<Event>() {
 
             public void onEvent(final Event event) throws Exception {
-                //runProcessComputation(bpmnItem, context, window);
+                pqlService.test();
                 window.detach();
             }
         });

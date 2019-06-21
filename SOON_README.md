@@ -37,8 +37,8 @@ Add the following requirements and procedure to **Running**.
 The [Process Query Language](http://processquerying.com/pql/) allows process models to be selected by their behavioral properties.
 
 ### Requirements
-- MySQL; PQL uses MySQL-specific stored procedures.
 - JRE 8; the Lucene indexer will fail on other Java versions.
+- MySQL; PQL uses MySQL-specific stored procedures.  Follow the previous instructions to set up MySQL.
 
 ### Procedure
 - Create the PQL database:

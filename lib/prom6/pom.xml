@@ -50,7 +50,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Embed-Dependency>bsh|bpmn|jgraph|prom6-*|slickerbox1|uitopia|widgets</Embed-Dependency>
+                        <Embed-Dependency>bsh|bpmn|jgraph|petrinets|prom6-*|slickerbox1|uitopia|widgets</Embed-Dependency>
                         <Embed-Directory>OSGI-INF/lib</Embed-Directory>
                         <Import-Package>
                             !com.sun.management,
@@ -62,7 +62,9 @@
                             !org.apache.commons.io,
                             !org.freehep.*,
                             !org.junit.*,
+                            !org.processmining.models.graphbased.directed.transitionsystem,
                             !sun.management,
+                            !uk.ac.shef.wit.simmetrics.similaritymetrics,
                             *
                         </Import-Package>
                         <Export-Package>
@@ -117,6 +119,11 @@
         <dependency>
             <groupId>org.processmining</groupId>
             <artifactId>prom6-models</artifactId>
+            <version>6.5.20180622</version>
+        </dependency>
+        <dependency>
+            <groupId>org.processmining</groupId>
+            <artifactId>petrinets</artifactId>
             <version>6.5.20180622</version>
         </dependency>
         <dependency>

@@ -24,15 +24,63 @@ package org.apromore.pql.impl;
 
 import org.apromore.pql.PQLService;
 import org.osgi.service.component.annotations.Component;
+import org.pql.api.PQLAPI;
+import org.pql.ini.PQLIniFile;
+import org.pql.query.PQLQueryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Implementation of {@link PQLService}.
  */
 @Component
 public class PQLServiceImpl implements PQLService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PQLServiceImpl.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(PQLServiceImpl.class);
 
-    // Not yet implemented
+    @Override
+    public void test() {
+        LOGGER.info("Test");
+
+        try {
+            PQLIniFile iniFile = new PQLIniFile();
+            if (!iniFile.load()) {
+                iniFile.create();
+                if (!iniFile.load()) {
+                    LOGGER.error("Cannot load PQL ini file.");
+                    return;
+                }
+            }
+
+            PQLAPI pql = new PQLAPI(
+                iniFile.getMySQLURL(),
+                iniFile.getMySQLUser(),
+                iniFile.getMySQLPassword(),
+                iniFile.getPostgreSQLHost(),
+                iniFile.getPostgreSQLName(),
+                iniFile.getPostgreSQLUser(),
+                iniFile.getPostgreSQLPassword(),
+                iniFile.getLoLA2Path(),
+                iniFile.getLabelSimilaritySeacrhConfiguration(),
+                iniFile.getIndexType(),
+                iniFile.getLabelManagerType(),
+                iniFile.getDefaultLabelSimilarityThreshold(),
+                iniFile.getIndexedLabelSimilarityThresholds(),
+                iniFile.getNumberOfQueryThreads(),
+                iniFile.getDefaultBotMaxIndexTime(),
+                iniFile.getDefaultBotSleepTime());
+            PQLQueryResult result = pql.query("SELECT * FROM *;");
+            if (result.getNumberOfParseErrors() != 0) {
+                for (String message: result.getParseErrorMessages()) {
+                    LOGGER.error(message);
+                }
+                return;
+            }
+
+            LOGGER.info("Result: " + result.getSearchResults());
+
+        } catch (Exception e) {
+            LOGGER.error("Unable to make PQL query", e);
+        }
+    }
 }

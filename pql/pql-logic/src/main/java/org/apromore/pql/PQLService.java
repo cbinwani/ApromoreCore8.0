@@ -27,5 +27,6 @@ package org.apromore.pql;
  */
 public interface PQLService {
 
-    // Not yet implemented.
+    /** Dummy method. */
+    void test();
 }

@@ -32,7 +32,6 @@
 
         <feature version="[1,2)">apromore-metrics-ui</feature>
         <feature version="[1,2)">apromore-pql-ui</feature>
-
     </feature>
 
     <feature name="apromore-bpmn-diagram-importer" version="2.0-SNAPSHOT" description="Parse BPMN into ProM graph">
@@ -230,7 +229,27 @@
     </feature>
 
     <feature name="apromore-pql-logic" version="2.0-SNAPSHOT" description="PQL process query language service">
+        <feature>openxes</feature>
+        <feature>prom6</feature>
         <feature>scr</feature>
+        <bundle>wrap:mvn:commons-cli/commons-cli/1.4$Export-Package=org.apache.commons.cli;version=&quot;1.4&quot;</bundle>
+        <bundle>wrap:mvn:de.congrace/exp4j/0.3.11</bundle>
+        <bundle>wrap:mvn:mysql/mysql-connector-java/5.1.31</bundle>
+        <bundle>wrap:mvn:org.antlr/antlr4-runtime/4.7.2$Export-Package=org.antlr.v4.runtime;version=&quot;4.7.2&quot;</bundle>
+        <bundle>wrap:mvn:org.apache.lucene/lucene-analyzers-common/5.3.0</bundle>
+        <bundle>wrap:mvn:org.apache.lucene/lucene-core/5.3.0</bundle>
+        <bundle>wrap:mvn:org.apache.lucene/lucene-queryparser/5.3.0</bundle>
+        <bundle>wrap:mvn:org.ini4j/ini4j/0.5.4</bundle>
+        <bundle>wrap:mvn:org.jbpt/jbpt-core/0.3.1</bundle>
+        <bundle>wrap:mvn:org.jbpt/jbpt-petri/0.3.1</bundle>
+        <bundle>mvn:org.json/json/20180813</bundle>
+        <bundle>wrap:mvn:org.pql/pql/1.3$Import-Package=com.mysql.jdbc,*&amp;Export-Package=org.pql.*;version=&quot;1.3&quot;</bundle>
+        <bundle>wrap:mvn:org.processmining/basicutils/6.5.20180622$Export-Package=org.processmining.basicutils.*;version=&quot;6.5.20180622&quot;</bundle>
+        <bundle>wrap:mvn:org.processmining/efficientstorage/6.5.20180622$Export-Package=nl.tue.astar;version=&quot;6.5.20180622&quot;</bundle>
+        <bundle>wrap:mvn:org.processmining/inductiveminer/6.5.20170418$Export-Package=org.processmining.plugins.*;version=&quot;6.5.20170418&quot;</bundle>
+        <!-- <bundle>wrap:mvn:org.processmining/petrinets/6.5.20180622$Export-Package=org.processmining.*;version=&quot;6.5.20180622&quot;</bundle> -->
+        <bundle>wrap:mvn:org.processmining/pnetreplayer/6.5.20180622$Export-Package=org.processmining.*;version=&quot;6.5.20180622&quot;</bundle>
+        <bundle>wrap:mvn:org.themis/themis/1.0$Export-Package=org.themis.*;version=&quot;1.0&quot;</bundle>
         <bundle>mvn:org.apromore/pql-logic/2.0-SNAPSHOT</bundle>
     </feature>
 
