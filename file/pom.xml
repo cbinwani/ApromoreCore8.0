@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apromore</groupId>
+    <artifactId>apromore</artifactId>
+    <version>8.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.apromore</groupId>
+  <artifactId>file</artifactId>
+  <version>8.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Apromore :: file</name>
+  <description>File handling support for Apromore</description>
+  <inceptionYear>2019</inceptionYear>
+
+  <modules>
+    <module>file-api</module>
+    <module>file-jpa</module>
+    <module>file-jpa-eclipselink</module>
+    <module>file-logic</module>
+    <module>file-ui</module>
+  </modules>
+
+</project>
