@@ -26,13 +26,15 @@
   </build>
 
   <dependencies>
-    <!-- Bundle compiler complains if it doesn't know javax.enterprise.util.Nonbinding annotation -->
-    <dependency>
+    <dependency>  <!-- Required only for JDK 1.8 back-compatibility -->
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>  <!-- Bundle compiler complains if it doesn't know javax.enterprise.util.Nonbinding annotation -->
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
     </dependency>
-    <!-- Bundle compiler complains if it doesn't know javax.interceptor.InterceptorBinding annotation -->
-    <dependency>
+    <dependency>  <!-- Bundle compiler complains if it doesn't know javax.interceptor.InterceptorBinding annotation -->
       <groupId>javax.interceptor</groupId>
       <artifactId>javax.interceptor-api</artifactId>
     </dependency>
@@ -51,6 +53,10 @@
     <dependency>
       <groupId>org.apromore</groupId>
       <artifactId>file-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>file-spi</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>

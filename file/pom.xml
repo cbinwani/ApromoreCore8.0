@@ -23,6 +23,7 @@
     <module>file-jpa</module>
     <module>file-jpa-eclipselink</module>
     <module>file-logic</module>
+    <module>file-spi</module>
     <module>file-ui</module>
   </modules>
 

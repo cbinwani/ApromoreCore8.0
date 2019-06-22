@@ -22,6 +22,7 @@ package org.apromore.file_ui;
  * #L%
  */
 
+import java.io.IOException;
 import org.apromore.file.FileService;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.ui.spi.AbstractUIPlugin;
@@ -87,7 +88,7 @@ public final class UploadFileUIPlugin extends AbstractUIPlugin {
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        userService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
+        userService.authenticate(getLocalizedString("uploadFile.mustHaveOwner"),
             new Runnable() {
 
             /**
@@ -109,7 +110,7 @@ public final class UploadFileUIPlugin extends AbstractUIPlugin {
                             try {
                                 fileService.createFile(media.getStreamData());
 
-                            } catch (NotAuthorizedException e) {
+                            } catch (IOException | NotAuthorizedException e) {
                                 e.printStackTrace();
                                 Messagebox.show("Upload failed for "
                                     + media.getName() + "\n" + e.getMessage(),

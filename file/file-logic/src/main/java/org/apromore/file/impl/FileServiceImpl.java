@@ -22,19 +22,17 @@ package org.apromore.file.impl;
  * #L%
  */
 
-import java.io.ByteArrayOutputStream;
+import com.google.common.io.ByteStreams;
 import java.io.InputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apromore.file.File;
 import org.apromore.file.FileService;
 import org.apromore.file.jpa.FileDAO;
 import org.apromore.file.jpa.FileRepository;
+import org.apromore.file.spi.FilePlugin;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -43,14 +41,23 @@ import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import static org.osgi.service.component.annotations.FieldOption.UPDATE;
+import static org.osgi.service.component.annotations.ReferenceCardinality.MULTIPLE;
+import static org.osgi.service.component.annotations.ReferencePolicy.DYNAMIC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Both a {@link FileService} and an {@link ItemPlugin} providing
  * file support.
  */
 @Component(service = {FileService.class, ItemPlugin.class})
-public final class FilePluginImpl implements FileService,
+public final class FileServiceImpl implements FileService,
     ItemPlugin<File> {
+
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(FileServiceImpl.class);
 
     // OSGi services
 
@@ -80,6 +87,11 @@ public final class FilePluginImpl implements FileService,
         this.itemPluginContext = context;
     }
 
+    /** The dynamically populated list of file plugins. */
+    @Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE,
+               policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
+    private List<FilePlugin> filePlugins;
+
 
     // ItemPlugin implementation
 
@@ -87,7 +99,12 @@ public final class FilePluginImpl implements FileService,
     public File create(final InputStream inputStream)
         throws ItemFormatException, NotAuthorizedException {
 
-        return createFile(inputStream);
+        try {
+            return createFile(inputStream);
+
+        } catch (IOException e) {
+            throw new Error("Unable to create file from stream", e);
+        }
     }
 
     @Override
@@ -111,30 +128,22 @@ public final class FilePluginImpl implements FileService,
 
     @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public File createFile(final InputStream in)
-        throws NotAuthorizedException {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            TransformerFactory.newInstance()
-                              .newTransformer()
-                              .transform(new StreamSource(in),
-                                         new StreamResult(baos));
+    public File createFile(final InputStream inputStream)
+        throws IOException, NotAuthorizedException {
 
-            Item item = this.itemPluginContext.create(getType());
+        // Materializing the inputStream into memory isn't ideal....
+        //byte[] buffer = inputStream.readAllBytes();
+        byte[] buffer = ByteStreams.toByteArray(inputStream);  // JDK 1.8
+        inputStream.close();
 
-            FileDAO dao = new FileDAO();
-            dao.setId(item.getId());
-            dao.setContent(baos.toByteArray());
-            fileRepository.add(dao);
+        Item item = this.itemPluginContext.create(getType());
 
-            return new FileImpl(item, dao);
+        FileDAO dao = new FileDAO();
+        dao.setId(item.getId());
+        dao.setContent(buffer);
+        fileRepository.add(dao);
 
-        } catch (TransformerConfigurationException e) {
-            throw new Error("Server configuration error", e);
-
-        } catch (TransformerException e) {
-            throw new Error("Server error", e);
-        }
+        return new FileImpl(item, dao);
     }
 
     @Override
@@ -143,5 +152,35 @@ public final class FilePluginImpl implements FileService,
         Item        item = this.itemPluginContext.getById(id);
         FileDAO dao  = fileRepository.get(id);
         return new FileImpl(item, dao);
+    }
+
+
+    // ItemPlugins reference list listener implementation
+
+    /**
+     * @param filePlugin  the newly-bound plugin
+     * @param properties  unused
+     */
+    public void onBind(final FilePlugin filePlugin, final Map properties) {
+        LOGGER.info("Bind file plugin " + filePlugin + " with properties "
+            + properties);
+    }
+
+    /**
+     * @param filePlugin  the newly-unbound plugin
+     * @param properties  unused
+     */
+    public void onUnbind(final FilePlugin filePlugin, final Map properties) {
+        LOGGER.info("Unbind file plugin " + filePlugin + " with properties "
+            + properties);
+    }
+
+    /**
+     * @param filePlugin  the newly-updated plugin
+     * @param properties  unused
+     */
+    public void onUpdated(final FilePlugin filePlugin, final Map properties) {
+        LOGGER.info("Updated file plugin " + filePlugin + " with properties "
+            + properties);
     }
 }

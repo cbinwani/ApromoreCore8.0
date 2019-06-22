@@ -114,6 +114,7 @@
     </feature>
 
     <feature name="apromore-file-api" version="1.0-SNAPSHOT" description="Apromore file service API">
+        <feature>apromore-item-api</feature>
         <bundle>mvn:org.apromore/file-api/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -140,9 +141,14 @@
     <feature name="apromore-file-logic" version="1.0-SNAPSHOT" description="Apromore file service">
         <feature>apromore-file-api</feature>
         <feature>apromore-file-jpa</feature>
-        <!-- <feature>apromore-file-spi</feature> -->
+        <feature>apromore-file-spi</feature>
         <feature>apromore-user-api</feature>
         <bundle>mvn:org.apromore/file-logic/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-file-spi" version="1.0-SNAPSHOT" description="Apromore file plugin SPI">
+        <feature>apromore-file-api</feature>
+        <bundle>mvn:org.apromore/file-spi/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-file-ui" version="1.0-SNAPSHOT" description="Apromore file UI">

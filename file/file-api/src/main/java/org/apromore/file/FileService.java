@@ -23,6 +23,7 @@ package org.apromore.file;
  */
 
 import java.io.InputStream;
+import java.io.IOException;
 import org.apromore.item.NotAuthorizedException;
 
 /**
@@ -31,13 +32,15 @@ import org.apromore.item.NotAuthorizedException;
 public interface FileService {
 
     /**
-     * @param in  a stream to populate the {@link File}, or <code>null</code>
-     *     to create an empty document
+     * @param inputStream  a stream to populate the {@link File}, or
+     *     <code>null</code> to create an empty document
      * @return an instance representing the stored document
+     * @throws IOException if <code>inputStream</code> can't be read
      * @throws NotAuthorizedException if the caller's credentials do not permit
-     *     item creation
+     *     file creation
      */
-    File createFile(InputStream in) throws NotAuthorizedException;
+    File createFile(InputStream inputStream) throws IOException,
+        NotAuthorizedException;
 
     /**
      * @param id  primary key
