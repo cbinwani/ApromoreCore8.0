@@ -20,7 +20,6 @@
 
   <modules>
     <module>openxes</module>
-    <module>osgi-useradmin-api</module>
     <module>prom6</module>
     <module>raffaeleconforti</module>
     <module>spex</module>

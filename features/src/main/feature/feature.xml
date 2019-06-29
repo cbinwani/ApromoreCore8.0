@@ -363,12 +363,6 @@
         <bundle>mvn:org.apromore/openxes/2.26</bundle>
     </feature>
 
-    <feature name="osgi-useradmin-api" version="6.0.0" description="OSGi R6 User Admin API">
-        <feature>http</feature>
-        <feature version="[2,3)">jpa</feature>
-        <bundle>mvn:org.apromore/osgi-useradmin-api/6.0.0</bundle>
-    </feature>
-
     <feature name="prom6" version="6.5.20180622" description="Process Mining library">
         <feature>http</feature>
         <feature>openxes</feature>
@@ -382,6 +376,10 @@
 
     <feature name="spex" version="1.0" description="XML serializer library">
         <bundle>mvn:org.apromore/spex/1.0</bundle>
+    </feature>
+
+    <feature name="useradmin-api" version="1.1.0" description="OSGi UserAdmin API">
+        <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
     </feature>
 
     <!--
