@@ -73,7 +73,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Dependency versions -->
-    <karaf.version>4.2.5</karaf.version>
+    <karaf.version>4.2.6</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <servicemix-spec.version>2.9.0</servicemix-spec.version>
     <zk.version>8.6.0.1</zk.version>

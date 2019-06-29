@@ -118,7 +118,7 @@ public class ITest {
 
     public static String karafVersion() {
         ConfigurationManager cm = new ConfigurationManager();
-        String karafVersion = cm.getProperty("pax.exam.karaf.version", "4.2.5");
+        String karafVersion = cm.getProperty("pax.exam.karaf.version", "4.2.6");
         return karafVersion;
     }
 

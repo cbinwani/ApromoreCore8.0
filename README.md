@@ -28,7 +28,7 @@ For a full list of contributors, visit [http://apromore.org/about](http://apromo
 ## Running
 ### Requirements
 - JRE 8, 9, 10, or 11 (prefer [OpenJDK](https://openjdk.java.net) rather than the Oracle JDK for licensing reasons)
-- [Apache Karaf](https://karaf.apache.org/) 4.2.5 unpacked at an arbitrary directory `$KARAF_HOME`
+- [Apache Karaf](https://karaf.apache.org/) 4.2.6 unpacked at an arbitrary directory `$KARAF_HOME`
 
 ### Procedure
 - Running under JRE 8 will normally fail (BPMN documents will fail to import) because it has an earlier version of the JAXB library (2.2.8).
