@@ -335,14 +335,14 @@
     </feature>
 
     <feature name="apromore-zk" version="${zk.version}" description="ZK UI toolkit">
-        <bundle>mvn:org.apromore/zk/1.0-SNAPSHOT</bundle>
         <!-- <bundle>wrap:mvn:org.zkoss.common/zcommon/8.6.0.1</bundle> --> <!--$Export-Package=org.zkoss.*;version=&quot;8.6.0.1&quot;-->
         <!-- <bundle>wrap:mvn:org.zkoss.common/zel/8.6.0.1</bundle> -->
         <!-- <bundle>wrap:mvn:org.zkoss.common/zweb/8.6.0.1</bundle> -->
-        <!-- <bundle>wrap:mvn:org.zkoss.theme/atlantic/8.6.0.1</bundle> -->
-        <!-- <bundle>wrap:mvn:org.zkoss.theme/sapphire/8.6.0.1</bundle> -->
-        <!-- <bundle>wrap:mvn:org.zkoss.theme/silvertail/8.6.0.1</bundle> -->
+        <bundle>wrap:mvn:org.zkoss.theme/atlantic/8.6.0.1$Fragment-Host=org.apromore.zk;bundle-version=&quot;[1.0,2)&quot;</bundle>
+        <bundle>wrap:mvn:org.zkoss.theme/sapphire/8.6.0.1$Fragment-Host=org.apromore.zk;bundle-version=&quot;[1.0,2)&quot;</bundle>
+        <bundle>wrap:mvn:org.zkoss.theme/silvertail/8.6.0.1$Fragment-Host=org.apromore.zk;bundle-version=&quot;[1.0,2)&quot;</bundle>
         <!-- <bundle>wrap:mvn:org.zkoss.zk/zul/8.6.0.1</bundle> -->
+        <bundle>mvn:org.apromore/zk/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="eclipse-collections" version="9.2.0" description="Eclipse collections">
