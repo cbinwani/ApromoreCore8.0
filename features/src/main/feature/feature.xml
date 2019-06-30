@@ -336,6 +336,8 @@
     </feature>
 
     <feature name="apromore-zk" version="${zk.version}" description="ZK UI toolkit">
+        <bundle>wrap:mvn:commons-io/commons-io/2.6</bundle>
+        <bundle>wrap:mvn:commons-fileupload/commons-fileupload/1.4</bundle>
         <bundle>wrap:mvn:org.zkoss.common/zcommon/${zk.version}$<!--
             -->Bundle-SymbolicName=org.zkoss.common.zcommon&amp;<!--
             -->Bundle-Version=${zk.version}&amp;<!--
