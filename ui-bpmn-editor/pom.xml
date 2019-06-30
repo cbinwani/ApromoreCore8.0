@@ -25,7 +25,8 @@
         <configuration>
           <instructions>
             <Export-Package>
-              metainfo.zk;-split-package:=merge-first,
+              metainfo.zk,
+              org.apromore.ui.bpmn_io,
               web.js.org.apromore
             </Export-Package>
             <Fragment-Host>org.apromore.ui;bundle-version="[1.0,2)"</Fragment-Host>
@@ -34,4 +35,11 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+  </dependencies>
 </project>

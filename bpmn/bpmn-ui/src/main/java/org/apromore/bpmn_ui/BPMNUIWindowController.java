@@ -26,7 +26,7 @@ import com.google.common.io.ByteStreams;
 import java.io.IOException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import org.apromore.bpmn_item.BPMNItem;
-import org.apromore.ui.spi.CustomZULComponent;
+import org.apromore.ui.bpmn_io.CustomZULComponent;
 //import org.apromore.ui.spi.UIPluginContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package org.apromore.ui.spi;
+package org.apromore.ui.bpmn_io;
 
 /*-
  * #%L
