@@ -3,7 +3,7 @@
 
   <parent>
     <groupId>org.apromore</groupId>
-    <artifactId>apromore</artifactId>
+    <artifactId>bpmn</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
 

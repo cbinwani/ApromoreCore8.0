@@ -26,6 +26,7 @@
     <module>bpmn-item-logic</module>
     <module>bpmn-schema</module>
     <module>bpmn-ui</module>
+    <module>ui-bpmn-editor</module>
   </modules>
 
 </project>
