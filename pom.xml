@@ -22,6 +22,7 @@
     <module>metrics</module>
     <module>pql</module>
     <module>ui</module>
+    <module>ui-bpmn-editor</module>
     <module>ui-spi</module>
     <module>user</module>
     <module>xes</module>
