@@ -22,11 +22,23 @@ package org.apromore.itest;
  * #L%
  */
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeoutException;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.inject.Inject;
+import org.apache.karaf.shell.api.console.Session;
+import org.apache.karaf.shell.api.console.SessionFactory;
 import org.apromore.user.User;
 import org.apromore.user.UserService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
@@ -41,8 +53,9 @@ import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configure
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.logLevel;
+import org.ops4j.pax.exam.karaf.options.LogLevelOption.LogLevel;
 import org.ops4j.pax.exam.options.MavenUrlReference;
-//import org.ops4j.pax.exam.sample8.ds.Calculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Sessions;
@@ -50,10 +63,20 @@ import org.zkoss.zk.ui.Sessions;
 @RunWith(PaxExam.class)
 public class ITest {
 
-    private static Logger LOG = LoggerFactory.getLogger(ITest.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ITest.class);
+
+    @Inject
+    protected SessionFactory sessionFactory;
 
     @Inject
     protected UserService userService;
+
+    private ExecutorService executor = Executors.newCachedThreadPool();
+
+    private ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    private PrintStream printStream = new PrintStream(byteArrayOutputStream);
+    private PrintStream errStream = new PrintStream(byteArrayOutputStream);
+    private Session session;
 
     @Configuration
     public Option[] config() {
@@ -71,14 +94,12 @@ public class ITest {
             .classifier("features")
             .type("xml");
 
-        /*
         MavenUrlReference apromoreRepo = maven()
             .groupId("org.apromore")
             .artifactId("features")
-            .version("1.0-SNAPSHOT")
+            .versionAsInProject()
             .classifier("features")
             .type("xml");
-        */
 
         return new Option[] {
             // KarafDistributionOption.debugConfiguration("5005", true),
@@ -86,6 +107,7 @@ public class ITest {
                 .frameworkUrl(karafUrl)
                 .unpackDirectory(new File("target", "exam"))
                 .useDeployFolder(false),
+            logLevel(LogLevel.INFO),
             keepRuntimeFolder(),
             configureConsole().ignoreLocalConsole(),
             features(karafStandardRepo , "scr"),
@@ -113,6 +135,7 @@ public class ITest {
                 .groupId("org.apromore")
                 .artifactId("user-logic")
                 .versionAsInProject().start(),
+            //features(apromoreRepo, "apromore-user-logic")
         };
     }
 
@@ -122,16 +145,54 @@ public class ITest {
         return karafVersion;
     }
 
-    @Test
-    public void testGetUser() {
-        LOG.info("Get user service: {}", userService);
-        Assert.assertNotNull(userService);
-        Assert.assertNotNull(Sessions.getCurrent());
-        try {
-            User user = userService.getUser();
-        LOG.info("Get user: {}", user);
-        Assert.assertNull(user);
-        } catch (NullPointerException e) { e.printStackTrace(); } 
+    @Before
+    public void setUpITestBase() throws Exception {
+        session = sessionFactory.create(System.in, printStream, errStream);
     }
 
+    /**
+     * @see https://github.com/ANierbeck/Karaf-Cassandra/blob/master/Karaf-Cassandra-ITest/src/test/java/de/nierbeck/cassandra/itest/TestBase.java#L140-L170
+     */
+    private String executeCommand(String command) {
+        try {
+            FutureTask<String> commandFuture = new FutureTask<String>(new Callable<String>() {
+                public String call() {
+                    try {
+                        System.err.println(command);
+                        session.execute(command);
+                    } catch (Exception e) {
+                        e.printStackTrace(System.err);
+                    }
+                    printStream.flush();
+                    errStream.flush();
+                    return byteArrayOutputStream.toString();
+                }
+            });
+            
+            executor.submit(commandFuture);
+            return commandFuture.get(10L, SECONDS);
+
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            throw new AssertionError("Unable to execute command " + command, e);
+        }
+    }
+
+    @Test
+    public void testFeatureList() {
+        String response = executeCommand("feature:list");
+        System.out.println(response);
+    }
+
+    @Test
+    public void testGetUser() {
+        LOGGER.info("info - Get user service: {}", userService);
+        System.out.println("out - Get user service: " + userService);
+
+        Assert.assertNotNull(userService);
+        //Assert.assertNotNull(Sessions.getCurrent());
+        //User user = userService.getUser();
+        //LOGGER.info("Get user: {}", user);
+        //System.out.println("out - Get user " + user);
+        //Assert.assertNull(user);
+    }
 }
