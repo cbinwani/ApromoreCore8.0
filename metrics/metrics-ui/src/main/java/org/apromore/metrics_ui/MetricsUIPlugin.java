@@ -44,9 +44,9 @@ import org.zkoss.zul.Window;
 // Local packages
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.item.Item;
-import org.apromore.item.Selection;
 import org.apromore.service.metrics.MetricsService;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.Selection;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.xes_item.XESItem;

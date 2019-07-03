@@ -33,13 +33,11 @@ import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
-//import org.apromore.item.User;
 import org.apromore.item.jpa.ItemDAO;
 import org.apromore.item.jpa.ItemRepository;
 import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
-import org.apromore.user.UserService;
 //import org.osgi.service.component.annotations.Component;
 //import org.osgi.service.component.annotations.Reference;
 //import static org.osgi.service.component.annotations.FieldOption.UPDATE;
@@ -66,23 +64,15 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     //    policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
     private List<ItemPlugin> itemPlugins;
 
-    /** Service used to check the caller's credentials for item creation. */
-    //@Reference
-    private UserService userService;
-
     /** Used to persist the item's fields. */
     //@Reference
     private ItemRepository itemRepository;
 
     /**
      * @param newItemPlugins  the dynamically populated list of item plugins
-     * @param newUserService  used to check the caller's credentials for item
-     *     creation
      */
-    public ItemServiceImpl(final List<ItemPlugin> newItemPlugins,
-                           final UserService newUserService) {
+    public ItemServiceImpl(final List<ItemPlugin> newItemPlugins) {
         this.itemPlugins = newItemPlugins;
-        this.userService = newUserService;
     }
 
     /** @param newRepository  used to persist the item's fields */
@@ -97,12 +87,14 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     @Transactional(Transactional.TxType.REQUIRED)
     public Item create(final String type) throws NotAuthorizedException {
 
+        /*
         try {
             userService.authorize("create");
 
         } catch (org.apromore.user.NotAuthorizedException e) {
             throw new NotAuthorizedException("Nope");
         }
+        */
         //User user = userService.getUser();
 
         ItemDAO dao = new ItemDAO();

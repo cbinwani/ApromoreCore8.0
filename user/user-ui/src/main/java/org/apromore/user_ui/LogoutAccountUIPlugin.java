@@ -25,7 +25,6 @@ package org.apromore.user_ui;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
-import org.apromore.user.Users;
 import org.osgi.service.component.annotations.Component;
 
 /**

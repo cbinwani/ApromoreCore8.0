@@ -40,15 +40,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-    </dependency>
-  </dependencies>
 </project>

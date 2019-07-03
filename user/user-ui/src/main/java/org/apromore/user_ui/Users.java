@@ -1,8 +1,8 @@
-package org.apromore.user;
+package org.apromore.user_ui;
 
 /*-
  * #%L
- * Apromore :: user-api
+ * Apromore :: user :: user-ui
  * %%
  * Copyright (C) 2019 The Apromore Initiative
  * %%
@@ -22,6 +22,7 @@ package org.apromore.user;
  * #L%
  */
 
+import org.apromore.user.User;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;

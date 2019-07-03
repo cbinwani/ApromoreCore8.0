@@ -22,12 +22,8 @@ package org.apromore.ui.impl;
  * #L%
  */
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apromore.ui.spi.UIPlugin;
@@ -36,8 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -112,61 +106,7 @@ public final class MenubarController extends SelectorComposer<Menubar>
 
     /** @return a freshly created plugin context */
     private UIPluginContext getUIPluginContext() {
-        return new UIPluginContextImpl();
-    }
-
-    /** {@inheritDoc UIPluginContext}. */
-    private class UIPluginContextImpl implements UIPluginContext {
-
-            @Override
-            public Component createComponent(final ClassLoader classLoader,
-                                             final String      uri,
-                                             final Map<?, ?>   arguments) {
-                try {
-                    InputStream in = classLoader.getResourceAsStream(uri);
-                    if (in == null) {
-                        throw new IOException("No resource " + uri
-                            + " found in bundle classpath");
-                    }
-
-                    parent.getChildren().clear();
-
-                    return Executions.createComponentsDirectly(
-                        new InputStreamReader(in, "UTF-8"),
-                        "zul",
-                        parent,
-                        arguments);
-
-                } catch (IOException e) {
-                    throw new Error("ZUL resource " + uri
-                        + " could not be created as as ZK component", e);
-                }
-            }
-
-            @Override
-            public Component getParentComponent() {
-                return parent;
-            }
-
-            @Override
-            public void setComponent(final Component component) {
-                parent.getChildren().clear();
-                parent.getChildren().add(component);
-            }
-
-            @Override
-            public Object getSessionAttribute(final String attribute) {
-
-                return Sessions.getCurrent().getAttribute(attribute);
-            }
-
-            @Override
-            @SuppressWarnings("checkstyle:AvoidInlineConditionals")
-            public void putSessionAttribute(final String attribute,
-                                            final Object newValue) {
-
-                Sessions.getCurrent().setAttribute(attribute, newValue);
-            }
+        return new UIPluginContextImpl(parent);
     }
 
     /**

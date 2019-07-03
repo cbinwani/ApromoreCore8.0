@@ -31,11 +31,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-    </dependency>
-  </dependencies> 
 </project>

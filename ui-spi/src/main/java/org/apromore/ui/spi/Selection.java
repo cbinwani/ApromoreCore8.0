@@ -1,8 +1,8 @@
-package org.apromore.item;
+package org.apromore.ui.spi;
 
 /*-
  * #%L
- * Apromore :: item-api
+ * Apromore :: ui-spi
  * %%
  * Copyright (C) 2018 - 2019 The Apromore Initiative
  * %%
@@ -21,8 +21,10 @@ package org.apromore.item;
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
+
 import java.util.Collections;
 import java.util.Set;
+import org.apromore.item.Item;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;

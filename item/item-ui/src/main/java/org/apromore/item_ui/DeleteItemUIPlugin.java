@@ -24,8 +24,8 @@ package org.apromore.item_ui;
 
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
-import org.apromore.item.Selection;
 import org.apromore.ui.spi.AbstractUIPlugin;
+import org.apromore.ui.spi.Selection;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.user.UserService;

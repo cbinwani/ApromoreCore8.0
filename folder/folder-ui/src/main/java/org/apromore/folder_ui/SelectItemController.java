@@ -30,7 +30,7 @@ import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.item.NotAuthorizedException;
-import org.apromore.item.Selection;
+import org.apromore.ui.spi.Selection;
 import org.apromore.ui.spi.UIPluginContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

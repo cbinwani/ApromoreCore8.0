@@ -42,8 +42,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.apromore</groupId>
+      <artifactId>item-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.zkoss.zk</groupId>

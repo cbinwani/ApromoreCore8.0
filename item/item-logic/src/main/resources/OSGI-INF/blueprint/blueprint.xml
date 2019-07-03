@@ -4,7 +4,6 @@
 
   <!-- OSGi service dependencies -->
   <reference id="itemRepository" interface="org.apromore.item.jpa.ItemRepository"/>
-  <reference id="userService" interface="org.apromore.user.UserService"/>
 
   <!-- Dynamically maintain a list of the available ItemPlugins -->
   <bean id="itemPluginListener" class="org.apromore.item.impl.ItemPluginListener"/>
@@ -15,7 +14,6 @@
   <!-- Publish the ItemService to clients, and the ItemPluginContext to item providers -->
   <bean id="itemService" class="org.apromore.item.impl.ItemServiceImpl">
     <argument ref="itemPlugins"/>
-    <argument ref="userService"/>
     <property name="itemRepository" ref="itemRepository"/>
   </bean>
   <service ref="itemService" interface="org.apromore.item.spi.ItemPluginContext"/>
