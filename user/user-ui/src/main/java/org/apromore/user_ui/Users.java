@@ -22,7 +22,7 @@ package org.apromore.user_ui;
  * #L%
  */
 
-import org.apromore.user.User;
+import org.osgi.service.useradmin.User;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;

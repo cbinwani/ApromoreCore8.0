@@ -1,8 +1,8 @@
-package org.apromore.user.impl;
+package org.apromore.ui.impl;
 
 /*-
  * #%L
- * Apromore :: user-logic
+ * Apromore :: ui
  * %%
  * Copyright (C) 2019 The Apromore Initiative
  * %%
@@ -69,9 +69,6 @@ public final class LoginController extends SelectorComposer<Component> {
      * <code>uid=jsmith,ou=staff,o=acme</code>.
      */
     private Class userPrincipalClass;
-
-    /** Used to chance the ZK session user. */
-    private UserServiceImpl userService;
 
     /** Login window. */
     @Wire

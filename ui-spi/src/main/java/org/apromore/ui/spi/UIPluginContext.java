@@ -71,4 +71,14 @@ public interface UIPluginContext {
      * @param newValue  the desired new value, possible <code>null</code>
      */
     void putSessionAttribute(String attribute, Object newValue);
+
+    /**
+     * Prompt the user to log in.
+     *
+     * @param reason  explanation to the user of why what they want to do
+     *     requires them to authenticate
+     * @param success  executed after the user successfully logs in
+     * @param failure  executed after the login is cancelled
+     */
+    void authenticate(String reason, Runnable success, Runnable failure);
 }

@@ -9,18 +9,12 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <!-- Imported services -->
-    <!-- Custom database-backed user admin service not yet implemented
-    <reference id="userAdmin" interface="org.osgi.service.useradmin.UserAdmin"/>
-    -->
-
-    <!-- User service -->
-    <service interface="org.apromore.user.UserService">
-        <bean class="org.apromore.user.impl.UserServiceImpl">
-            <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
-            <!-- <property name="userAdmin" ref="userAdmin"/> -->
-            <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
-        </bean>
-    </service>
+    <!-- User admin service -->
+    <bean id="userService" class="org.apromore.user.impl.UserServiceImpl">
+        <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
+        <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
+    </bean>
+    <service ref="userService" interface="org.apromore.user.UserService"/>
+    <service ref="userService" interface="org.osgi.service.useradmin.UserAdmin"/>
 
 </blueprint>

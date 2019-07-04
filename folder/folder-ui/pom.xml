@@ -65,10 +65,6 @@
       <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>user-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
     </dependency>

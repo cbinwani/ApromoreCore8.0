@@ -25,19 +25,13 @@ package org.apromore.user_ui;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
-import org.apromore.user.UserService;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * {@link UIPlugin} for the Account/Login command.
  */
 @Component(service = {UIPlugin.class})
 public final class LoginAccountUIPlugin extends AbstractUIPlugin {
-
-    /** The service used to authorize user sessions. */
-    @Reference
-    private UserService userService;
 
     /** Sole constructor. */
     public LoginAccountUIPlugin() {
@@ -63,6 +57,6 @@ public final class LoginAccountUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public void execute(final UIPluginContext context) {
-        userService.authenticate(null, null, null);
+        context.authenticate(null, null, null);
     }
 }

@@ -33,7 +33,6 @@ import org.apromore.item.NotAuthorizedException;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
-import org.apromore.user.UserService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -74,13 +73,6 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     @Reference
     private ItemService itemService;
 
-    /**
-     * Used to prompt the user to login if they try to upload while
-     * unauthenticated.
-     */
-    @Reference
-    private UserService userService;
-
     /** Sole constructor. */
     public UploadItemUIPlugin() {
         super("item.group", "uploadItem.label", "uploadItem.iconSclass");
@@ -107,7 +99,7 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        userService.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
+        context.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
             new Runnable() {
 
             /**

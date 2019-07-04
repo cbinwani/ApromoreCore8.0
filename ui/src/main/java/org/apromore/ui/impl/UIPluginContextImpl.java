@@ -25,13 +25,23 @@ package org.apromore.ui.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
+import javax.security.auth.login.LoginException;
 import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.osgi.service.useradmin.User;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 /** {@inheritDoc UIPluginContext}. */
 class UIPluginContextImpl implements UIPluginContext {
@@ -40,12 +50,27 @@ class UIPluginContextImpl implements UIPluginContext {
     private static final Logger LOGGER =
         LoggerFactory.getLogger(MenubarController.class);
 
+    /**
+     * Attribute key on the ZK {@link org.zkoss.zk.ui.Session} containing the
+     * authenticated user as a username {@link String}.
+     */
+    public static final String ZK_SESSION_USER_ATTRIBUTE = "user";
+
     /** A canvas just about anyone is allowed to scribble upon. */
     private Component parent;
 
-    /** @param newParent  parent for plugins to add content to */
-    UIPluginContextImpl(final Component newParent) {
+    /** Used for login. */
+    private UserService userService;
+
+    /**
+     * @param newParent  parent for plugins to add content to
+     * @param newUserService  used to authenicate login attempts
+     */
+    UIPluginContextImpl(final Component newParent,
+                        final UserService newUserService) {
+
         this.parent = newParent;
+        this.userService = newUserService;
     }
 
     @Override
@@ -96,5 +121,95 @@ class UIPluginContextImpl implements UIPluginContext {
                                     final Object newValue) {
 
         Sessions.getCurrent().setAttribute(attribute, newValue);
+    }
+
+    @Override
+    @SuppressWarnings("checkstyle:TodoComment")
+    public void authenticate(final String reason, final Runnable success,
+        final Runnable failure) {
+
+        Window window;
+
+        if (getUser() != null) {
+            if (success != null) {
+                success.run();
+            }
+            return;
+        }
+
+        try {
+            Reader reader = new InputStreamReader(getClass()
+                .getClassLoader()
+                .getResourceAsStream("zul/login.zul"), "UTF-8");
+            window = (Window) Executions.createComponentsDirectly(reader, "zul",
+                null, null);
+
+        } catch (IOException e) {
+            throw new Error("ZUL resource login.zul could not be created as as "
+                + "ZK component", e);
+        }
+        assert window != null;
+
+        ((Label) window.getFellow("reasonLabel")).setValue(reason);
+
+        window.getFellow("loginButton").addEventListener("onClick",
+            new EventListener<Event>() {
+
+            public void onEvent(final Event event) throws LoginException {
+                String username =
+                    ((Textbox) window.getFellow("username")).getValue();
+                String password =
+                    ((Textbox) window.getFellow("password")).getValue();
+                LOGGER.debug("Login user " + username);
+                User user = userService.authenticate(username, password);
+                window.detach();
+                setUser(user);
+
+                // TODO: failure isn't invoked in the case of a
+                // LoginException
+
+                if (success != null) {
+                    success.run();
+                }
+            }
+        });
+
+        window.getFellow("cancelButton").addEventListener("onClick",
+            new EventListener<Event>() {
+
+            public void onEvent(final Event event) throws Exception {
+                window.detach();
+                if (failure != null) {
+                    failure.run();
+                }
+            }
+        });
+
+        window.doModal();
+    }
+
+    /**
+     * @return the authenticated user, or <code>null</code> if the
+     *     session isn't authenticated.
+     */
+    //@Override
+    public User getUser() {
+        return (User) Sessions.getCurrent()
+                              .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
+    }
+
+    /**
+     * Mutator for the <i>user</i> property.
+     *
+     * Queue "q" receives an "onLogin" event whenever the authenticated
+     * user changes.
+     *
+     * @param user  the authenticated user, or <code>null</code> to
+     *     deauthenticate this user session
+     */
+    private void setUser(final User user) {
+        Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE, user);
+        EventQueues.lookup("q", Sessions.getCurrent(), true)
+                   .publish(new Event("onLogin"));
     }
 }

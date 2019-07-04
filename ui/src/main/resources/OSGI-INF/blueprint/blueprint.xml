@@ -23,9 +23,7 @@
     </bean>
 
     <!-- Imported services -->
-    <!-- Custom database-backed user admin service not yet implemented
-    <reference id="userAdmin" interface="org.osgi.service.useradmin.UserAdmin"/>
-    -->
+    <reference id="userService" interface="org.apromore.user.UserService"/>
 
     <!-- Tools are installed in the menubar and can use the selection to obtain Items they require as input. -->
     <bean id="uiPluginListener" class="org.apromore.ui.impl.UIPluginListener"/>
