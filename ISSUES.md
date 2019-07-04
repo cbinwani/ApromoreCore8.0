@@ -5,7 +5,6 @@ It should eventually be replaced by a proper bug tracker.
 # Defects
 - The ui component's ZK integration needs improvement.  Specifically:
   - The ZK user session manager intermittently fails to start, which cascades into preventing the asynchronous update servlet, which jams the entire UI.
-  - Widgets such as the BPMN editor should reside in their own plugins rather than ui.
 - Menu configuration needs improvement.  Specifically:
   - The `ui.menuOrder` property should be internationalized.  The default value is an English ordering; other locales revert to alphabetical order.
   - Menu item order cannot be configured, and is always alphabetical.
@@ -14,7 +13,6 @@ It should eventually be replaced by a proper bug tracker.
 - The raffaeleconforti-osgi bundle needs to be factored into sublibraries and have unlicensed code expunged.
 - Exceptions from the persistence layer cause UndeclaredThrowableException (this might be due purely to JPA automatic table creation, which should only be for development anyway).
 - The URL / should redirect to /index.zul.
-- Warning during build: `Unable to determine whether the meta annotation javax.enterprise.util.Nonbinding applied to type org.apromore.bpmn_item.impl.BPMNItemPluginImpl provides bundle annotations as it is not on the project build path. If this annotation does provide bundle annotations then it must be present on the build path in order to be processed`
 
 ## Features
 - Job management: submitting Runnables for off-thread execution, with a UI to monitor progress and allow cancellation
