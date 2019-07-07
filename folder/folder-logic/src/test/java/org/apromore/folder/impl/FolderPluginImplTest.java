@@ -28,6 +28,7 @@ import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.spi.ItemPluginContext;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -58,12 +59,18 @@ public class FolderPluginImplTest {
     @Ignore
     @Test
     public void testFindFolderById() throws Exception {
-        FolderImpl expectedFolder = createMock(FolderImpl.class);
+        @Nullable FolderImpl expectedFolder = createMock(FolderImpl.class);
+        if (expectedFolder == null) {
+            throw new Exception("Unable to create expected folder");
+        }
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         FolderService folderService = new FolderPluginImpl();
 
         Folder folder = folderService.findFolderById(0L);
+        if (folder == null) {
+            throw new AssertionError();
+        }
         assertEquals(expectedFolder, folder);
     }
 }

@@ -65,12 +65,14 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
      * Used to store uploaded items.
      */
     @Reference
+    @SuppressWarnings("nullness")
     private FolderService folderService;
 
     /**
      * Used to store uploaded items.
      */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemService itemService;
 
     /** Sole constructor. */
@@ -170,6 +172,9 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                     }
                 });
             }
-        }, null);  // do nothing if login is cancelled
+        },
+        new Runnable() {
+            public void run() { }  // do nothing if login is cancelled
+        });
     }
 }

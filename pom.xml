@@ -19,6 +19,7 @@
     <module>folder</module>
     <module>item</module>
     <module>lib</module>
+    <module>logic-api</module>
     <module>metrics</module>
     <module>pql</module>
     <module>ui</module>
@@ -73,6 +74,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Dependency versions -->
+    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>  <!-- https://checkerframework.org/manual/#maven -->
     <karaf.version>4.2.6</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <servicemix-spec.version>2.9.0</servicemix-spec.version>
@@ -116,6 +118,30 @@
           <configuration>
             <source>${java.source.version}</source>
             <target>${java.target.version}</target>
+            <compilerArguments>
+              <Xmaxerrs>10000</Xmaxerrs>
+              <Xmaxwarns>10000</Xmaxwarns>
+            </compilerArguments>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker</artifactId>
+                <version>2.9.0</version>
+              </path>
+            </annotationProcessorPaths>
+<!--
+            <annotationProcessors> -->  <!-- https://checkerframework.org/manual/#maven -->
+              <!-- Add all the checkers you want to enable here -->
+<!--
+              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+            </annotationProcessors>
+-->
+            <compilerArgs>
+              <!-- location of the annotated JDK, which comes from a Maven dependency -->
+              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+              <!-- -Awarns turns type-checking warnings into errors. -->
+              <!-- <arg>-Awarns</arg> -->
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
@@ -218,6 +244,18 @@
         </executions>
       </plugin>
       <plugin>
+        <!-- This plugin will set properties values using dependency information -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <executions>
@@ -242,8 +280,37 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>5.1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>5.1.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <dependencyManagement>
     <dependencies>
@@ -363,6 +430,16 @@
         <artifactId>xes-item-jpa</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
+      <dependency>  <!-- https://checkerframework.org/manual/#maven -->
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>2.9.0</version>
+      </dependency>
+      <dependency>  <!-- https://checkerframework.org/manual/#maven -->
+        <groupId>org.checkerframework</groupId>
+        <artifactId>jdk8</artifactId>
+        <version>2.9.0</version>
+      </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
@@ -404,5 +481,12 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>  <!-- https://checkerframework.org/manual/#maven -->
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

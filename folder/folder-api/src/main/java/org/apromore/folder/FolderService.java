@@ -25,6 +25,7 @@ package org.apromore.folder;
 import java.util.List;
 import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory service for {@link Folder} instances, plus utilities for path-based
@@ -83,17 +84,20 @@ public interface FolderService {
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     reading the existing item
      */
+    @Nullable
     Folder findFolderById(Long id) throws NotAuthorizedException;
 
     /**
      * @param folder  the parent folder, or <code>null</code> for the root of
      *     the folder hierarchy
      * @param name  never <code>null</code>
-     * @return the content in <i>folder</i> named <i>name</i>
+     * @return the content in <i>folder</i> named <i>name</i>, or
+     *     <code>null</code> if none exists
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     reading the item
      */
-    Item findItemByFolderAndName(Folder folder, String name)
+    @Nullable
+    Item findItemByFolderAndName(@Nullable Folder folder, String name)
         throws NotAuthorizedException;
 
     /**
@@ -103,6 +107,7 @@ public interface FolderService {
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     reading the existing item
      */
+    @Nullable
     Item findItemByPath(String path) throws NotAuthorizedException;
 
     /**

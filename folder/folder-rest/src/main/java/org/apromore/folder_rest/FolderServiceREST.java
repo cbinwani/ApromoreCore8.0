@@ -45,6 +45,7 @@ public class FolderServiceREST /* implements FolderService */ {
 
     /** Connection to the business logic. */
     @Reference
+    @SuppressWarnings("nullness")
     private FolderService folderService;
 
     /** @return the paths contained by the root folder */

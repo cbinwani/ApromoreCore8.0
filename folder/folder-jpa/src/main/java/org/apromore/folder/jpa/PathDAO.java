@@ -30,6 +30,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Data access object for <code>org.apromore.folder.Folder</code>.
@@ -41,19 +42,20 @@ public final class PathDAO {
     /** Primary key. */
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    private Long id = -1L;
 
     /** Contained item identifier. */
     @Column(name = "ITEM_ID", unique = false, nullable = false)
-    private Long itemId;
+    private Long itemId = -1L;
 
     /** Item name, exclusive of path. */
     @Column(name = "NAME", unique = false, nullable = false)
-    private String name;
+    private String name = "Uninitialized";
 
     /** Parent folder, possibly <code>null</code>. */
     @ManyToOne
     @JoinColumn(name = "PARENT_PATH", unique = false, nullable = true)
+    @Nullable
     private PathDAO parent;
 
     /** @return primary key */
@@ -87,12 +89,13 @@ public final class PathDAO {
     }
 
     /** @return parent folder, possibly <code>null</code> */
+    @Nullable
     public PathDAO getParent() {
         return parent;
     }
 
     /** @param newParent  new parent folder, possibly <code>null</code> */
-    public void setParent(final PathDAO newParent) {
+    public void setParent(final @Nullable PathDAO newParent) {
         this.parent = newParent;
     }
 

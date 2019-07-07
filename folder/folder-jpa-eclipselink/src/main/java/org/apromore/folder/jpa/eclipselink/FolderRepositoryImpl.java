@@ -22,17 +22,18 @@ package org.apromore.folder.jpa.eclipselink;
  * #L%
  */
 
-import org.apromore.folder.jpa.FolderRepository;
-import org.apromore.folder.jpa.PathDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
+import org.apromore.folder.jpa.FolderRepository;
+import org.apromore.folder.jpa.PathDAO;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory service for {@link PathDAO}s.
@@ -49,6 +50,7 @@ public final class FolderRepositoryImpl implements FolderRepository {
      * unit.
      */
     @PersistenceContext(unitName = "folder-eclipselink")
+    @SuppressWarnings("nullness")
     private EntityManager entityManager;
 
     /**
@@ -58,7 +60,6 @@ public final class FolderRepositoryImpl implements FolderRepository {
     public void setEntityManager(final EntityManager newEntityManager) {
         this.entityManager = newEntityManager;
     }
-
 
     // FolderRepository implementation
 
@@ -70,7 +71,8 @@ public final class FolderRepositoryImpl implements FolderRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public Long findItemIdByParentAndName(final PathDAO parent,
+    @Nullable
+    public Long findItemIdByParentAndName(final @Nullable PathDAO parent,
                                           final String  name) {
         TypedQuery<Long> query;
         if (parent == null) {
@@ -98,6 +100,7 @@ public final class FolderRepositoryImpl implements FolderRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
+    @Nullable
     public PathDAO findPathByItemId(final Long itemId) {
         TypedQuery<PathDAO> query = entityManager.createQuery(
             "SELECT i FROM PathDAO i WHERE i.itemId=:itemId",
@@ -114,7 +117,7 @@ public final class FolderRepositoryImpl implements FolderRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
-    public List<PathDAO> findPathsByParent(final PathDAO parent) {
+    public List<PathDAO> findPathsByParent(@Nullable final PathDAO parent) {
         TypedQuery<PathDAO> query;
         if (parent == null) {
             query = entityManager.createQuery(
@@ -131,6 +134,7 @@ public final class FolderRepositoryImpl implements FolderRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
+    @Nullable
     public PathDAO findPath(final Long id) {
         //return entityManager.find(PathDAO.class, id);
 
@@ -150,6 +154,9 @@ public final class FolderRepositoryImpl implements FolderRepository {
     @Override
     public void removePath(final Long id) {
         PathDAO dao = findPath(id);
+        if (dao == null) {
+            throw new EntityNotFoundException(id + " is not a path");
+        }
         entityManager.remove(dao);
     }
 }

@@ -43,10 +43,12 @@ public class ListContentsCommand implements Action {
 
     /** Folder service. */
     @Reference
+    @SuppressWarnings("nullness")
     private FolderService folderService;
 
     /** {@inheritDoc} */
     @Override
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     public Object execute() throws Exception {
         ShellTable table = new ShellTable();
         List<String> paths = folderService.getRootFolderPaths();
@@ -56,9 +58,9 @@ public class ListContentsCommand implements Action {
         for (String path: paths) {
             Item item = folderService.findItemByPath(path);
             Row row = table.addRow();
-            row.addContent(item.getId());
+            row.addContent(item == null ? "-" : item.getId());
             row.addContent(path);
-            row.addContent(item.getType());
+            row.addContent(item == null ? "-" : item.getType());
         }
         table.print(System.out);
         return String.format("Displayed %d result(s)", paths.size());

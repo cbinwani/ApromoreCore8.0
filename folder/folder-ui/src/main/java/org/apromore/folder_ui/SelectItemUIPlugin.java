@@ -68,10 +68,12 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
     /** Used to access the details of the selected folders. */
     @Reference
+    @SuppressWarnings("nullness")
     private FolderService folderService;
 
     /** Used to access the details of the selected items. */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemService itemService;
 
     /** Sole constructor. */

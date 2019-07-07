@@ -37,6 +37,7 @@ import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.folder.jpa.FolderRepository;
 import org.apromore.folder.jpa.PathDAO;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -59,10 +60,12 @@ public final class FolderPluginImpl
 
     /** Utility service for {@link ItemPlugin}s. */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemPluginContext itemPluginContext;
 
     /** Factory service for folder-specific data access objects. */
     @Reference
+    @SuppressWarnings("nullness")
     private FolderRepository folderRepository;
 
 
@@ -122,10 +125,6 @@ public final class FolderPluginImpl
                            final Item   content)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
-        if (name == null) {
-            throw new IllegalArgumentException("Name cannot be null");
-        }
-
         if (name.contains(SEPARATOR)) {
             throw new IllegalArgumentException("Name " + name
                 + " contains the separator " + SEPARATOR);
@@ -169,7 +168,9 @@ public final class FolderPluginImpl
      * @param name  never <code>null</code>
      * @return full path
      */
-    private String fullPath(final Folder parentFolder, final String name) {
+    private String fullPath(final @Nullable Folder parentFolder,
+                            final String           name) {
+
         if (parentFolder == null) {
             return name;
 
@@ -185,7 +186,8 @@ public final class FolderPluginImpl
      * @param pathDAO  may be <code>null</code>
      * @return full path
      */
-    private String fullPath(final PathDAO pathDAO) {
+    @Nullable
+    private String fullPath(final @Nullable PathDAO pathDAO) {
         if (pathDAO == null) {
             return null;
 
@@ -199,8 +201,9 @@ public final class FolderPluginImpl
     }
 
     @Override
+    @Nullable
     public Folder findFolderById(final Long id) throws NotAuthorizedException {
-        Item item = this.itemPluginContext.getById(id);
+        Item item = itemPluginContext.getById(id);
         try {
             return new FolderImpl(item, folderRepository);
 
@@ -210,7 +213,8 @@ public final class FolderPluginImpl
     }
 
     @Override
-    public Item findItemByFolderAndName(final Folder folder,
+    @Nullable
+    public Item findItemByFolderAndName(final @Nullable Folder folder,
                                         final String name)
         throws NotAuthorizedException {
 
@@ -222,8 +226,10 @@ public final class FolderPluginImpl
         }
         LOGGER.info("  Folder " + folder + " path id " + parent);
 
-        Long itemId =
-            folderRepository.findItemIdByParentAndName(parent, name);
+        Long itemId = folderRepository.findItemIdByParentAndName(parent, name);
+        if (itemId == null) {
+            return null;
+        }
 
         LOGGER.info("Found item in " + folder + " named " + name + ": "
             + itemId);
@@ -232,17 +238,19 @@ public final class FolderPluginImpl
     }
 
     @Override
+    @Nullable
     public Item findItemByPath(final String path)
         throws NotAuthorizedException {
 
         LOGGER.info("Finding item by path " + path);
 
-        if (path == null) {
-            return null;
-        }
-
-        Folder folder = (Folder) findItemByPath(parentForPath(path));
+        String parentPath = parentForPath(path);
         String name = nameForPath(path);
+
+        Folder folder = null;
+        if (parentPath != null) {
+            folder = (Folder) findItemByPath(parentPath);
+        }
 
         return findItemByFolderAndName(folder, name);
     }
@@ -252,6 +260,7 @@ public final class FolderPluginImpl
      * @return the parent prefix of the <i>path</i>, or <code>null</code> if
      *     this path is at the root of the folder hierarchy
      */
+    @Nullable
     @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     private static String parentForPath(final String path) {
         int i = path.lastIndexOf(SEPARATOR);
@@ -275,7 +284,7 @@ public final class FolderPluginImpl
     public String findPathByItem(final Item item) {
         PathDAO dao = folderRepository.findPathByItemId(item.getId());
         if (dao == null) {
-            return null;
+            throw new AssertionError();
         }
         return pathToString(dao);
     }
@@ -300,19 +309,14 @@ public final class FolderPluginImpl
      * @return the full path naming the <i>path</i>
      */
     private String pathToString(final PathDAO path) {
-        if (path == null) {
-            return null;
+        PathDAO parentPath = path.getParent();
+        if (parentPath == null) {
+            return path.getName();
 
         } else {
-            PathDAO parentPath = path.getParent();
-            if (parentPath == null) {
-                return path.getName();
-
-            } else {
-                return pathToString(parentPath)
-                    + SEPARATOR
-                    + path.getName();
-            }
+            return pathToString(parentPath)
+                + SEPARATOR
+                + path.getName();
         }
     }
 }

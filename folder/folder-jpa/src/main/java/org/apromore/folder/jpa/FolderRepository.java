@@ -23,6 +23,8 @@ package org.apromore.folder.jpa;
  */
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory service for {@link PathDAO}.
@@ -38,18 +40,20 @@ public interface FolderRepository {
      * @return primary key of the <code>org.apromore.item.Item</code> content if
      *     it exists, <code>null</code> otherwise
      */
-    Long findItemIdByParentAndName(PathDAO parent, String name);
+    @Nullable
+    Long findItemIdByParentAndName(@Nullable PathDAO parent, String name);
 
     /**
      * @param parent  may by <code>null</code>
      * @return all paths with the given <i>parent</i>
      */
-    List<PathDAO> findPathsByParent(PathDAO parent);
+    List<PathDAO> findPathsByParent(@Nullable PathDAO parent);
 
     /**
      * @param id  primary key
      * @return the corresponding path
      */
+    @Nullable
     PathDAO findPath(Long id);
 
     /**
@@ -65,8 +69,13 @@ public interface FolderRepository {
      * @return the corresponding path, or <code>null</code> if the number of
      *      paths with that item isn't exactly one
      */
+    @Nullable
     PathDAO findPathByItemId(Long itemId);
 
-    /** @param id  primary key */
-    void removePath(Long id);
+    /**
+     * @param id  primary key
+     * @throws EntityNotFoundException if <i>id</i> isn't the primary key of
+     *     an extant path
+     */
+    void removePath(Long id) throws EntityNotFoundException;
 }

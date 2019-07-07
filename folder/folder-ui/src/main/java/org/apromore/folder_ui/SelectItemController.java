@@ -88,17 +88,21 @@ public class SelectItemController extends SelectorComposer<Component> {
 
     /** Window. */
     @Wire
+    @SuppressWarnings("nullness")
     private Window win;
 
     /** UI plugin context. */
+    @SuppressWarnings("nullness")
     private UIPluginContext context = (UIPluginContext)
         Executions.getCurrent().getArg().get("UIPluginContext");
 
     /** Used to access the details of the selected folders. */
+    @SuppressWarnings("nullness")
     private FolderService folderService = (FolderService)
         Executions.getCurrent().getArg().get("FolderService");
 
     /** Used to access the details of the selected items. */
+    @SuppressWarnings("nullness")
     private ItemService itemService = (ItemService)
         Executions.getCurrent().getArg().get("ItemService");
 
@@ -108,6 +112,7 @@ public class SelectItemController extends SelectorComposer<Component> {
 
     /** @param mouseEvent  clicked home */
     @Listen("onClick = #homeButton")
+    @SuppressWarnings("nullness")
     public void onClickHomeButton(final MouseEvent mouseEvent) {
         context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
         refresh(context);
@@ -183,10 +188,12 @@ public class SelectItemController extends SelectorComposer<Component> {
 
     /** Current folder label. */
     @Wire("#currentFolderLabel")
+    @SuppressWarnings("nullness")
     private Label currentFolderLabel;
 
     /** Listbox. */
     @Wire("#listbox")
+    @SuppressWarnings("nullness")
     private Listbox listbox;
 
     /** {@inheritDoc} */
@@ -245,7 +252,11 @@ public class SelectItemController extends SelectorComposer<Component> {
 
         for (String path: paths) {
             try {
-                model.add(folderService.findItemByFolderAndName(folder, path));
+                Item item = folderService.findItemByFolderAndName(folder, path);
+                if (item == null) {
+                    throw new AssertionError("getPaths returned non-Item");
+                }
+                model.add(item);
 
             } catch (NotAuthorizedException e) {
                 // Silently hide unauthorized content
