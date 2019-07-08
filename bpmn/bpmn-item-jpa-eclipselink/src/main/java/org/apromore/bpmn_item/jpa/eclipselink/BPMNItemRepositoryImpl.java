@@ -24,10 +24,12 @@ package org.apromore.bpmn_item.jpa.eclipselink;
 
 import org.apromore.bpmn_item.jpa.BPMNItemDAO;
 import org.apromore.bpmn_item.jpa.BPMNItemRepository;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -49,6 +51,7 @@ public final class BPMNItemRepositoryImpl implements BPMNItemRepository {
      * unit.
      */
     @PersistenceContext(unitName = "bpmn-item-eclipselink")
+    @SuppressWarnings("nullness")
     private EntityManager entityManager;
 
     /**
@@ -77,6 +80,7 @@ public final class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
+    @Nullable
     public BPMNItemDAO get(final Long id) {
         //return entityManager.find(BPMNItemDAO.class, id);
 
@@ -94,8 +98,11 @@ public final class BPMNItemRepositoryImpl implements BPMNItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(final Long id) {
+    public void remove(final Long id) throws EntityNotFoundException {
         BPMNItemDAO dao = get(id);
+        if (dao == null) {
+            throw new EntityNotFoundException("No BPMN item with id " + id);
+        }
         entityManager.remove(dao);
     }
 }

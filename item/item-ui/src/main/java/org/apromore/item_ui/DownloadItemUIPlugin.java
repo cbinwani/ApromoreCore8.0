@@ -48,6 +48,7 @@ public final class DownloadItemUIPlugin extends AbstractUIPlugin {
      * Used to store uploaded items.
      */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemService itemService;
 
     /**
@@ -55,6 +56,7 @@ public final class DownloadItemUIPlugin extends AbstractUIPlugin {
      * unauthenticated.
      */
     @Reference
+    @SuppressWarnings("nullness")
     private UserService userService;
 
     /** Sole constructor. */

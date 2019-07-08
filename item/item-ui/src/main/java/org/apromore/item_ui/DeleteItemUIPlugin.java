@@ -48,6 +48,7 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
      * Used to store uploaded items.
      */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemService itemService;
 
     /** Sole constructor. */
@@ -76,24 +77,28 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        context.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
+        context.authenticate(
+            getLocalizedString("uploadItem.mustHaveOwner"),
             new Runnable() {
+                public void run() {  // delete if login is successful
+                    for (Item item: Selection.getSelection()) {
+                        try {
+                            itemService.remove(item);
 
-            public void run() {  // perform the deletion if login is successful
-                for (Item item: Selection.getSelection()) {
-                    try {
-                        itemService.remove(item);
-
-                    } catch (Throwable e) {
-                        LOGGER.error("Item deletion failed", e);
-                        Messagebox.show("Item deletion failed",
-                            "Attention",
-                            Messagebox.OK,
-                            Messagebox.ERROR);
-                        return;
+                        } catch (Throwable e) {
+                            LOGGER.error("Item deletion failed", e);
+                            Messagebox.show("Item deletion failed",
+                                "Attention",
+                                Messagebox.OK,
+                                Messagebox.ERROR);
+                            return;
+                        }
                     }
                 }
+            },
+            new Runnable() {
+                public void run() { }  // do nothing if login is cancelled
             }
-        }, null);  // do nothing if login is cancelled
+        );
     }
 }

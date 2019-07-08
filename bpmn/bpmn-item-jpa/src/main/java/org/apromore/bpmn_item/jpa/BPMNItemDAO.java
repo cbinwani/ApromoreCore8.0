@@ -42,7 +42,7 @@ public final class BPMNItemDAO {
      * {@link org.apromore.item.jpa.ItemDAO}.
      */
     @Id  // Note: not @Generated; the id must be supplied by an ItemDAO
-    private Long id;
+    private Long id = -1L;
 
     /**
      * The BPMN 2.0 XML document text.
@@ -51,7 +51,7 @@ public final class BPMNItemDAO {
      * binary and contains its own character encoding information.
      */
     @Column(name = "XML_SERIALIZATION", unique = false, nullable = false)
-    private byte[] xmlSerialization;
+    private byte[] xmlSerialization = {};
 
     /** @return primary key */
     public Long getId() {

@@ -24,15 +24,17 @@ package org.apromore.item.jpa.eclipselink;
 
 import org.apromore.item.jpa.ItemDAO;
 import org.apromore.item.jpa.ItemRepository;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * Factory service for {@link ItemDAO}s.
@@ -49,6 +51,7 @@ public final class ItemRepositoryImpl implements ItemRepository {
      * unit.
      */
     @PersistenceContext(unitName = "item-eclipselink")
+    @SuppressWarnings("nullness")
     private EntityManager entityManager;
 
     /**
@@ -82,6 +85,7 @@ public final class ItemRepositoryImpl implements ItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
+    @Nullable
     public ItemDAO get(final Long id) {
         LOGGER.debug("EclipseLink provider getting item with id " + id
             + "; entity manager is " + entityManager);
@@ -101,8 +105,11 @@ public final class ItemRepositoryImpl implements ItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(final Long id) {
+    public void remove(final Long id) throws EntityNotFoundException {
         ItemDAO dao = get(id);
+        if (dao == null) {
+            throw new EntityNotFoundException("No item with id " + id);
+        }
         entityManager.remove(dao);
     }
 }

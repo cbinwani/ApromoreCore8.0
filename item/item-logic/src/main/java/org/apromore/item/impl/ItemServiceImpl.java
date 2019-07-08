@@ -26,8 +26,10 @@ import com.google.common.io.ByteStreams;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
@@ -38,6 +40,7 @@ import org.apromore.item.jpa.ItemRepository;
 import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 //import org.osgi.service.component.annotations.Component;
 //import org.osgi.service.component.annotations.Reference;
 //import static org.osgi.service.component.annotations.FieldOption.UPDATE;
@@ -62,10 +65,11 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     /** The dynamically populated list of item plugins. */
     //@Reference(bind = "onBind", cardinality = MULTIPLE, fieldOption = UPDATE,
     //    policy = DYNAMIC, unbind = "onUnbind", updated = "onUpdated")
-    private List<ItemPlugin> itemPlugins;
+    private List<ItemPlugin> itemPlugins = Collections.emptyList();
 
     /** Used to persist the item's fields. */
     //@Reference
+    @SuppressWarnings("nullness")
     private ItemRepository itemRepository;
 
     /**
@@ -171,14 +175,25 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
+    @Nullable
     public Item getById(final Long id) {
-        return toConcreteSubtype(new ItemImpl(itemRepository.get(id)));
+        ItemDAO dao = itemRepository.get(id);
+        if (dao == null) {
+            return null;
+        } else {
+            return toConcreteSubtype(new ItemImpl(dao));
+        }
     }
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public void remove(final Item item) {
-        itemRepository.remove(item.getId());
+        try {
+            itemRepository.remove(item.getId());
+
+        } catch (EntityNotFoundException e) {
+            LOGGER.warn("Removed item not in repository", e);
+        }
     }
 
 

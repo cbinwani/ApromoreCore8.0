@@ -56,6 +56,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
 
     /** Used to access the details of the selected items. */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemService itemService;
 
     /** Sole constructor. */

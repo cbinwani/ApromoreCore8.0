@@ -42,10 +42,10 @@ public final class ItemDAO {
     /** Primary key. */
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    private Long id = -1L;
 
     /** The type identifier of the concrete subclass. */
-    private String type;
+    private String type = "Uninitialized";
 
     /** @return primary key */
     public Long getId() {

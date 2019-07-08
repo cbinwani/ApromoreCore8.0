@@ -204,6 +204,9 @@ public final class FolderPluginImpl
     @Nullable
     public Folder findFolderById(final Long id) throws NotAuthorizedException {
         Item item = itemPluginContext.getById(id);
+        if (item == null) {
+            return null;
+        }
         try {
             return new FolderImpl(item, folderRepository);
 

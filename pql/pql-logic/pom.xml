@@ -71,6 +71,12 @@
             <version>0.3.11</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>  <!-- Workaround for checker framework bug (?) -->
+            <groupId>org.jbpt</groupId>
+            <artifactId>jbpt-petri</artifactId>
+            <version>0.3.1</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

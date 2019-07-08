@@ -30,6 +30,7 @@ import java.util.Map;
 import javax.security.auth.login.LoginException;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.user.UserService;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.osgi.service.useradmin.User;
@@ -74,9 +75,11 @@ class UIPluginContextImpl implements UIPluginContext {
     }
 
     @Override
+    @SuppressWarnings("nullness")  // Executions.createComponentsDirectly
+                                   // isn't annotated
     public Component createComponent(final ClassLoader classLoader,
                                      final String      uri,
-                                     final Map<?, ?>   arguments) {
+                           @Nullable final Map<?, ?>   arguments) {
         try {
             InputStream in = classLoader.getResourceAsStream(uri);
             if (in == null) {
@@ -124,7 +127,7 @@ class UIPluginContextImpl implements UIPluginContext {
     }
 
     @Override
-    @SuppressWarnings("checkstyle:TodoComment")
+    @SuppressWarnings({"checkstyle:TodoComment", "nullness"})
     public void authenticate(final String reason, final Runnable success,
         final Runnable failure) {
 

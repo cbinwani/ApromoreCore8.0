@@ -36,7 +36,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -56,16 +56,20 @@ public class BPMNItemPluginImplTest {
     @Test
     public void testCreateBPMNItem() throws Exception {
         Item nakedItem = createMock(Item.class);
+        assert nakedItem != null: "@AssumeAssertion(nullness)";
         expect(nakedItem.getId()).andReturn(0L);
         expect(nakedItem.getId()).andReturn(0L);
         replay(nakedItem);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
+        assert itemPluginContext != null: "@AssumeAssertion(nullness)";
         expect(itemPluginContext.create(BPMNItem.TYPE)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         BPMNItemRepository bpmnItemRepository = createMock(BPMNItemRepository.class);
+        assert bpmnItemRepository != null: "@AssumeAssertion(nullness)";
         BPMNDiagramImporter bpmnDiagramImporter = createMock(BPMNDiagramImporter.class);
+        assert bpmnDiagramImporter != null: "@AssumeAssertion(nullness)";
 
         BPMNItemPluginImpl instance = new BPMNItemPluginImpl();
         instance.setBpmnItemRepository(bpmnItemRepository);
@@ -77,25 +81,29 @@ public class BPMNItemPluginImplTest {
     }
 
     /** Test {@link BPMNItemService#getById}. */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetById() throws Exception {
         Item nakedItem = createMock(Item.class);
+        assert nakedItem != null: "@AssumeAssertion(nullness)";
         expect(nakedItem.getId()).andReturn(0L);
         //expect(nakedItem.getId()).andReturn(0L);
         replay(nakedItem);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
+        assert itemPluginContext != null: "@AssumeAssertion(nullness)";
         expect(itemPluginContext.getById(0L)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         BPMNItemRepository bpmnItemRepository = createMock(BPMNItemRepository.class);
+        assert bpmnItemRepository != null: "@AssumeAssertion(nullness)";
         BPMNDiagramImporter bpmnDiagramImporter = createMock(BPMNDiagramImporter.class);
+        assert bpmnDiagramImporter != null: "@AssumeAssertion(nullness)";
 
         BPMNItemPluginImpl instance = new BPMNItemPluginImpl();
         instance.setBpmnItemRepository(bpmnItemRepository);
         instance.setBPMNDiagramImporter(bpmnDiagramImporter);
         instance.setItemPluginContext(itemPluginContext);
 
-        assertNull(instance.getById(0L));
+        assertTrue(instance.getById(0L) == null);
     }
 }

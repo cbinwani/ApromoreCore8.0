@@ -23,6 +23,8 @@ package org.apromore.xes_item.jpa;
  */
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory service for {@link XESItemDAO}.
@@ -36,11 +38,16 @@ public interface XESItemRepository {
      * @param id  private key
      * @return the corresponding XES item fields
      */
+    @Nullable
     XESItemDAO get(Long id);
 
     /** @param newDAO  new XES item fields to be persisted */
     void add(XESItemDAO newDAO);
 
-    /** @param id  primary key */
-    void remove(Long id);
+    /**
+     * @param id  primary key
+     * @throws EntityNotFoundException if <i>id</i> isn't an
+     *     existing XES item
+     */
+    void remove(Long id) throws EntityNotFoundException;
 }

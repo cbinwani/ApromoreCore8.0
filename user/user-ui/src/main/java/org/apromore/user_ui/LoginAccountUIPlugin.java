@@ -57,6 +57,10 @@ public final class LoginAccountUIPlugin extends AbstractUIPlugin {
      */
     @Override
     public void execute(final UIPluginContext context) {
-        context.authenticate(null, null, null);
+        context.authenticate("", new Runnable() {
+            public void run() { }
+        }, new Runnable() {
+            public void run() { }
+        });
     }
 }

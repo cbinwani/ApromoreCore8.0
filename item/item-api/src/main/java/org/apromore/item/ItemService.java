@@ -25,6 +25,7 @@ package org.apromore.item;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory for obtaining {@link Item} instances.
@@ -65,6 +66,7 @@ public interface ItemService {
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being created
      */
+    @Nullable
     Item getById(Long id) throws NotAuthorizedException;
 
     /**

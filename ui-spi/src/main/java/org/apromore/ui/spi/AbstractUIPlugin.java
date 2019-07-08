@@ -121,7 +121,7 @@ public abstract class AbstractUIPlugin implements UIPlugin {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            throw new AssertionError("Unable to read icon.png from classpath");
         }
     }
 

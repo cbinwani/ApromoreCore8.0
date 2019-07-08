@@ -23,6 +23,7 @@ package org.apromore.user_ui;
  */
 
 import org.osgi.service.useradmin.User;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -43,6 +44,7 @@ public abstract class Users {
      * @return the currently authenticated user, or <code>null</code> for an
      *     anonymous user session
      */
+    @Nullable
     public static User getUser() {
         return (User) Sessions.getCurrent().getAttribute(ATTRIBUTE);
     }
@@ -56,7 +58,8 @@ public abstract class Users {
      * @param newUser  the new authenticated user, or <code>null</code> to
      *     de-authenticate the current user session (i.e. log out).
      */
-    public static void setUser(final User newUser) {
+    @SuppressWarnings("nullness")  // Session.setAttribute not annotated
+    public static void setUser(final @Nullable User newUser) {
         Sessions.getCurrent().setAttribute(ATTRIBUTE, newUser);
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onLogin"));

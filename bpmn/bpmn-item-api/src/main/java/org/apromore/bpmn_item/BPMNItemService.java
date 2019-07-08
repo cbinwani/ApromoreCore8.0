@@ -25,6 +25,7 @@ package org.apromore.bpmn_item;
 import javax.xml.transform.Source;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory service for {@link BPMNItem} instances.
@@ -51,5 +52,6 @@ public interface BPMNItemService {
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     reading the existing item
      */
+    @Nullable
     BPMNItem getById(Long id) throws NotAuthorizedException;
 }

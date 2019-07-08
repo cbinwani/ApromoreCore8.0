@@ -32,6 +32,6 @@ public class AbstractCaller implements Caller {
     /** Extend me. */
     @Override
     public Authorization authorization() {
-        return null;
+        throw new Error("Not implemented");
     }
 }

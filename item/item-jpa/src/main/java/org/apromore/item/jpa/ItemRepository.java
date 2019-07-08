@@ -23,6 +23,8 @@ package org.apromore.item.jpa;
  */
 
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory service for {@link ItemDAO}.
@@ -34,13 +36,18 @@ public interface ItemRepository {
 
     /**
      * @param id  primary key
-     * @return the corresponding item fields
+     * @return the corresponding item fields, or <code>null</code> if <i>id</i>
+     *      isn't the key for any item
      */
+    @Nullable
     ItemDAO get(Long id);
 
     /** @param newDAO  new item fields to be persisted */
     void add(ItemDAO newDAO);
 
-    /** @param id  primary key */
-    void remove(Long id);
+    /**
+     * @param id  primary key
+     * @throws EntityNotFoundException if <i>id</i> isn't the key of any item
+     */
+    void remove(Long id) throws EntityNotFoundException;
 }

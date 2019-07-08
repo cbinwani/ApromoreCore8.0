@@ -54,6 +54,7 @@ public final class BPMNUIPlugin extends AbstractUIPlugin {
 
     /** Service used to obtain the {@link BPMNItem} to view/edit. */
     @Reference
+    @SuppressWarnings("nullness")
     private BPMNItemService bpmnItemService;
 
     /** Sole constructor. */

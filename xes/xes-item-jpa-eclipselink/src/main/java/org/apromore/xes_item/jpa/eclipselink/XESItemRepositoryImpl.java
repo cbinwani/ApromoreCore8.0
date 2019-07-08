@@ -24,10 +24,12 @@ package org.apromore.xes_item.jpa.eclipselink;
 
 import org.apromore.xes_item.jpa.XESItemDAO;
 import org.apromore.xes_item.jpa.XESItemRepository;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -49,6 +51,7 @@ public final class XESItemRepositoryImpl implements XESItemRepository {
      * unit.
      */
     @PersistenceContext(unitName = "xes-item-eclipselink")
+    @SuppressWarnings("nullness")
     private EntityManager entityManager;
 
     /**
@@ -77,6 +80,7 @@ public final class XESItemRepositoryImpl implements XESItemRepository {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     @Override
+    @Nullable
     public XESItemDAO get(final Long id) {
         //return entityManager.find(XESItemDAO.class, id);
 
@@ -94,8 +98,11 @@ public final class XESItemRepositoryImpl implements XESItemRepository {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Override
-    public void remove(final Long id) {
+    public void remove(final Long id) throws EntityNotFoundException {
         XESItemDAO dao = get(id);
+        if (dao == null) {
+            throw new EntityNotFoundException("No XES item with id " + id);
+        }
         entityManager.remove(dao);
     }
 }

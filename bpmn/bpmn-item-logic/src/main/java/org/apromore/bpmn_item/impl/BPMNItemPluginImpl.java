@@ -42,6 +42,7 @@ import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.spi.ItemPlugin;
 import org.apromore.item.spi.ItemPluginContext;
 import org.apromore.item.spi.ItemTypeException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.apromore.service.bpmndiagramimporter.BPMNDiagramImporter;
@@ -58,15 +59,18 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
     // OSGi services
 
     /** Factory service for BPMN-specific data access objects. */
+    @SuppressWarnings("nullness")
     private BPMNItemRepository  bpmnItemRepository;
 
     /** Utility service for {@link ItemPlugin}s. */
+    @SuppressWarnings("nullness")
     private ItemPluginContext   itemPluginContext;
 
     /**
      * Service used by created {@link BPMNItem}s to evaluate their
      * {@link BPMNItem#getBPMNDiagram bpmnDiagram} property.
      */
+    @SuppressWarnings("nullness")
     private BPMNDiagramImporter importerService;
 
     /**
@@ -164,9 +168,14 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
 
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
+    @Nullable
     public BPMNItem getById(final Long id) throws NotAuthorizedException {
         Item        item = this.itemPluginContext.getById(id);
         BPMNItemDAO dao  = bpmnItemRepository.get(id);
-        return new BPMNItemImpl(item, dao, this.importerService);
+        if (item == null || dao == null) {
+            return null;
+        } else {
+            return new BPMNItemImpl(item, dao, this.importerService);
+        }
     }
 }

@@ -48,6 +48,7 @@ public final class PQLUIPlugin extends AbstractUIPlugin {
 
     /** Used to evaluate PQL queries. */
     @Reference
+    @SuppressWarnings("nullness")
     private PQLService pqlService;
 
     /** Sole constructor. */

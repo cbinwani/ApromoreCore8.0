@@ -42,7 +42,7 @@ public final class XESItemDAO {
      * {@link org.apromore.item.jpa.ItemDAO}.
      */
     @Id
-    private Long id;
+    private Long id = -1L;
 
     /**
      * The XES 1.0 XML document text.
@@ -51,7 +51,7 @@ public final class XESItemDAO {
      * binary and contains its own character encoding information.
      */
     @Column(name = "XML_SERIALIZATION", unique = false, nullable = false)
-    private byte[] xmlSerialization;
+    private byte[] xmlSerialization = {};
 
     /** @return primary key */
     public Long getId() {

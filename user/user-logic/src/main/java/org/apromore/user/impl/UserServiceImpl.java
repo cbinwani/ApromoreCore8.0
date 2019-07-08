@@ -23,6 +23,7 @@ package org.apromore.user.impl;
  */
 
 import java.util.Dictionary;
+import java.util.Properties;
 import java.util.Set;
 import java.security.Principal;
 import javax.security.auth.callback.Callback;
@@ -58,7 +59,7 @@ public final class UserServiceImpl implements UserAdmin, UserService {
     private Set<UserAdminListener> listeners = java.util.Collections.emptySet();
 
     /** @see {@link javax.security.auth.login.Configuration} */
-    private String loginConfigurationName;
+    private String loginConfigurationName = "Uninitialized";
 
     /** Which {@link Principal} class identifies a user?
      *
@@ -69,7 +70,7 @@ public final class UserServiceImpl implements UserAdmin, UserService {
      * <code>com.sun.security.auth.LdapPrincipal</code> with name
      * <code>uid=jsmith,ou=staff,o=acme</code>.
      */
-    private Class userPrincipalClass;
+    private Class userPrincipalClass = Object.class;
 
 
     // Property accessors
@@ -92,6 +93,7 @@ public final class UserServiceImpl implements UserAdmin, UserService {
     // Implementation of UserAdmin
 
     @Override
+    @SuppressWarnings("nullness")  // UserAdminPermission not annotated
     public Role createRole(final String name, final int type) {
 
         // Check for UserAdminPermission "admin"
@@ -139,22 +141,22 @@ public final class UserServiceImpl implements UserAdmin, UserService {
 
     @Override
     public Role getRole(final String name) {
-        return null;
+        throw new Error("Not implemented");
     }
 
     @Override
     public Role[] getRoles(final String filter) throws InvalidSyntaxException {
-        return null;
+        throw new Error("Not implemented");
     }
 
     @Override
     public User getUser(final String key, final String value) {
-        return null;
+        throw new Error("Not implemented");
     }
 
     @Override
     public Authorization getAuthorization(final User user) {
-        return null;
+        throw new Error("Not implemented");
     }
 
 
@@ -222,14 +224,14 @@ public final class UserServiceImpl implements UserAdmin, UserService {
 
                         @Override
                         public Dictionary getProperties() {
-                            return null;
+                            return new Properties();
                         }
 
                         // User
 
                         @Override
                         public Dictionary getCredentials() {
-                            return null;
+                            return new Properties();
                         }
 
                         @Override

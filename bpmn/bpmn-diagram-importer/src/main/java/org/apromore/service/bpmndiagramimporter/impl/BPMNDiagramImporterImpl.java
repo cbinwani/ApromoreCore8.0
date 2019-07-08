@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.StringReader;
 import java.util.*;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.processmining.models.graphbased.directed.bpmn.elements.SubProcess;
 import org.processmining.plugins.bpmn.BpmnAssociation;
@@ -52,20 +53,17 @@ import org.slf4j.LoggerFactory;
 public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
     private static final Logger LOGGER = LoggerFactory.getLogger(BPMNDiagramImporterImpl.class);
 
-    private JAXBContext jaxbContext;
-    private Unmarshaller unmarshaller;
+    private BPMNDiagram diagram = new BPMNDiagramImpr("");
 
-    private BPMNDiagram diagram;
+    private Map<String, Swimlane> idToPool = new HashMap<>();
+    private Map<String, BPMNNode> idToNode = new HashMap<>();
+    private Map<Event, String> boundToFix = new HashMap<>();
 
-    private Map<String, Swimlane> idToPool;
-    private Map<String, BPMNNode> idToNode;
-    private Map<Event, String> boundToFix;
-
-    private Set<TDataAssociation> dataAssociations;
-    private Set<TAssociation> associations;
-    private Set<TSequenceFlow> flows;
-    private Set<TMessageFlow> messageFlows;
-    private List<JAXBElement<? extends TRootElement>> processes;
+    private Set<TDataAssociation> dataAssociations = new HashSet<>();
+    private Set<TAssociation> associations = new HashSet<>();
+    private Set<TSequenceFlow> flows = new HashSet<>();
+    private Set<TMessageFlow> messageFlows = new HashSet<>();
+    private List<JAXBElement<? extends TRootElement>> processes = new LinkedList<>();
 
 
     public BPMNDiagramImporterImpl() {}
@@ -100,6 +98,8 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
 */
             //Map<String, String> properties = new HashMap<>();
             //properties.put(JAXBContext.JAXB_CONTEXT_FACTORY, "org.eclipse.persistence.jaxb.JAXBContextFactory");
+
+            JAXBContext jaxbContext;
             ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(TDefinitions.class.getClassLoader());
@@ -113,7 +113,7 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
             LOGGER.info("Created JAXBcontext!");
 
             //LOGGER.info("importBPMNDiagram: Creating Unmarshaller...");
-            unmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             //LOGGER.info("Created Unmarshaller");
 
 /*
@@ -175,6 +175,7 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
         }
     }
 
+    @SuppressWarnings("nullness")
     private void handleCollaboration(TCollaboration collaboration) {
 
         for( TParticipant participant : collaboration.getParticipant() ) {
@@ -291,6 +292,7 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
             if( sp.getChildren().size() == 0 ) sp.setBCollapsed(true);
     }
 
+    @SuppressWarnings("nullness")
     private void checkCollapsedPools() {
         boolean uselessPool;
 
@@ -331,6 +333,7 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
         //LOGGER.info( (parentProcess==null ? "null" : parentProcess.getId()) + " - " + (pool==null ? "null" : pool.getId()) + " - added textAnnotation:" + textAnnotation.getId() + " = " + ta.getId());
     }
 
+    @SuppressWarnings("nullness")
     private void addEvent(TEvent event, SubProcess parentProcess, Swimlane pool) {
         Event e;
         String label = event.getName();
@@ -511,7 +514,8 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
         LOGGER.info("Added SubProcess: " + subProcess.getId() + " = " + sp.getId());
     }
 
-    private void unfoldProcess(TBaseElement root, SubProcess parentProcess) {
+    @SuppressWarnings("nullness")
+    private void unfoldProcess(TBaseElement root, @Nullable SubProcess parentProcess) {
 
         if( root instanceof TProcess ) {
             Swimlane pool = idToPool.get(root.getId());
@@ -598,25 +602,25 @@ public class BPMNDiagramImporterImpl implements BPMNDiagramImporter {
     }
 
     private void addLanes(TLaneSet laneSet, Swimlane parent) {
-        TLaneSet childSet;
-        Swimlane s;
-        String id;
-
         for( TLane lane : laneSet.getLane() ) {
-            s = diagram.addSwimlane(lane.getName(), parent, SwimlaneType.LANE);
+            Swimlane s = diagram.addSwimlane(lane.getName(), parent, SwimlaneType.LANE);
 
             for( JAXBElement node : lane.getFlowNodeRef() ) {
-                id = null;
-                if( node.getValue() instanceof TBaseElement ) id = ((TBaseElement) node.getValue()).getId();
-                else LOGGER.info("ERROR setting a lane for a node that is instanceof: " + node.getValue().getClass().getName());
+                if( node.getValue() instanceof TBaseElement ) {
+                    String id = ((TBaseElement) node.getValue()).getId();
+                    if( idToNode.containsKey(id) ) {
+                        idToNode.get(id).setParentSwimlane(s);
+                        //LOGGER.info("Lane set.");
+                    } else {
+                        LOGGER.info("Unsettable lane for: " + id);
+                    }
+                } else {
+                    LOGGER.info("ERROR setting a lane for a node that is instanceof: " + node.getValue().getClass().getName());
+                }
                 //LOGGER.info("Trying to set Lane > " + lane.getId() + " for:  " + id);
-                if( idToNode.containsKey(id) ) {
-                    idToNode.get(id).setParentSwimlane(s);
-                    //LOGGER.info("Lane set.");
-                } else LOGGER.info("Unsettable lane for: " + id);
             }
 
-            childSet = lane.getChildLaneSet();
+            TLaneSet childSet = lane.getChildLaneSet();
             if( childSet != null ) addLanes(childSet, s);
         }
     }

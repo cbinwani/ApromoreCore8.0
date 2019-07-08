@@ -56,10 +56,12 @@ public class XESItemPluginImplTest {
     private XESItem testCreateXESItem(String filename) throws ItemFormatException, NotAuthorizedException {
 
         Item nakedItem = createMock(Item.class);
+        assert nakedItem != null : "@AssumeAssertion(nullness)";
         expect(nakedItem.getId()).andReturn(0L);
         replay(nakedItem);
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
+        assert itemPluginContext != null : "@AssumeAssertion(nullness)";
         expect(itemPluginContext.create(XESItem.TYPE)).andReturn(nakedItem);
         replay(itemPluginContext);
 
@@ -91,11 +93,14 @@ public class XESItemPluginImplTest {
     @Test
     public void testGetById() throws Exception {
         XESItemImpl expectedXESItem = createMock(XESItemImpl.class);
+        assert expectedXESItem != null : "@AssumeAssertion(nullness)";
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
+        assert itemPluginContext != null : "@AssumeAssertion(nullness)";
         XESItemService xesItemService = new XESItemPluginImpl();
 
         XESItem xesItem = xesItemService.getById(0L);
+        assert xesItem != null : "@AssumeAssertion(nullness)";
         assertEquals(expectedXESItem, xesItem);
     }
 }

@@ -44,6 +44,7 @@ import org.apromore.xes_item.XESItem;
 import org.apromore.xes_item.XESItemService;
 import org.apromore.xes_item.jpa.XESItemDAO;
 import org.apromore.xes_item.jpa.XESItemRepository;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XLog;
 import org.osgi.service.component.annotations.Component;
@@ -65,10 +66,12 @@ public final class XESItemPluginImpl
 
     /** Utility service for {@link ItemPlugin}s. */
     @Reference
+    @SuppressWarnings("nullness")
     private ItemPluginContext itemPluginContext;
 
     /** Factory service for XES-specific data access objects. */
     @Reference
+    @SuppressWarnings("nullness")
     private XESItemRepository xesItemRepository;
 
     /*
@@ -161,9 +164,15 @@ public final class XESItemPluginImpl
     }
 
     @Override
+    @Transactional(Transactional.TxType.SUPPORTS)
+    @Nullable
     public XESItem getById(final Long id) throws NotAuthorizedException {
         Item item = this.itemPluginContext.getById(id);
         XESItemDAO dao = xesItemRepository.get(id);
-        return new XESItemImpl(item, dao);
+        if (item == null || dao == null) {
+            return null;
+        } else {
+            return new XESItemImpl(item, dao);
+        }
     }
 }

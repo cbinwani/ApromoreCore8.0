@@ -23,6 +23,7 @@ package org.apromore.ui.spi;
  */
 
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -46,7 +47,7 @@ public interface UIPluginContext {
      */
     Component createComponent(ClassLoader bundleClassLoader,
                               String      uri,
-                              Map<?, ?>   arguments);
+                    @Nullable Map<?, ?>   arguments);
 
     /**
      * @return the ZK component representing the canvas area of the main

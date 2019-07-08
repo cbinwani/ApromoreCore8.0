@@ -65,6 +65,7 @@ public final class MetricsUIPlugin extends AbstractUIPlugin {
 
     /** Used to calculate measurements on the selected item. */
     @Reference
+    @SuppressWarnings("nullness")
     private MetricsService metricsService;
 
     /** Sole constructor. */

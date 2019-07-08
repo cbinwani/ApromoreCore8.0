@@ -57,7 +57,7 @@ public final class LoginController extends SelectorComposer<Component> {
     public static final String ZK_SESSION_USER_ATTRIBUTE = "user";
 
     /** @see javax.security.auth.login.Configuration */
-    private String loginConfigurationName;
+    private String loginConfigurationName = "Uninitialized";;
 
     /** Which {@link Principal} class identifies a user?
      *
@@ -68,22 +68,26 @@ public final class LoginController extends SelectorComposer<Component> {
      * <code>com.sun.security.auth.LdapPrincipal</code> with name
      * <code>uid=jsmith,ou=staff,o=acme</code>.
      */
-    private Class userPrincipalClass;
+    private Class userPrincipalClass = Object.class;
 
     /** Login window. */
     @Wire
+    @SuppressWarnings("nullness")
     private Window window;
 
     /** Reason. */
     @Wire("#reasonLabel")
+    @SuppressWarnings("nullness")
     private Label reasonLabel;
 
     /** Username. */
     @Wire("#username")
+    @SuppressWarnings("nullness")
     private Textbox usernameTextbox;
 
     /** Password. */
     @Wire("#password")
+    @SuppressWarnings("nullness")
     private Textbox passwordTextbox;
 
     @Override

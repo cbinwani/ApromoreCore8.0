@@ -24,6 +24,7 @@ package org.apromore.item.spi;
 
 import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory for obtaining {@link Item} instances.
@@ -50,5 +51,6 @@ public interface ItemPluginContext {
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being created
      */
+    @Nullable
     Item getById(Long id) throws NotAuthorizedException;
 }

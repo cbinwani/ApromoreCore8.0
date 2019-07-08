@@ -104,6 +104,7 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
     }
     */
 
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     @Override
     public Map<String, String> computeMetrics(XLog log) {
         Map<String, String> result = new HashMap<>();
@@ -160,8 +161,8 @@ public class MetricsServiceImpl /*extends DefaultParameterAwarePlugin*/ implemen
         result.put("Number of Events", Integer.toString(events));
         result.put("Number of Resources", Integer.toString(resources.size()));
         result.put("Number of UniqueTraces", Integer.toString(uniqueTraces.size()));
-        result.put("Log StartTime", start.toString());
-        result.put("Log EndTime", end.toString());
+        result.put("Log StartTime", start == null ? "-" : start.toString());
+        result.put("Log EndTime", end == null ? "-" : end.toString());
         result.put("Mean duration in hours",  new DecimalFormat("#.##").format(mean));
         result.put("Median duration in hours",  new DecimalFormat("#.##").format(median));
         result.put("Min duration in hours",  new DecimalFormat("#.##").format(shortest));

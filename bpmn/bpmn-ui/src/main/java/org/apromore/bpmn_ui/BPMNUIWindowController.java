@@ -51,14 +51,13 @@ public final class BPMNUIWindowController extends SelectorComposer<Component> {
 
     /** Window. */
     @Wire("#bpmnUIWindow")
+    @SuppressWarnings("nullness")
     private Window window;
 
     /** Embedded BPMN editor widget. */
     @Wire("#bpmn1")
+    @SuppressWarnings("nullness")
     private CustomZULComponent bpmn1;
-
-    /** The model (both in the BPMN and MVC senses). */
-    private BPMNItem bpmnItem;
 
     @Override
     public void doFinally() {
@@ -68,7 +67,7 @@ public final class BPMNUIWindowController extends SelectorComposer<Component> {
             public void onEvent(final Event event) throws Exception {
                 try {
                     LOGGER.info("Init " + event);
-                    bpmnItem = (BPMNItem) event.getData();
+                    BPMNItem bpmnItem = (BPMNItem) event.getData();
                     bpmn1.setValue(new String(
                         ByteStreams.toByteArray(bpmnItem.getXMLSerialization()),
                         UTF_8));  // Uglier, but back-compatible to Java 1.8

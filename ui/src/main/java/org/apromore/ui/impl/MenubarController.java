@@ -56,9 +56,11 @@ public final class MenubarController extends SelectorComposer<Menubar>
 
     /** The canvas. */
     @Wire("#parent")
+    @SuppressWarnings("nullness")
     private Component parent;
 
     /** Login support. */
+    @SuppressWarnings("nullness")
     private UserService userService;
 
     @Override
@@ -123,6 +125,7 @@ public final class MenubarController extends SelectorComposer<Menubar>
      * @param newMenubar  the menubar to update
      * @param uiPluginContext  used to determine menu item enablement
      */
+    @SuppressWarnings("nullness")  // Menupopup.insertBefore isn't annotated
     private void generateMenubar(final Menubar newMenubar,
                                  final UIPluginContext uiPluginContext) {
 

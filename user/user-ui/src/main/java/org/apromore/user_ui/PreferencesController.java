@@ -55,10 +55,12 @@ public class PreferencesController extends SelectorComposer<Component> {
     }
 
     /** Window. */
+    @SuppressWarnings("nullness")
     @Wire private Window win;
 
     /** The current ZK theme. */
     @Wire("#themeListbox")
+    @SuppressWarnings("nullness")
     private Listbox themeListbox;
 
     /** {@inheritDoc} */
@@ -77,6 +79,7 @@ public class PreferencesController extends SelectorComposer<Component> {
 
     /** @param selectEvent  theme selected */
     @Listen("onSelect = #themeListbox")
+    @SuppressWarnings("nullness")  // Themes.setTheme not annotated
     public void onSelectTheme(final SelectEvent<Listitem, String> selectEvent) {
         String newTheme = selectEvent.getReference().getValue();
         LOGGER.info(String.format("Changed ZK theme: %s", newTheme));
