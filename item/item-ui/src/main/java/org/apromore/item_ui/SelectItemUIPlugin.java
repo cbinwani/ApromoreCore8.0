@@ -30,6 +30,9 @@ import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.Event;
+import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
+import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.EventListener;
@@ -45,10 +48,14 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
 
 /**
- * {@link UIPlugin} for the Item/Logout command.
+ * {@link UIPlugin} for the Item/Select Item command.
  */
-@Component(service = {UIPlugin.class})
-public final class SelectItemUIPlugin extends AbstractUIPlugin {
+@Component(
+    service = {EventHandler.class, UIPlugin.class},
+    property = EVENT_TOPIC + "=org/apromore/item/*"
+)
+public final class SelectItemUIPlugin extends AbstractUIPlugin
+    implements EventHandler {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
@@ -63,6 +70,15 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin {
     public SelectItemUIPlugin() {
         super("item.group", "selectItem.label", "selectItem.iconSclass");
     }
+
+    // Implementation of EventHandler
+
+    @Override
+    public void handleEvent(final Event event) {
+        LOGGER.info("Received event " + event);
+    }
+
+    // Implementation of UIPlugin
 
     /** {@inheritDoc}
      *

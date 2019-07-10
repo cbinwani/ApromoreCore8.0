@@ -27,6 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
@@ -47,6 +48,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 //import static
 //    org.osgi.service.component.annotations.ReferenceCardinality.MULTIPLE;
 //import static org.osgi.service.component.annotations.ReferencePolicy.DYNAMIC;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,11 +75,21 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     @SuppressWarnings("nullness")
     private ItemRepository itemRepository;
 
+    /** Used to notify interested parties about item life cycle. */
+    //@Reference
+    @SuppressWarnings("nullness")
+    private EventAdmin eventAdmin;
+
     /**
      * @param newItemPlugins  the dynamically populated list of item plugins
      */
     public ItemServiceImpl(final List<ItemPlugin> newItemPlugins) {
         this.itemPlugins = newItemPlugins;
+    }
+
+    /** @param newEventAdmin  used to publish item changes */
+    public void setEventAdmin(final EventAdmin newEventAdmin) {
+        this.eventAdmin = newEventAdmin;
     }
 
     /** @param newRepository  used to persist the item's fields */
@@ -144,7 +157,12 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
                 LOGGER.debug("Attempting to create " + itemPlugin.getType());
                 Item item = itemPlugin.create(new ByteArrayInputStream(buffer));
 
-                // TODO: notify observers
+                // Notify observers
+                HashMap<String, Object> properties = new HashMap<>();
+                properties.put("id", item.getId());
+                properties.put("type", item.getType());
+                eventAdmin.postEvent(new Event("org/apromore/item/CREATE",
+                                               properties));
 
                 return item;
 
@@ -190,6 +208,13 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     public void remove(final Item item) {
         try {
             itemRepository.remove(item.getId());
+
+            // Notify observers
+            HashMap<String, Object> properties = new HashMap<>();
+            properties.put("id", item.getId());
+            properties.put("type", item.getType());
+            eventAdmin.postEvent(new Event("org/apromore/item/REMOVE",
+                                           properties));
 
         } catch (EntityNotFoundException e) {
             LOGGER.warn("Removed item not in repository", e);
