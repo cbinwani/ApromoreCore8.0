@@ -36,6 +36,7 @@ import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zul.Listbox;
@@ -49,6 +50,9 @@ import org.zkoss.zul.ext.Selectable;
 
 /**
  * {@link UIPlugin} for the Item/Select Item command.
+ *
+ * This class forwards OSGi EventAdmin to a ZK EventQueue, since ZK can
+ * only perform updates within its own {@link EventListener}s.
  */
 @Component(
     service = {EventHandler.class, UIPlugin.class},
@@ -71,12 +75,24 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
         super("item.group", "selectItem.label", "selectItem.iconSclass");
     }
 
+    /**
+     * @param model  a list of items to update against {@link #itemService}
+     */
+    private void updateModel(final ListModelList<Item> model) {
+        model.clear();
+        model.addAll(itemService.getAll());
+        model.setSelection(Selection.getSelection());
+    }
+
+
     // Implementation of EventHandler
 
     @Override
     public void handleEvent(final Event event) {
-        LOGGER.info("Received event " + event);
+        EventQueues.lookup("q", EventQueues.APPLICATION, true).publish(
+            new org.zkoss.zk.ui.event.Event(event.getTopic()));
     }
+
 
     // Implementation of UIPlugin
 
@@ -115,8 +131,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
         });
 
         ListModelList<Item> model = new ListModelList<>();
-        model.addAll(itemService.getAll());
-        model.setSelection(Selection.getSelection());
+        updateModel(model);
         listbox.setModel(model);
 
         listbox.setPaginal((Paging) window.getFellow("paging"));
@@ -142,6 +157,22 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
                 Selection.setSelection(
                    ((Selectable<Item>) listbox.getModel()).getSelection()
                 );
+            }
+        });
+
+        EventQueues.lookup("q", EventQueues.APPLICATION, true)
+                   .subscribe(new EventListener<org.zkoss.zk.ui.event.Event>() {
+
+            public void onEvent(final org.zkoss.zk.ui.event.Event event)
+                throws Exception {
+
+                switch (event.getName()) {
+                case "org/apromore/item/CREATE":
+                case "org/apromore/item/REMOVE":
+                    updateModel(model);
+                    break;
+                default:
+                }
             }
         });
     }
