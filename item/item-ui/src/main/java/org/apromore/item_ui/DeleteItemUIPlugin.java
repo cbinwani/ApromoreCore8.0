@@ -22,7 +22,6 @@ package org.apromore.item_ui;
  * #L%
  */
 
-import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.ui.spi.AbstractUIPlugin;
@@ -51,9 +50,6 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
     @Reference
     @SuppressWarnings("nullness")
     private ItemService itemService;
-
-    /** Dummy caller. */
-    private Caller caller = new org.apromore.AbstractCaller();
 
     /** Sole constructor. */
     public DeleteItemUIPlugin() {
@@ -87,7 +83,7 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
                 public void run() {  // delete if login is successful
                     for (Item item: Selection.getSelection()) {
                         try {
-                            itemService.remove(item, caller);
+                            itemService.remove(item, context.caller());
 
                         } catch (Throwable e) {
                             LOGGER.error("Item deletion failed", e);

@@ -23,6 +23,7 @@ package org.apromore.ui.spi;
  */
 
 import java.util.Map;
+import org.apromore.Caller;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zkoss.zk.ui.Component;
 
@@ -82,4 +83,9 @@ public interface UIPluginContext {
      * @param failure  executed after the login is cancelled
      */
     void authenticate(String reason, Runnable success, Runnable failure);
+
+    /**
+     * @return authorization to access business logic layer's services
+     */
+    Caller caller();
 }

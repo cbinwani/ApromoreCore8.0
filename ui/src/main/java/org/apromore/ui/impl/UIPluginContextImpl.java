@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
 import javax.security.auth.login.LoginException;
+import org.apromore.Caller;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.user.UserService;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -197,8 +198,7 @@ class UIPluginContextImpl implements UIPluginContext {
      * @return the authenticated user, or <code>null</code> if the
      *     session isn't authenticated.
      */
-    //@Override
-    public User getUser() {
+    private static User getUser() {
         return (User) Sessions.getCurrent()
                               .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
     }
@@ -212,9 +212,14 @@ class UIPluginContextImpl implements UIPluginContext {
      * @param user  the authenticated user, or <code>null</code> to
      *     deauthenticate this user session
      */
-    private void setUser(final User user) {
+    private static void setUser(final User user) {
         Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE, user);
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onLogin"));
+    }
+
+    @Override
+    public Caller caller() {
+        return new org.apromore.AbstractCaller();
     }
 }

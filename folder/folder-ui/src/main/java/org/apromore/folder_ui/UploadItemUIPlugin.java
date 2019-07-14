@@ -23,7 +23,6 @@ package org.apromore.folder_ui;
  */
 
 import java.io.IOException;
-import org.apromore.Caller;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
@@ -119,7 +118,6 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                     new EventListener<UploadEvent>() {
 
                     public void onEvent(final UploadEvent uploadEvent) {
-                        Caller caller = new org.apromore.AbstractCaller();
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());
 
@@ -135,12 +133,12 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                                 try {
                                     Item item = itemService.create(
                                         media.getStreamData(),
-                                        caller);
+                                        context.caller());
                                     folderService.createPath(
                                         parentFolder,
                                         newItemName,
                                         item,
-                                        caller);
+                                        context.caller());
 
                                     context.getParentComponent().invalidate();
                                     return;
