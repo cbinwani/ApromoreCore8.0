@@ -103,15 +103,17 @@ public final class FolderPluginImpl
     // FolderService implementation
 
     @Override
-    public Folder createFolder(final Folder parentFolder, final String name)
+    public Folder createFolder(final Folder parentFolder,
+                               final String name,
+                               final Caller caller)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
         try {
             LOGGER.info("Creating folder " + name + " in " + parentFolder);
 
-            Item item = this.itemPluginContext.create(getType());
+            Item item = this.itemPluginContext.create(getType(), caller);
             Folder folder = new FolderImpl(item, folderRepository);
-            createPath(parentFolder, name, folder);
+            createPath(parentFolder, name, folder, caller);
 
             return folder;
 
@@ -123,7 +125,8 @@ public final class FolderPluginImpl
     @Override
     public void createPath(final Folder parentFolder,
                            final String name,
-                           final Item   content)
+                           final Item   content,
+                           final Caller caller)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
         if (name.contains(SEPARATOR)) {
@@ -153,7 +156,8 @@ public final class FolderPluginImpl
     @Override
     public void updatePath(final Folder parentFolder,
                            final String name,
-                           final Item content)
+                           final Item content,
+                           final Caller caller)
         throws NotAuthorizedException {
 
         throw new UnsupportedOperationException();
@@ -203,8 +207,10 @@ public final class FolderPluginImpl
 
     @Override
     @Nullable
-    public Folder findFolderById(final Long id) throws NotAuthorizedException {
-        Item item = itemPluginContext.getById(id);
+    public Folder findFolderById(final Long id, final Caller caller)
+        throws NotAuthorizedException {
+
+        Item item = itemPluginContext.getById(id, caller);
         if (item == null) {
             return null;
         }
@@ -219,7 +225,8 @@ public final class FolderPluginImpl
     @Override
     @Nullable
     public Item findItemByFolderAndName(final @Nullable Folder folder,
-                                        final String name)
+                                        final String name,
+                                        final Caller caller)
         throws NotAuthorizedException {
 
         LOGGER.info("Finding item in " + folder + " named " + name);
@@ -238,12 +245,12 @@ public final class FolderPluginImpl
         LOGGER.info("Found item in " + folder + " named " + name + ": "
             + itemId);
 
-        return itemPluginContext.getById(itemId);
+        return itemPluginContext.getById(itemId, caller);
     }
 
     @Override
     @Nullable
-    public Item findItemByPath(final String path)
+    public Item findItemByPath(final String path, final Caller caller)
         throws NotAuthorizedException {
 
         LOGGER.info("Finding item by path " + path);
@@ -253,10 +260,10 @@ public final class FolderPluginImpl
 
         Folder folder = null;
         if (parentPath != null) {
-            folder = (Folder) findItemByPath(parentPath);
+            folder = (Folder) findItemByPath(parentPath, caller);
         }
 
-        return findItemByFolderAndName(folder, name);
+        return findItemByFolderAndName(folder, name, caller);
     }
 
     /**
@@ -285,7 +292,7 @@ public final class FolderPluginImpl
     }
 
     @Override
-    public String findPathByItem(final Item item) {
+    public String findPathByItem(final Item item, final Caller caller) {
         PathDAO dao = folderRepository.findPathByItemId(item.getId());
         if (dao == null) {
             throw new AssertionError();
@@ -294,7 +301,7 @@ public final class FolderPluginImpl
     }
 
     @Override
-    public List<String> getRootFolderPaths() {
+    public List<String> getRootFolderPaths(final Caller caller) {
         List<PathDAO> p = folderRepository.findPathsByParent(null);
         List<String> s = p
               //folderRepository.findPathsByParent(null)

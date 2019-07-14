@@ -109,7 +109,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
     public BPMNItem create(final InputStream inputStream, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
 
-        return createBPMNItem(new StreamSource(inputStream));
+        return createBPMNItem(new StreamSource(inputStream), caller);
     }
 
     @Override
@@ -132,7 +132,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
 
     @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public BPMNItem createBPMNItem(final Source source)
+    public BPMNItem createBPMNItem(final Source source, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -149,7 +149,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
                 throw new ItemFormatException(getType(), e);
             }
 
-            Item item = this.itemPluginContext.create(getType());
+            Item item = this.itemPluginContext.create(getType(), caller);
 
             BPMNItemDAO dao = new BPMNItemDAO();
             dao.setId(item.getId());
@@ -169,8 +169,10 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     @Nullable
-    public BPMNItem getById(final Long id) throws NotAuthorizedException {
-        Item        item = this.itemPluginContext.getById(id);
+    public BPMNItem getById(final Long id, final Caller caller)
+        throws NotAuthorizedException {
+
+        Item        item = this.itemPluginContext.getById(id, caller);
         BPMNItemDAO dao  = bpmnItemRepository.get(id);
         if (item == null || dao == null) {
             return null;

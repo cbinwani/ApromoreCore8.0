@@ -29,6 +29,7 @@ import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 import org.apache.karaf.shell.support.table.Row;
 import org.apache.karaf.shell.support.table.ShellTable;
+import org.apromore.Caller;
 import org.apromore.folder.FolderService;
 import org.apromore.item.Item;
 
@@ -50,13 +51,14 @@ public class ListContentsCommand implements Action {
     @Override
     @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     public Object execute() throws Exception {
+        Caller caller = new org.apromore.AbstractCaller();
         ShellTable table = new ShellTable();
-        List<String> paths = folderService.getRootFolderPaths();
+        List<String> paths = folderService.getRootFolderPaths(caller);
         table.column("ID");
         table.column("Path");
         table.column("Type");
         for (String path: paths) {
-            Item item = folderService.findItemByPath(path);
+            Item item = folderService.findItemByPath(path, caller);
             Row row = table.addRow();
             row.addContent(item == null ? "-" : item.getId());
             row.addContent(path);

@@ -24,6 +24,7 @@ package org.apromore.xes_item.impl;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+import org.apromore.Caller;
 import org.apromore.xes_item.XESItem;
 import org.apromore.xes_item.XESItemService;
 import org.apromore.item.Item;
@@ -42,6 +43,8 @@ import org.junit.Test;
 
 /** Test suite for {@link XESItemPluginImpl}. */
 public class XESItemPluginImplTest {
+
+    private Caller caller = new org.apromore.AbstractCaller();
 
     @Before
     public void setup() {
@@ -62,7 +65,7 @@ public class XESItemPluginImplTest {
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         assert itemPluginContext != null : "@AssumeAssertion(nullness)";
-        expect(itemPluginContext.create(XESItem.TYPE)).andReturn(nakedItem);
+        expect(itemPluginContext.create(XESItem.TYPE, caller)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         XESItemService xesItemService = new XESItemPluginImpl();

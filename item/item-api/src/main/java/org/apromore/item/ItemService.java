@@ -63,18 +63,20 @@ public interface ItemService {
     /**
      * @param id  the primary key identifier of an existing {@link Item}, never
      *     <code>null</code>
+     * @param caller  must be authorized to access items
      * @return either the unique {@link Item} with the given <i>id</i>, or
      *     <code>null</code> if no such item exists
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being created
      */
     @Nullable
-    Item getById(Long id) throws NotAuthorizedException;
+    Item getById(Long id, Caller caller) throws NotAuthorizedException;
 
     /**
      * @param item  an {@link Item} to be removed from storage
+     * @param caller  must be authorized to remove items
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being deleted
      */
-    void remove(Item item) throws NotAuthorizedException;
+    void remove(Item item, Caller caller) throws NotAuthorizedException;
 }

@@ -24,6 +24,7 @@ package org.apromore.bpmn_item.impl;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+import org.apromore.Caller;
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
 import org.apromore.bpmn_item.jpa.BPMNItemRepository;
@@ -44,12 +45,13 @@ import org.junit.Test;
 /** Test suite for {@link BPMNItemPluginImpl}. */
 public class BPMNItemPluginImplTest {
 
+    private Caller caller = new org.apromore.AbstractCaller();
+
     /** Initialize the instance to be tested. */
     @Before
     public void setup() throws Exception {
 
         //bpmnDiagramImporter.setItemPluginContext(itemPluginContext);
-
     }
 
     /** Test {@link BPMNItemService#createBPMNItem}. */
@@ -63,7 +65,7 @@ public class BPMNItemPluginImplTest {
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         assert itemPluginContext != null: "@AssumeAssertion(nullness)";
-        expect(itemPluginContext.create(BPMNItem.TYPE)).andReturn(nakedItem);
+        expect(itemPluginContext.create(BPMNItem.TYPE, caller)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         BPMNItemRepository bpmnItemRepository = createMock(BPMNItemRepository.class);
@@ -77,7 +79,7 @@ public class BPMNItemPluginImplTest {
         instance.setItemPluginContext(itemPluginContext);
 
         Source source = new StreamSource(BPMNItemPluginImplTest.class.getClassLoader().getResourceAsStream("test.bpmn"));
-        BPMNItem bpmnItem = instance.createBPMNItem(source);
+        BPMNItem bpmnItem = instance.createBPMNItem(source, caller);
     }
 
     /** Test {@link BPMNItemService#getById}. */
@@ -91,7 +93,7 @@ public class BPMNItemPluginImplTest {
 
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         assert itemPluginContext != null: "@AssumeAssertion(nullness)";
-        expect(itemPluginContext.getById(0L)).andReturn(nakedItem);
+        expect(itemPluginContext.getById(0L, caller)).andReturn(nakedItem);
         replay(itemPluginContext);
 
         BPMNItemRepository bpmnItemRepository = createMock(BPMNItemRepository.class);
@@ -104,6 +106,6 @@ public class BPMNItemPluginImplTest {
         instance.setBPMNDiagramImporter(bpmnDiagramImporter);
         instance.setItemPluginContext(itemPluginContext);
 
-        assertTrue(instance.getById(0L) == null);
+        assertTrue(instance.getById(0L, caller) == null);
     }
 }

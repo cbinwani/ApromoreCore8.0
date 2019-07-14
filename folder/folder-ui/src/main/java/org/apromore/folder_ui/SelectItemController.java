@@ -24,6 +24,7 @@ package org.apromore.folder_ui;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import org.apromore.Caller;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
@@ -81,6 +82,9 @@ public class SelectItemController extends SelectorComposer<Component> {
      */
     public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
 
+    /** Dummy caller. */
+    private Caller caller = new org.apromore.AbstractCaller();
+
     /** @return localized text catalogue */
     public ResourceBundle getLabels() {
         return ResourceBundle.getBundle("Labels", Locales.getCurrent());
@@ -130,7 +134,9 @@ public class SelectItemController extends SelectorComposer<Component> {
         // particularly alert while modifying it
         do {
             try {
-                folderService.createFolder(parentFolder, newFolderName);
+                folderService.createFolder(parentFolder,
+                                           newFolderName,
+                                           caller);
                 refresh(context);
                 return;
 
@@ -207,7 +213,7 @@ public class SelectItemController extends SelectorComposer<Component> {
             (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
         currentFolderLabel.setValue(currentFolder == null
             ? "/"
-            : folderService.findPathByItem(currentFolder));
+            : folderService.findPathByItem(currentFolder, caller));
 
         //Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
@@ -220,7 +226,7 @@ public class SelectItemController extends SelectorComposer<Component> {
                 String type = "error";
 
                 if (item != null) {
-                    String path = folderService.findPathByItem(item);
+                    String path = folderService.findPathByItem(item, caller);
                     name = path.substring(path.lastIndexOf("/") + 1,
                         path.length());
                     itemId = item.getId();
@@ -242,7 +248,7 @@ public class SelectItemController extends SelectorComposer<Component> {
             context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
         List<String> paths;
         if (folder == null) {
-            paths = folderService.getRootFolderPaths();
+            paths = folderService.getRootFolderPaths(caller);
             LOGGER.info("Got root folder paths " + paths);
 
         } else {
@@ -252,7 +258,9 @@ public class SelectItemController extends SelectorComposer<Component> {
 
         for (String path: paths) {
             try {
-                Item item = folderService.findItemByFolderAndName(folder, path);
+                Item item = folderService.findItemByFolderAndName(folder,
+                                                                  path,
+                                                                  caller);
                 if (item == null) {
                     throw new AssertionError("getPaths returned non-Item");
                 }

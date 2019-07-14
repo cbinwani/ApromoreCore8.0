@@ -31,6 +31,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 //import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.apromore.Caller;
 import org.apromore.folder.FolderService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;;
@@ -54,6 +55,7 @@ public class FolderServiceREST /* implements FolderService */ {
     @Produces("application/json")
     @GET
     public List<String> getRootFolderPaths() {
-        return folderService.getRootFolderPaths();
+        Caller caller = new org.apromore.AbstractCaller();
+        return folderService.getRootFolderPaths(caller);
     }
 }

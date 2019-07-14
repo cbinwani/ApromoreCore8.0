@@ -22,6 +22,7 @@ package org.apromore.folder.impl;
  * #L%
  */
 
+import org.apromore.Caller;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
@@ -41,6 +42,8 @@ import org.junit.Test;
 
 /** Test suite for {@link FolderPluginImpl}. */
 public class FolderPluginImplTest {
+
+    private Caller caller = new org.apromore.AbstractCaller();
 
     @Before
     public void setup() {
@@ -67,7 +70,7 @@ public class FolderPluginImplTest {
         ItemPluginContext itemPluginContext = createMock(ItemPluginContext.class);
         FolderService folderService = new FolderPluginImpl();
 
-        Folder folder = folderService.findFolderById(0L);
+        Folder folder = folderService.findFolderById(0L, caller);
         if (folder == null) {
             throw new AssertionError();
         }

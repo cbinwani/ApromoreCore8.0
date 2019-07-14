@@ -22,6 +22,7 @@ package org.apromore.item.spi;
  * #L%
  */
 
+import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.NotAuthorizedException;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -36,21 +37,23 @@ public interface ItemPluginContext {
      * for creating a concrete subtype of the given <i>type</i>.
      *
      * @param type  used to initialize the created {@link Item}
+     * @param caller  authorization to create {@link Item}s.
      * @return an incomplete {@link Item}; the caller is responsible for
      *     completing the concrete subtype
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being created
      */
-    Item create(String type) throws NotAuthorizedException;
+    Item create(String type, Caller caller) throws NotAuthorizedException;
 
     /**
      * @param id  the primary key identifier of an existing {@link Item}, never
      *     <code>null</code>
+     * @param caller  authorization to access {@link Item}s.
      * @return either the unique {@link Item} with the given <i>id</i>, or
      *     <code>null</code> if no such item exists
      * @throws NotAuthorizedException if a lack of authorization prevents the
-     *     item from being created
+     *     item from being accessed
      */
     @Nullable
-    Item getById(Long id) throws NotAuthorizedException;
+    Item getById(Long id, Caller caller) throws NotAuthorizedException;
 }

@@ -103,7 +103,8 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
-    public Item create(final String type) throws NotAuthorizedException {
+    public Item create(final String type, final Caller caller)
+        throws NotAuthorizedException {
 
         /*
         try {
@@ -196,7 +197,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     @Nullable
-    public Item getById(final Long id) {
+    public Item getById(final Long id, final Caller caller) {
         ItemDAO dao = itemRepository.get(id);
         if (dao == null) {
             return null;
@@ -207,7 +208,7 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
-    public void remove(final Item item) {
+    public void remove(final Item item, final Caller caller) {
         try {
             itemRepository.remove(item.getId());
 

@@ -146,7 +146,7 @@ public final class XESItemPluginImpl
 
             // Construct and persist
 
-            Item item = this.itemPluginContext.create(getType());
+            Item item = this.itemPluginContext.create(getType(), caller);
 
             XESItemDAO dao = new XESItemDAO();
             dao.setId(item.getId());
@@ -169,7 +169,7 @@ public final class XESItemPluginImpl
     public XESItem getById(final Long id, final Caller caller)
         throws NotAuthorizedException {
 
-        Item item = this.itemPluginContext.getById(id);
+        Item item = this.itemPluginContext.getById(id, caller);
         XESItemDAO dao = xesItemRepository.get(id);
         if (item == null || dao == null) {
             return null;

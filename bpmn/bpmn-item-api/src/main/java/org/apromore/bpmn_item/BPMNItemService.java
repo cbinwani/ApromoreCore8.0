@@ -23,6 +23,7 @@ package org.apromore.bpmn_item;
  */
 
 import javax.xml.transform.Source;
+import org.apromore.Caller;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -35,23 +36,25 @@ public interface BPMNItemService {
     /**
      * @param source  a valid XML serialization of a BPMN 2.0 document, or
      *     <code>null</code> to create an empty document.
+     * @param caller  authorization to create BPMN items
      * @return an instance representing the stored document
      * @throws ItemFormatException if the <i>source</i> can't be interpreted as
      *     BPMN 2.0
-     * @throws NotAuthorizedException if the caller's credentials do not permit
-     *     item creation
+     * @throws NotAuthorizedException if the <i>caller</i>'s credentials do not
+     *     authorize item creation
      */
-    BPMNItem createBPMNItem(Source source) throws ItemFormatException,
-        NotAuthorizedException;
+    BPMNItem createBPMNItem(Source source, Caller caller)
+        throws ItemFormatException, NotAuthorizedException;
 
     /**
      * @param id  primary key
+     * @param caller  authorization to access BPMN items
      * @return the corresponding BPMN item if one exists, <code>null</code>
      *     otherwise (which includes the case of a non-BPMN item existing with
      *     that id)
-     * @throws NotAuthorizedException if the caller's credentials do not permit
+     * @throws NotAuthorizedException if the <i>caller</i>'s isn't permitted
      *     reading the existing item
      */
     @Nullable
-    BPMNItem getById(Long id) throws NotAuthorizedException;
+    BPMNItem getById(Long id, Caller caller) throws NotAuthorizedException;
 }
