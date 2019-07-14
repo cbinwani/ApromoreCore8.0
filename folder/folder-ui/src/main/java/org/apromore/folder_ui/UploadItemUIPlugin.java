@@ -132,7 +132,8 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                             do {
                                 try {
                                     Item item = itemService.create(
-                                        media.getStreamData());
+                                        media.getStreamData(),
+                                        new org.apromore.AbstractCaller());
                                     folderService.createPath(
                                         parentFolder,
                                         newItemName,

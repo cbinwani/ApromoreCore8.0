@@ -31,7 +31,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
+import org.apromore.Caller;
 import org.apromore.bpmn_item.BPMNItem;
 import org.apromore.bpmn_item.BPMNItemService;
 import org.apromore.bpmn_item.jpa.BPMNItemDAO;
@@ -106,7 +106,7 @@ public final class BPMNItemPluginImpl implements BPMNItemService,
     // ItemPlugin implementation
 
     @Override
-    public BPMNItem create(final InputStream inputStream)
+    public BPMNItem create(final InputStream inputStream, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
 
         return createBPMNItem(new StreamSource(inputStream));

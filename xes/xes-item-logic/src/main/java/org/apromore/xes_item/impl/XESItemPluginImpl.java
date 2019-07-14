@@ -33,7 +33,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
+import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -91,10 +91,10 @@ public final class XESItemPluginImpl
     // ItemPlugin implementation
 
     @Override
-    public XESItem create(final InputStream inputStream)
+    public XESItem create(final InputStream inputStream, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
 
-        return createXESItem(new StreamSource(inputStream));
+        return createXESItem(new StreamSource(inputStream), caller);
     }
 
     @Override
@@ -115,7 +115,7 @@ public final class XESItemPluginImpl
 
     @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public XESItem createXESItem(final Source source)
+    public XESItem createXESItem(final Source source, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
 
         try {
@@ -166,7 +166,9 @@ public final class XESItemPluginImpl
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     @Nullable
-    public XESItem getById(final Long id) throws NotAuthorizedException {
+    public XESItem getById(final Long id, final Caller caller)
+        throws NotAuthorizedException {
+
         Item item = this.itemPluginContext.getById(id);
         XESItemDAO dao = xesItemRepository.get(id);
         if (item == null || dao == null) {

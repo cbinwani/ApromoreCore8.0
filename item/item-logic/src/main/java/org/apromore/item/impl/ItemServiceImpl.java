@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
@@ -139,8 +140,8 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
-    public Item create(final InputStream inputStream) throws IOException,
-        ItemFormatException, NotAuthorizedException {
+    public Item create(final InputStream inputStream, final Caller caller)
+        throws IOException, ItemFormatException, NotAuthorizedException {
 
         LOGGER.debug("Attempting to create item using " + itemPlugins);
 
@@ -155,7 +156,8 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
         for (ItemPlugin itemPlugin: itemPlugins) {
             try {
                 LOGGER.debug("Attempting to create " + itemPlugin.getType());
-                Item item = itemPlugin.create(new ByteArrayInputStream(buffer));
+                Item item =
+                    itemPlugin.create(new ByteArrayInputStream(buffer), caller);
 
                 // Notify observers
                 HashMap<String, Object> properties = new HashMap<>();

@@ -24,6 +24,7 @@ package org.apromore.item.spi;
 
 import java.io.InputStream;
 import java.io.IOException;
+import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -38,15 +39,16 @@ public interface ItemPlugin<T extends Item> {
     /**
      * @param inputStream  no guarantee is made as to whether the stream will be
      *     closed after this method returns
+     * @param caller  authorization to create the item
      * @return a concrete subclass of {@link Item}
      * @throws IOException  if the <i>inputStream</i> cannot be read
      * @throws ItemFormatException  if the <i>inputStream</i> cannot be
      *     parsed
-     * @throws NotAuthorizedException  if the caller isn't authorized to create
-     *     the {@link Item}
+     * @throws NotAuthorizedException  if the <i>caller</i> isn't authorized to
+     *     create the {@link Item}
      */
-    T create(InputStream inputStream) throws IOException, ItemFormatException,
-       NotAuthorizedException;
+    T create(InputStream inputStream, Caller caller)
+       throws IOException, ItemFormatException, NotAuthorizedException;
 
     /** {@inheritDoc} */
     String getType();

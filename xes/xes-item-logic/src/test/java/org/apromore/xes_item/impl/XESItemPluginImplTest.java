@@ -68,7 +68,7 @@ public class XESItemPluginImplTest {
         XESItemService xesItemService = new XESItemPluginImpl();
 
         Source source = new StreamSource(XESItemPluginImplTest.class.getClassLoader().getResourceAsStream(filename));
-        XESItem xesItem = xesItemService.createXESItem(source);
+        XESItem xesItem = xesItemService.createXESItem(source, new org.apromore.AbstractCaller());
 
         verify(itemPluginContext);
 
@@ -99,7 +99,7 @@ public class XESItemPluginImplTest {
         assert itemPluginContext != null : "@AssumeAssertion(nullness)";
         XESItemService xesItemService = new XESItemPluginImpl();
 
-        XESItem xesItem = xesItemService.getById(0L);
+        XESItem xesItem = xesItemService.getById(0L, new org.apromore.AbstractCaller());
         assert xesItem != null : "@AssumeAssertion(nullness)";
         assertEquals(expectedXESItem, xesItem);
     }

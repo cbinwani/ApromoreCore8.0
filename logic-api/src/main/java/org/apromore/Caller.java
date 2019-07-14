@@ -28,7 +28,7 @@ import org.osgi.service.useradmin.Authorization;
  * When bundles in the presentation layer invoke services in the business logic
  * layer, they pass an argument of this type.
  */
-interface Caller {
+public interface Caller {
 
     /** @return authorization context */
     Authorization authorization();

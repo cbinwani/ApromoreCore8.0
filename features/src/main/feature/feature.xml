@@ -167,6 +167,7 @@
     </feature>
 
     <feature name="apromore-item-api" version="1.0-SNAPSHOT" description="Apromore item service API">
+        <feature>apromore-logic-api</feature>
         <bundle>mvn:org.apromore/item-api/1.0-SNAPSHOT</bundle>
     </feature>
 
@@ -211,6 +212,10 @@
         <feature>apromore-zk</feature>
         <feature>scr</feature>
         <bundle>mvn:org.apromore/item-ui/1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="apromore-logic-api" version="1.0-SNAPSHOT" description="Apromore business logic common API">
+        <bundle>mvn:org.apromore/logic-api/1.0-SNAPSHOT</bundle>
     </feature>
 
     <feature name="apromore-metrics-logic" version="2.0-SNAPSHOT" description="Measurement service">
@@ -281,6 +286,7 @@
     </feature>
 
     <feature name="apromore-user-api" version="1.0-SNAPSHOT" description="Apromore user API">
+        <feature>apromore-logic-api</feature>
         <feature>useradmin-api</feature>
         <bundle>mvn:org.apromore/user-api/1.0-SNAPSHOT</bundle>
     </feature>
@@ -333,7 +339,7 @@
         <bundle>mvn:org.apromore/xes-item-logic/1.0-SNAPSHOT</bundle>
     </feature>
 
-    <feature name="apromore-zk" version="${zk.version}" description="ZK UI toolkit">
+    <feature name="apromore-zk" version="${zk.version}" description="ZK web UI framework">
         <bundle>wrap:mvn:commons-io/commons-io/2.6</bundle>
         <bundle>wrap:mvn:commons-fileupload/commons-fileupload/1.4</bundle>
         <bundle>wrap:mvn:org.zkoss.common/zcommon/${zk.version}$<!--
@@ -368,6 +374,13 @@
             -->Bundle-SymbolicName=org.zkoss.zk.zul&amp;<!--
             -->Bundle-Version=${zk.version}&amp;<!--
             -->Export-Package=*;version=${zk.version}</bundle>
+    </feature>
+
+    <feature name="apromore-zkcharts" version="3.0.3" description="ZK charts">
+        <bundle><!--wrap:-->mvn:org.zkoss.chart/zkcharts/3.0.3<!--$--><!--
+            --><!--Bundle-SymbolicName=org.zkoss.chart.zkcharts&amp;--><!--
+            --><!--Export-Package=*;version=3.0.3&amp;--><!--
+            --><!--Fragment-Host=org.zkoss.zk;bundle-version=&quot;[8.0,9)&quot;--></bundle>
     </feature>
 
     <feature name="eclipse-collections" version="9.2.0" description="Eclipse collections">

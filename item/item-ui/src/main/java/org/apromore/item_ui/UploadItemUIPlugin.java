@@ -102,7 +102,8 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
                         for (Media media: uploadEvent.getMedias()) {
                             LOGGER.debug("Upload file " + media.getName());
                             try {
-                                itemService.create(media.getStreamData());
+                                itemService.create(media.getStreamData(),
+                                    new org.apromore.AbstractCaller());
 
                             } catch (IOException | ItemFormatException
                                 | NotAuthorizedException e) {

@@ -87,6 +87,8 @@ class UIPluginContextImpl implements UIPluginContext {
                     + " found in bundle classpath");
             }
 
+            LOGGER.info("Parent = " + parent);
+            LOGGER.info("Parent.children = " + parent.getChildren());
             parent.getChildren().clear();
 
             return Executions.createComponentsDirectly(

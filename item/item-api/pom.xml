@@ -40,4 +40,11 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>logic-api</artifactId>
+    </dependency>
+  </dependencies>
 </project>

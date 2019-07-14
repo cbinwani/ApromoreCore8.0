@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 //import javax.transaction.Transactional;
+import org.apromore.Caller;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.NotAuthorizedException;
@@ -79,7 +80,7 @@ public final class FolderPluginImpl
      * @throws ItemFormatException always
      */
     @Override
-    public Folder create(final InputStream inputStream)
+    public Folder create(final InputStream inputStream, final Caller caller)
         throws ItemFormatException, NotAuthorizedException {
 
         throw new ItemFormatException(getType());

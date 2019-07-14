@@ -25,6 +25,7 @@ package org.apromore.item;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
+import org.apromore.Caller;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -41,6 +42,7 @@ public interface ItemService {
      * by using this method.
      *
      * @param inputStream  serialized form of this type of item
+     * @param caller  must be authorized to create items
      * @return the created {@link Item}
      * @throws IOException if the <i>inputStream</i> failed to deliver the
      *     serialized data
@@ -49,8 +51,8 @@ public interface ItemService {
      * @throws NotAuthorizedException if a lack of authorization prevents the
      *     item from being created
      */
-    Item create(InputStream inputStream) throws IOException,
-        ItemFormatException, NotAuthorizedException;
+    Item create(InputStream inputStream, Caller caller)
+        throws IOException, ItemFormatException, NotAuthorizedException;
 
     /**
      * @return every {@link Item} in the repository which the caller is
