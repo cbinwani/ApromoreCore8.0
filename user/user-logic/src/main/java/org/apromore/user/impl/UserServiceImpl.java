@@ -22,8 +22,9 @@ package org.apromore.user.impl;
  * #L%
  */
 
+import java.util.Arrays;
 import java.util.Dictionary;
-import java.util.Properties;
+import java.util.Hashtable;
 import java.util.Set;
 import java.security.Principal;
 import javax.security.auth.callback.Callback;
@@ -72,6 +73,9 @@ public final class UserServiceImpl implements UserAdmin, UserService {
      */
     private Class userPrincipalClass = Object.class;
 
+    /** Which {@link Principal} class identifies a role? */
+    private Class rolePrincipalClass = Object.class;
+
 
     // Property accessors
 
@@ -87,6 +91,14 @@ public final class UserServiceImpl implements UserAdmin, UserService {
      */
     public void setUserPrincipalClass(final Class newUserPrincipalClass) {
         this.userPrincipalClass = newUserPrincipalClass;
+    }
+
+    /**
+     * @param newRolePrincipalClass  of the various principals associated
+     *     with a subject, which ones are used for roles?
+     */
+    public void setRolePrincipalClass(final Class newRolePrincipalClass) {
+        this.rolePrincipalClass = newRolePrincipalClass;
     }
 
 
@@ -156,7 +168,27 @@ public final class UserServiceImpl implements UserAdmin, UserService {
 
     @Override
     public Authorization getAuthorization(final User user) {
-        throw new Error("Not implemented");
+        return new Authorization() {
+
+            /** Role names. */
+            private String[] roles =
+                (String[]) user.getProperties().get("roles");
+
+            @Override
+            public String getName() {
+                return user.getName();
+            }
+
+            @Override
+            public boolean hasRole(final String name) {
+                return Arrays.asList(roles).contains(name);
+            }
+
+            @Override
+            public String[] getRoles() {
+                return roles;
+            }
+        };
     }
 
 
@@ -166,86 +198,99 @@ public final class UserServiceImpl implements UserAdmin, UserService {
     public User authenticate(final String username, final String password)
         throws LoginException {
 
-                LOGGER.debug("Authenticating user " + username);
+        LOGGER.debug("Authenticating user " + username);
 
-                LoginContext loginContext = new LoginContext(
-                    loginConfigurationName, new CallbackHandler() {
+        LoginContext loginContext = new LoginContext(
+            loginConfigurationName, new CallbackHandler() {
 
-                    public void handle(final Callback[] callbacks)
-                        throws UnsupportedCallbackException {
+            public void handle(final Callback[] callbacks)
+                throws UnsupportedCallbackException {
 
-                        for (Callback callback: callbacks) {
-                            if (callback instanceof NameCallback) {
-                                ((NameCallback) callback).setName(username);
+                for (Callback callback: callbacks) {
+                    if (callback instanceof NameCallback) {
+                        ((NameCallback) callback).setName(username);
 
-                            } else if (callback instanceof PasswordCallback) {
-                                ((PasswordCallback) callback).setPassword(
-                                    password.toCharArray()
-                                );
+                    } else if (callback instanceof PasswordCallback) {
+                        ((PasswordCallback) callback).setPassword(
+                            password.toCharArray()
+                        );
 
-                            } else {
-                                throw new UnsupportedCallbackException(callback,
-                                    "Unimplemented callback");
-                            }
-                        }
+                    } else {
+                        throw new UnsupportedCallbackException(callback,
+                            "Unimplemented callback");
                     }
-                });
-
-                loginContext.login();
-                try {
-                    for (Principal principal: loginContext.getSubject()
-                                                          .getPrincipals()) {
-                        LOGGER.debug("Principal: " + principal + "  class: "
-                            + principal.getClass());
-                    }
-
-                    final String user = loginContext
-                        .getSubject()
-                        .getPrincipals()
-                        .stream()
-                        .filter(principal -> userPrincipalClass
-                            .isAssignableFrom(principal.getClass()))
-                        .findAny()  // TO DO: validate a unique result
-                        .get()
-                        .getName();
-
-                    return new User() {
-                        // Role
-
-                        @Override
-                        public String getName() {
-                            return user;
-                        }
-
-                        @Override
-                        public int getType() {
-                            return Role.USER;
-                        }
-
-                        @Override
-                        public Dictionary getProperties() {
-                            return new Properties();
-                        }
-
-                        // User
-
-                        @Override
-                        public Dictionary getCredentials() {
-                            return new Properties();
-                        }
-
-                        @Override
-                        public boolean hasCredential(final String key,
-                                                     final Object value) {
-                            return false;
-                        }
-                    };
-
-                    // TO DO: failure isn't invoked in the case of a
-                    // LoginException
-
-                } finally {
-                    loginContext.logout();
                 }
+            }
+        });
+
+        loginContext.login();
+        try {
+            for (Principal principal: loginContext.getSubject()
+                                                  .getPrincipals()) {
+                LOGGER.info("Principal: " + principal
+                    + "  name: " + principal.getName()
+                    + "  class: " + principal.getClass());
+            }
+
+            final String user = loginContext
+                .getSubject()
+                .getPrincipals()
+                .stream()
+                .filter(principal -> userPrincipalClass
+                    .isAssignableFrom(principal.getClass()))
+                .findAny()  // TO DO: validate a unique result
+                .get()
+                .getName();
+
+            final String[] roles = loginContext
+                .getSubject()
+                .getPrincipals()
+                .stream()
+                .filter(principal -> rolePrincipalClass
+                    .isAssignableFrom(principal.getClass()))
+                .map(principal -> principal.getName())
+                .toArray(String[]::new);
+
+            return new User() {
+
+                // Role
+
+                @Override
+                public String getName() {
+                    return user;
+                }
+
+                @Override
+                public int getType() {
+                    return Role.USER;
+                }
+
+                @Override
+                public Dictionary getProperties() {
+                    Hashtable properties = new Hashtable();
+                    properties.put("roles", roles);
+                    return properties;
+                }
+
+                // User
+
+                @Override
+                public Dictionary getCredentials() {
+                    return new Hashtable();
+                }
+
+                @Override
+                public boolean hasCredential(final String key,
+                                             final Object value) {
+                    return false;
+                }
+            };
+
+            // TO DO: failure isn't invoked in the case of a
+            // LoginException
+
+        } finally {
+            loginContext.logout();
+        }
     }
 }

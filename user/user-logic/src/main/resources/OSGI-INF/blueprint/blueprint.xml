@@ -5,6 +5,8 @@
     <cm:property-placeholder persistent-id="org.apromore" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="jaas.loginConfigurationName" value="karaf"/>
+            <cm:property name="jaas.groupPrincipalClass" value="org.apache.karaf.jaas.boot.principal.GroupPrincipal"/>
+            <cm:property name="jaas.rolePrincipalClass" value="org.apache.karaf.jaas.boot.principal.RolePrincipal"/>
             <cm:property name="jaas.userPrincipalClass" value="org.apache.karaf.jaas.boot.principal.UserPrincipal"/>
         </cm:default-properties>
     </cm:property-placeholder>
@@ -12,6 +14,7 @@
     <!-- User admin service -->
     <bean id="userService" class="org.apromore.user.impl.UserServiceImpl">
         <property name="loginConfigurationName" value="${jaas.loginConfigurationName}"/>
+        <property name="rolePrincipalClass" value="${jaas.rolePrincipalClass}"/>
         <property name="userPrincipalClass" value="${jaas.userPrincipalClass}"/>
     </bean>
     <service ref="userService" interface="org.apromore.user.UserService"/>
