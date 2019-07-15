@@ -151,9 +151,9 @@
             <links>
               <link>https://docs.oracle.com/javase/9/docs/api</link> <!-- TODO: update to current JDK once Oracle fixes their package-list -->
               <link>https://docs.oracle.com/javaee/7/api</link>
-              <!-- <link>https://osgi.org/javadoc/r6/core</link>  We only use these internally, so currently invisible to javadoc -->
-              <!-- <link>https://osgi.org/javadoc/r6/cmpn</link>  We only use annotations, so currently invisible to javadoc -->
-              <link>https://www.zkoss.org/javadoc/latest/zk</link>
+              <link>https://osgi.org/javadoc/r6/core</link>
+              <link>https://osgi.org/javadoc/r6/cmpn</link>
+              <link>https://www.zkoss.org/javadoc/${zk.version}/zk</link>
             </links>
             <overview>${basedir}/src/javadoc/overview.html</overview>
           </configuration>
