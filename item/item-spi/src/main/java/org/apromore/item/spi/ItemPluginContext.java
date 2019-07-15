@@ -23,8 +23,8 @@ package org.apromore.item.spi;
  */
 
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.Item;
-import org.apromore.item.NotAuthorizedException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**

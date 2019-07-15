@@ -23,6 +23,7 @@ package org.apromore.ui.spi;
  */
 
 import java.awt.image.RenderedImage;
+import org.apromore.NotAuthorizedException;
 
 /**
  * Service provider interface for adding commands to the user interface.
@@ -68,6 +69,8 @@ public interface UIPlugin {
      * Invoked when the menu item is selected.
      *
      * @param context  provided by UI
+     * @throws NotAuthorizedException  if the <i>context</i> failed to
+     *     authorize the operation
      */
-    void execute(UIPluginContext context);
+    void execute(UIPluginContext context) throws NotAuthorizedException;
 }

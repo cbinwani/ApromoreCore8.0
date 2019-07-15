@@ -123,10 +123,35 @@ With additional configuration, an external MySQL database management system can 
 - To use a different database password, name, or user: edit `$APROMORE_HOME/features/src/main/feature/feature.xml` and modify the contents of the element `<feature name="apromore-datasource-mysql">` to set new defaults.  Modify the file `$KARAF_HOME/etc/org.ops4j.datasource-apromore-mysql.cfg` to set new values for an existing database.
 
 
+## Security
+Users are managed from the Karaf command line; see [https://karaf.apache.org/manual/latest-3.0.x/security] for details.
+
+The following roles are specific to Karaf:
+- `admin` permits use of the webconsole
+- `group`
+- `manager`
+- `ssh`
+- `systembundles`
+- `viewer`
+
+The following roles are specific to Apromore:
+- `org/apromore/item/CREATE` permits item creation
+- `org/apromore/item/REMOVE` permits item deletion
+
+For example, the following commands would create the user "foo" and authorize them to upload and delete items:
+
+  ```
+  jaas:realm-manage --realm karaf --module org.apache.karaf.jaas.modules.properties.PropertiesLoginModule
+  jaas:user-add foo ########
+  jaas:role-add foo org/apromore/item/CREATE,org/apromore/item/REMOVE
+  jaas:update
+  ```
+
 ## LDAP
 As distributed, the Apromore application uses the same credentials as the Karaf server.
 The relevant configuration properties are the following:
 - `jaas.loginConfigurationName` (default value: `karaf`)
+- `jaas.rolePrincipalClass` (default value: `org.apache.karaf.jaas.boot.principal.RolePrincipal`)
 - `jaas.userPrincipalClass` (default value: `org.apache.karaf.jaas.boot.principal.UserPrincipal`)
 
 Credentials can instead be provided by an external LDAP server.

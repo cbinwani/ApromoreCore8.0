@@ -26,12 +26,31 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory for obtaining {@link Item} instances.
  */
 public interface ItemService {
+
+    /**
+     * {@link org.osgi.service.useradmin.Role} required for access to the
+     * {@link #findAll} and {@link #getById} methods.
+     */
+    String ACCESS = "org/apromore/item/ACCESS";
+
+    /**
+     * {@link org.osgi.service.useradmin.Role} required for access to the
+     * {@link #create} method.
+     */
+    String CREATE = "org/apromore/item/CREATE";
+
+    /**
+     * {@link org.osgi.service.useradmin.Role} required for access to the
+     * {@link #remove} method.
+     */
+    String REMOVE = "org/apromore/item/REMOVE";
 
     /**
      * This creates a concrete subtype of {@link Item} from a serialization,
@@ -48,17 +67,20 @@ public interface ItemService {
      *     serialized data
      * @throws ItemFormatException if the serialized data cannot be interpreted
      *     as the expected type
-     * @throws NotAuthorizedException if a lack of authorization prevents the
-     *     item from being created
+     * @throws NotAuthorizedException if the <i>caller</i> doesn't have the
+     *     {@link #CREATE} role.
      */
     Item create(InputStream inputStream, Caller caller)
         throws IOException, ItemFormatException, NotAuthorizedException;
 
     /**
+     * @param caller  must be authorized to access items
      * @return every {@link Item} in the repository which the caller is
      *     authorized to know about, in no guaranteed order
+     * @throws NotAuthorizedException if the <i>caller</i> doesn't have the
+     *     {@link #ACCESS} role.
      */
-    List<Item> getAll();
+    List<Item> getAll(Caller caller) throws NotAuthorizedException;
 
     /**
      * @param id  the primary key identifier of an existing {@link Item}, never
@@ -66,8 +88,8 @@ public interface ItemService {
      * @param caller  must be authorized to access items
      * @return either the unique {@link Item} with the given <i>id</i>, or
      *     <code>null</code> if no such item exists
-     * @throws NotAuthorizedException if a lack of authorization prevents the
-     *     item from being created
+     * @throws NotAuthorizedException if the <i>caller</i> doesn't have the
+     *     {@link #ACCESS} role.
      */
     @Nullable
     Item getById(Long id, Caller caller) throws NotAuthorizedException;
@@ -75,8 +97,8 @@ public interface ItemService {
     /**
      * @param item  an {@link Item} to be removed from storage
      * @param caller  must be authorized to remove items
-     * @throws NotAuthorizedException if a lack of authorization prevents the
-     *     item from being deleted
+     * @throws NotAuthorizedException if the <i>caller</i> doesn't have the
+     *     {@link #REMOVE} role.
      */
     void remove(Item item, Caller caller) throws NotAuthorizedException;
 }

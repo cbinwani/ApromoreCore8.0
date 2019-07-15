@@ -35,6 +35,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
+import org.osgi.service.useradmin.Authorization;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -62,16 +64,22 @@ class UIPluginContextImpl implements UIPluginContext {
     private Component parent;
 
     /** Used for login. */
+    private UserAdmin userAdmin;
+
+    /** Used for login. */
     private UserService userService;
 
     /**
      * @param newParent  parent for plugins to add content to
+     * @param newUserAdmin  used to authorize access to business logic
      * @param newUserService  used to authenicate login attempts
      */
     UIPluginContextImpl(final Component newParent,
+                        final UserAdmin newUserAdmin,
                         final UserService newUserService) {
 
         this.parent = newParent;
+        this.userAdmin = newUserAdmin;
         this.userService = newUserService;
     }
 
@@ -220,6 +228,18 @@ class UIPluginContextImpl implements UIPluginContext {
 
     @Override
     public Caller caller() {
-        return new org.apromore.AbstractCaller();
+        return new Caller() {
+            /**
+             * Evaluating the authorization here means that this instance
+             * can be passed outside of the thread holding the ZK session.
+             */
+            private final Authorization authorization2 =
+                userAdmin.getAuthorization(getUser());
+
+            @Override
+            public Authorization authorization() {
+                return authorization2;
+            }
+        };
     }
 }

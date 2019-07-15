@@ -23,6 +23,7 @@
     </bean>
 
     <!-- Imported services -->
+    <reference id="userAdmin" interface="org.osgi.service.useradmin.UserAdmin"/>
     <reference id="userService" interface="org.apromore.user.UserService"/>
 
     <!-- Tools are installed in the menubar and can use the selection to obtain Items they require as input. -->

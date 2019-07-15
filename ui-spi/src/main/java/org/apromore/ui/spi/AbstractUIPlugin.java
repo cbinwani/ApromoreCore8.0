@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
+import org.apromore.NotAuthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
@@ -143,7 +144,9 @@ public abstract class AbstractUIPlugin implements UIPlugin {
      * If not overidden by concrete implementations, defaults to doing nothing
      * and logging a warning message.
      */
-    public void execute(final UIPluginContext context) {
+    public void execute(final UIPluginContext context)
+        throws NotAuthorizedException {
+
         LOGGER.warn("Executed UI plugin with missing implementation: "
             + getClass());
     }

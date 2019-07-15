@@ -23,9 +23,9 @@ package org.apromore.item_ui;
  */
 
 import java.io.IOException;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
-import org.apromore.item.NotAuthorizedException;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;

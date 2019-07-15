@@ -24,8 +24,8 @@ package org.apromore.bpmn_item;
 
 import javax.xml.transform.Source;
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.ItemFormatException;
-import org.apromore.item.NotAuthorizedException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**

@@ -33,10 +33,10 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
 import org.apromore.item.ItemService;
-import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.jpa.ItemDAO;
 import org.apromore.item.jpa.ItemRepository;
 import org.apromore.item.spi.ItemPlugin;
@@ -106,15 +106,10 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     public Item create(final String type, final Caller caller)
         throws NotAuthorizedException {
 
-        /*
-        try {
-            userService.authorize("create");
-
-        } catch (org.apromore.user.NotAuthorizedException e) {
-            throw new NotAuthorizedException("Nope");
+        // Authorize
+        if (!caller.authorization().hasRole(CREATE)) {
+            throw new NotAuthorizedException(CREATE);
         }
-        */
-        //User user = userService.getUser();
 
         ItemDAO dao = new ItemDAO();
         dao.setType(type);
@@ -186,7 +181,14 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
-    public List<Item> getAll() {
+    public List<Item> getAll(final Caller caller)
+        throws NotAuthorizedException {
+
+        // Authorize
+        if (!caller.authorization().hasRole(ACCESS)) {
+            throw new NotAuthorizedException(ACCESS);
+        }
+
         return itemRepository
             .list()
             .stream()
@@ -197,7 +199,14 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
     @Override
     @Transactional(Transactional.TxType.SUPPORTS)
     @Nullable
-    public Item getById(final Long id, final Caller caller) {
+    public Item getById(final Long id, final Caller caller)
+        throws NotAuthorizedException {
+
+        // Authorize
+        if (!caller.authorization().hasRole(ACCESS)) {
+            throw new NotAuthorizedException(ACCESS);
+        }
+
         ItemDAO dao = itemRepository.get(id);
         if (dao == null) {
             return null;
@@ -208,7 +217,14 @@ public final class ItemServiceImpl implements ItemPluginContext, ItemService {
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
-    public void remove(final Item item, final Caller caller) {
+    public void remove(final Item item, final Caller caller)
+        throws NotAuthorizedException {
+
+        // Authorize
+        if (!caller.authorization().hasRole(REMOVE)) {
+            throw new NotAuthorizedException(REMOVE);
+        }
+
         try {
             itemRepository.remove(item.getId());
 

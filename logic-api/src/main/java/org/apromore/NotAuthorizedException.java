@@ -1,10 +1,10 @@
-package org.apromore.item;
+package org.apromore;
 
 /*-
  * #%L
- * Apromore :: item-api
+ * Apromore :: logic-api
  * %%
- * Copyright (C) 2018 - 2019 The Apromore Initiative
+ * Copyright (C) 2019 The Apromore Initiative
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as

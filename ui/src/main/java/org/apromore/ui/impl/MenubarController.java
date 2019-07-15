@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.user.UserService;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
@@ -59,6 +60,10 @@ public final class MenubarController extends SelectorComposer<Menubar>
     @SuppressWarnings("nullness")
     private Component parent;
 
+    /** Authorization support. */
+    @SuppressWarnings("nullness")
+    private UserAdmin userAdmin;
+
     /** Login support. */
     @SuppressWarnings("nullness")
     private UserService userService;
@@ -66,6 +71,10 @@ public final class MenubarController extends SelectorComposer<Menubar>
     @Override
     public void doAfterCompose(final Menubar menubar) throws Exception {
         super.doAfterCompose(menubar);
+
+        userAdmin = (UserAdmin)
+            Util.blueprintContainer(menubar)
+                .getComponentInstance("userAdmin");
 
         userService = (UserService)
             Util.blueprintContainer(menubar)
@@ -116,7 +125,7 @@ public final class MenubarController extends SelectorComposer<Menubar>
 
     /** @return a freshly created plugin context */
     private UIPluginContext getUIPluginContext() {
-        return new UIPluginContextImpl(parent, userService);
+        return new UIPluginContextImpl(parent, userAdmin, userService);
     }
 
     /**

@@ -25,9 +25,9 @@ package org.apromore.item.spi;
 import java.io.InputStream;
 import java.io.IOException;
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemFormatException;
-import org.apromore.item.NotAuthorizedException;
 
 /**
  * Services required to provide a concrete subtype of {@link Item}.

@@ -23,11 +23,11 @@ package org.apromore.folder.impl;
  */
 
 import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
 import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
-import org.apromore.item.NotAuthorizedException;
 import org.apromore.item.spi.ItemPluginContext;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import static org.easymock.EasyMock.createMock;

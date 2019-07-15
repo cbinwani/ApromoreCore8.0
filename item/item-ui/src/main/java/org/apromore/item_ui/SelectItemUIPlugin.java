@@ -22,6 +22,8 @@ package org.apromore.item_ui;
  * #L%
  */
 
+import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
 import org.apromore.item.Item;
 import org.apromore.item.ItemService;
 import org.apromore.ui.spi.AbstractUIPlugin;
@@ -77,10 +79,16 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
 
     /**
      * @param model  a list of items to update against {@link #itemService}
+     * @param caller  authority to access items
+     * @throws NotAuthorizedException if the <i>caller</i> lacks authority
+     *     to access the list of items
      */
-    private void updateModel(final ListModelList<Item> model) {
+    private void updateModel(final ListModelList<Item> model,
+                             final Caller caller)
+        throws NotAuthorizedException {
+
         model.clear();
-        model.addAll(itemService.getAll());
+        model.addAll(itemService.getAll(caller));
         model.setSelection(Selection.getSelection());
     }
 
@@ -110,7 +118,9 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
      * This implementation displays a listbox of the selected items.
      */
     @Override
-    public void execute(final UIPluginContext context) {
+    public void execute(final UIPluginContext context)
+        throws NotAuthorizedException {
+
         Window window = (Window) context.createComponent(
             SelectItemUIPlugin.class.getClassLoader(),
             "zul/selectItem.zul",
@@ -131,7 +141,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
         });
 
         ListModelList<Item> model = new ListModelList<>();
-        updateModel(model);
+        updateModel(model, context.caller());
         listbox.setModel(model);
 
         listbox.setPaginal((Paging) window.getFellow("paging"));
@@ -169,7 +179,7 @@ public final class SelectItemUIPlugin extends AbstractUIPlugin
                 switch (event.getName()) {
                 case "org/apromore/item/CREATE":
                 case "org/apromore/item/REMOVE":
-                    updateModel(model);
+                    updateModel(model, context.caller());
                     break;
                 default:
                 }
