@@ -88,7 +88,7 @@ class UIPluginContextImpl implements UIPluginContext {
                                    // isn't annotated
     public Component createComponent(final ClassLoader classLoader,
                                      final String      uri,
-                           @Nullable final Map<?, ?>   arguments) {
+                           final @Nullable Map<?, ?>   arguments) {
         try {
             InputStream in = classLoader.getResourceAsStream(uri);
             if (in == null) {
@@ -206,7 +206,7 @@ class UIPluginContextImpl implements UIPluginContext {
      * @return the authenticated user, or <code>null</code> if the
      *     session isn't authenticated.
      */
-    private static User getUser() {
+    private static @Nullable User getUser() {
         return (User) Sessions.getCurrent()
                               .getAttribute(ZK_SESSION_USER_ATTRIBUTE);
     }
@@ -220,7 +220,8 @@ class UIPluginContextImpl implements UIPluginContext {
      * @param user  the authenticated user, or <code>null</code> to
      *     deauthenticate this user session
      */
-    private static void setUser(final User user) {
+    @SuppressWarnings("nullness")  // Session.setAttribute isn't annotated
+    private static void setUser(final @Nullable User user) {
         Sessions.getCurrent().setAttribute(ZK_SESSION_USER_ATTRIBUTE, user);
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onLogin"));
@@ -233,6 +234,8 @@ class UIPluginContextImpl implements UIPluginContext {
              * Evaluating the authorization here means that this instance
              * can be passed outside of the thread holding the ZK session.
              */
+            @SuppressWarnings("nullness")  // UserAdmin.getAuthorization
+                                           // isn't annotated
             private final Authorization authorization2 =
                 userAdmin.getAuthorization(getUser());
 

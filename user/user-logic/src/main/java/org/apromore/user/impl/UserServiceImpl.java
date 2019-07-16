@@ -167,12 +167,16 @@ public final class UserServiceImpl implements UserAdmin, UserService {
     }
 
     @Override
+    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     public Authorization getAuthorization(final User user) {
         return new Authorization() {
 
+            private final String[] emptyRoles = {};
+
             /** Role names. */
             private String[] roles =
-                (String[]) user.getProperties().get("roles");
+                user == null ? emptyRoles
+                             : (String[]) user.getProperties().get("roles");
 
             @Override
             public String getName() {
@@ -181,7 +185,8 @@ public final class UserServiceImpl implements UserAdmin, UserService {
 
             @Override
             public boolean hasRole(final String name) {
-                return Arrays.asList(roles).contains(name);
+                return Role.USER_ANYONE.equals(name)
+                    || Arrays.asList(roles).contains(name);
             }
 
             @Override

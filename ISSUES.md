@@ -14,6 +14,8 @@ It should eventually be replaced by a proper bug tracker.
 - Exceptions from the persistence layer cause UndeclaredThrowableException (this might be due purely to JPA automatic table creation, which should only be for development anyway).
 - The URL / should redirect to /index.zul.
 - EventAdmin notifications occur inside transaction boundaries (item-logic) which is probably incorrect
+- Should be able to assign permissions to the unauthenticated user (`Role.USER_ANYONE`)
+- Annotate major external libraries for Checker Framework to reduce reliance on `@SuppressWarnings("nullness")`
 
 ## Features
 - Job management: submitting Runnables for off-thread execution, with a UI to monitor progress and allow cancellation
