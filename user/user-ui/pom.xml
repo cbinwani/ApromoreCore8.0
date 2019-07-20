@@ -21,6 +21,13 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              org.apromore.user_ui
+            </Export-Package>
+          </instructions>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -37,10 +44,6 @@
     <dependency>
       <groupId>org.apromore</groupId>
       <artifactId>user-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.annotation</artifactId>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
