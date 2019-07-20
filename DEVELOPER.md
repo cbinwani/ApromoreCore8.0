@@ -1,6 +1,11 @@
 # Developer Notes
 This document provides hints for modifying Apromore.
 
+## Source code
+The source code is written in a subset of Java 8.
+The subsetting is performed by the [Checker Framework](https://checkerframework.org) and comprises the following constraints:
+
+- All references types disallow null values unless explicitly annotated `@Nullable`.
 
 ## Style guide
 All source files with a `.java` extension will have a license header automatically inserted.
@@ -11,10 +16,29 @@ License header generation can also be performed from the command line:
 mvn license:update-file-header
 ```
 
-A style checker will then validate the Java sources.
+Java sources are validated with a style checker.
 The style is defined in `$APROMORE_HOME/checkstyle.xml`.
+
+### Bypassing style checking
 Global exceptions to the style check are defined in `$APROMORE_HOME/checkstyle-suppressions.xml`.
 Local exceptions to the style check within particular files are annotated with `@SuppressWarnings`.
+If an entire module contains invalid source code, the following entry in its `pom.xml` will disable style checks:
+
+```xml
+<build>
+  <plugins>
+    ...
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-checkstyle-plugin</artifactId>
+      <configuration>
+        <skip>true</skip>
+      </configuration>
+    </plugin>
+    ...
+  </plugins>
+</build>
+```
 
 ### Requirements
 - No line exceeding 80 characters
@@ -32,8 +56,7 @@ Documentation of the Java classes can be generated using Javadoc.
 
 
 ## Embedding third-party libraries
-Third party libraries that are not available from [Maven Central](https://search.maven.org) can be kept in embedded Maven repositories.
-If additional libraries are required, they may be added to this embedded repository.
+Third party libraries that are not available from [Maven Central](https://maven.org) can be kept in embedded Maven repositories.
 
 ### Requirements
 - The library to be installed (e.g. `OpenXES-20181205.jar`)
@@ -53,7 +76,7 @@ If additional libraries are required, they may be added to this embedded reposit
   ```
 - Add the following declaration in the module's `pom.xml`:
 
-  ```
+  ```xml
   <repositories>
     <repository>
       <id>project-repository</id>
@@ -85,7 +108,7 @@ Graphic elements in the user interface can be derived from vector images in SVG 
 ### Procedure
 - Icon color can be controlled by editing `icon.css`.
 
-  ```
+  ```css
   svg {
     color: #888;
   }
