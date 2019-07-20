@@ -32,28 +32,56 @@
         <reference-listener ref="uiPluginListener" bind-method="onBind" unbind-method="onUnbind"/>
     </reference-list>
 
-    <!-- ZK listener for cleanup when a session is destroyed -->
-    <service interface="javax.servlet.http.HttpSessionListener">
+<!--
+    <service interface="org.osgi.service.http.context.ServletContextHelper">
         <service-properties>
+            <entry key="osgi.http.whiteboard.context.name" value="uiServletContext"/>
+            <entry key="osgi.http.whiteboard.context.path" value="/"/>
+        </service-properties>
+        <bean class="org.apromore.ui.impl.UIServletContextHelper"/>
+    </service>
+-->
+
+    <!-- ZK listener for cleanup when a session is destroyed -->
+    <service id="http-session-listener">
+        <interfaces>
+            <value>javax.servlet.ServletContextAttributeListener</value>
+            <value>javax.servlet.ServletContextListener</value>
+            <value>javax.servlet.ServletRequestAttributeListener</value>
+            <value>javax.servlet.http.HttpSessionAttributeListener</value>
+            <value>javax.servlet.http.HttpSessionListener</value>
+        </interfaces>
+        <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
             <entry key="osgi.http.whiteboard.listener" value="true"/>
         </service-properties>
-        <bean class="org.zkoss.zk.ui.http.HttpSessionListener"/>
+        <!-- <bean class="org.zkoss.zk.ui.http.HttpSessionListener"/> -->
+        <bean class="org.apromore.ui.impl.HttpSessionListener"/>
     </service>
 
     <!-- ZK loader for ZUML pages -->
-    <service id="layout-service" interface="javax.servlet.Servlet">
+    <service id="layout-service" interface="javax.servlet.Servlet" depends-on="http-session-listener">
         <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
             <entry key="osgi.http.whiteboard.servlet.pattern" value="*.zul"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="zkLoader"/>
             <entry key="servlet.init.log-level" value="DEBUG"/>
             <entry key="servlet.init.update-uri" value="/zkau"/>
         </service-properties>
-        <bean class="org.zkoss.zk.ui.http.DHtmlLayoutServlet"/>
+        <!-- <bean class="org.zkoss.zk.ui.http.DHtmlLayoutServlet"/> -->
+        <bean class="org.apromore.ui.impl.DHtmlLayoutServlet"/>
     </service>
 
     <!-- The asynchronous update engine for ZK -->
     <service interface="javax.servlet.Servlet" depends-on="layout-service">
         <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
             <entry key="osgi.http.whiteboard.servlet.pattern" value="/zkau/*"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="auEngine"/>
         </service-properties>
@@ -61,9 +89,23 @@
         <bean class="org.apromore.ui.impl.DHtmlUpdateServlet"/>
     </service>
 
+    <service interface="javax.servlet.Servlet">
+        <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
+            <entry key="osgi.http.whiteboard.servlet.pattern" value="/test/*"/>
+            <entry key="osgi.http.whiteboard.servlet.name" value="test"/>
+        </service-properties>
+        <bean class="org.apromore.ui.impl.TestServlet"/>
+    </service>
+
     <!-- Resource service -->
     <service interface="java.io.Serializable">
         <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
             <entry key="osgi.http.whiteboard.resource.pattern" value="/css/*"/>
             <entry key="osgi.http.whiteboard.resource.prefix"  value="/css"/>
         </service-properties>
@@ -72,6 +114,9 @@
 
     <service interface="java.io.Serializable">
         <service-properties>
+<!--
+            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
+-->
             <entry key="osgi.http.whiteboard.resource.pattern" value="/img/*"/>
             <entry key="osgi.http.whiteboard.resource.prefix"  value="/img"/>
         </service-properties>

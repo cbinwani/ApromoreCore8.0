@@ -24,22 +24,22 @@ package org.apromore.ui.impl;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.UiException;
 
 /**
  * Debugging aid.
  */
-public class DHtmlUpdateServlet
-    extends org.zkoss.zk.au.http.DHtmlUpdateServlet {
+public class DHtmlLayoutServlet
+    extends org.zkoss.zk.ui.http.DHtmlLayoutServlet {
 
     /** Logger.  Named after this class. */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(DHtmlUpdateServlet.class);
+        LoggerFactory.getLogger(DHtmlLayoutServlet.class);
 
     /**
      * This implementation adds logging.
@@ -47,16 +47,14 @@ public class DHtmlUpdateServlet
     @Override
     public void init(final ServletConfig config) throws ServletException {
 
-        ServletContext context = config.getServletContext();
-
-        LOGGER.info("Update " + config.getServletName()
-            + " initing with context" + context);
+        LOGGER.info("Layout " + config.getServletName()
+            + " initing with context" + config.getServletContext());
 
         try {
             super.init(config);
 
-        } catch (ServletException e) {
-            LOGGER.warn("Update init exception", e);
+        } catch (UiException e) {
+            LOGGER.warn("Layout exception", e);
             throw e;
         }
     }
@@ -69,13 +67,13 @@ public class DHtmlUpdateServlet
                         final ServletResponse response)
         throws IOException, ServletException {
 
-        LOGGER.debug("Update serving request " + request);
+        LOGGER.info("Layout serving request " + request);
 
         try {
             super.service(request, response);
 
         } catch (IOException | ServletException e) {
-            LOGGER.warn("Update exception", e);
+            LOGGER.warn("Layout exception", e);
             throw e;
         }
     }
