@@ -57,8 +57,8 @@
 -->
             <entry key="osgi.http.whiteboard.listener" value="true"/>
         </service-properties>
-        <!-- <bean class="org.zkoss.zk.ui.http.HttpSessionListener"/> -->
-        <bean class="org.apromore.ui.impl.HttpSessionListener"/>
+        <bean class="org.zkoss.zk.ui.http.HttpSessionListener"/>
+        <!-- <bean class="org.apromore.ui.impl.HttpSessionListener"/> -->
     </service>
 
     <!-- ZK loader for ZUML pages -->
@@ -72,8 +72,8 @@
             <entry key="servlet.init.log-level" value="DEBUG"/>
             <entry key="servlet.init.update-uri" value="/zkau"/>
         </service-properties>
-        <!-- <bean class="org.zkoss.zk.ui.http.DHtmlLayoutServlet"/> -->
-        <bean class="org.apromore.ui.impl.DHtmlLayoutServlet"/>
+        <bean class="org.zkoss.zk.ui.http.DHtmlLayoutServlet"/>
+        <!-- <bean class="org.apromore.ui.impl.DHtmlLayoutServlet"/> -->
     </service>
 
     <!-- The asynchronous update engine for ZK -->
@@ -85,20 +85,27 @@
             <entry key="osgi.http.whiteboard.servlet.pattern" value="/zkau/*"/>
             <entry key="osgi.http.whiteboard.servlet.name" value="auEngine"/>
         </service-properties>
-        <!-- <bean class="org.zkoss.zk.au.http.DHtmlUpdateServlet"/> -->
-        <bean class="org.apromore.ui.impl.DHtmlUpdateServlet"/>
+        <bean class="org.zkoss.zk.au.http.DHtmlUpdateServlet"/>
+        <!-- <bean class="org.apromore.ui.impl.DHtmlUpdateServlet"/> -->
+    </service>
+
+<!--
+    <service interface="javax.servlet.Servlet">
+        <service-properties>
+            <entry key="osgi.http.whiteboard.servlet.pattern" value="/"/>
+            <entry key="osgi.http.whiteboard.servlet.name" value="welcome"/>
+        </service-properties>
+        <bean class="org.apromore.ui.impl.WelcomeServlet"/>
     </service>
 
     <service interface="javax.servlet.Servlet">
         <service-properties>
-<!--
-            <entry key="osgi.http.whiteboard.context.select" value="(osgi.http.whiteboard.context.name=uiServletContext)"/>
--->
-            <entry key="osgi.http.whiteboard.servlet.pattern" value="/test/*"/>
-            <entry key="osgi.http.whiteboard.servlet.name" value="test"/>
+            <entry key="osgi.http.whiteboard.servlet.pattern" value="/html/*"/>
+            <entry key="osgi.http.whiteboard.servlet.name" value="ui"/>
         </service-properties>
-        <bean class="org.apromore.ui.impl.TestServlet"/>
+        <bean class="org.apromore.ui.impl.UIServlet"/>
     </service>
+-->
 
     <!-- Resource service -->
     <service interface="java.io.Serializable">

@@ -39,7 +39,7 @@ import org.osgi.service.component.annotations.Reference;;
 /**
  * REST endpoint for the {@link FolderService}.
  */
-@Path("/folder")
+@Path("/rest")
 @Component(service = FolderServiceREST.class,
            property = { "osgi.jaxrs.resource=true" })
 public class FolderServiceREST /* implements FolderService */ {
