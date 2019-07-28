@@ -1,11 +1,21 @@
 # Developer Notes
 This document provides hints for modifying Apromore.
 
+
+## Development Cycle
+A fast live debug-compile-test cycle that can be used with a deployed Apromore instance is as follows:
+
+- Edit source code within a particular module
+- Recompile using `mvn clean install -pl :your-module-name` from the command line
+- Update using `bundle:update mvn:org.apromore/your-module-name/1.0-SNAPSHOT` from the Karaf shell
+
+
 ## Source code
 The source code is written in a subset of Java 8.
 The subsetting is performed by the [Checker Framework](https://checkerframework.org) and comprises the following constraints:
 
 - All references types disallow null values unless explicitly annotated `@Nullable`.
+
 
 ## Style guide
 All source files with a `.java` extension will have a license header automatically inserted.
