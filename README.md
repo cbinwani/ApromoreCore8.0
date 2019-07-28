@@ -135,15 +135,16 @@ The following roles are specific to Karaf:
 - `viewer`
 
 The following roles are specific to Apromore:
+- `org/apromore/item/ACCESS` permits item access
 - `org/apromore/item/CREATE` permits item creation
 - `org/apromore/item/REMOVE` permits item deletion
 
-For example, the following commands would create the user "foo" and authorize them to upload and delete items:
+For example, the following commands would create the user "raboczi" with password "password" and authorize them to access, upload and delete items:
 
   ```
   jaas:realm-manage --realm karaf --module org.apache.karaf.jaas.modules.properties.PropertiesLoginModule
-  jaas:user-add foo ########
-  jaas:role-add foo org/apromore/item/CREATE,org/apromore/item/REMOVE
+  jaas:user-add raboczi password
+  jaas:role-add raboczi org/apromore/item/ACCESS,org/apromore/item/CREATE,org/apromore/item/REMOVE
   jaas:update
   ```
 
