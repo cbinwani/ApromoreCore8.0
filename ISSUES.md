@@ -16,6 +16,7 @@ It should eventually be replaced by a proper bug tracker.
 - EventAdmin notifications occur inside transaction boundaries (item-logic) which is probably incorrect
 - Should be able to assign permissions to the unauthenticated user (`Role.USER_ANYONE`)
 - Annotate major external libraries for Checker Framework to reduce reliance on `@SuppressWarnings("nullness")`
+- If a user's permissions are modified, this doesn't take effect until next login
 
 ## Features
 - Job management: submitting Runnables for off-thread execution, with a UI to monitor progress and allow cancellation
