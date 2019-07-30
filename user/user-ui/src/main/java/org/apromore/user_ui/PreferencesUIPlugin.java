@@ -81,8 +81,8 @@ public final class PreferencesUIPlugin extends AbstractUIPlugin {
             window.setAttribute("UIPluginContext", context);
 
         } catch (IOException e) {
-            throw new Error("ZUL resource login.zul could not be created as a "
-                + "ZK component", e);
+            throw new Error("ZUL resource preferences.zul could not be created "
+                + "as a ZK component", e);
         }
     }
 }

@@ -22,16 +22,28 @@ package org.apromore.user_ui;
  * #L%
  */
 
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
 import org.apromore.ui.spi.AbstractUIPlugin;
 import org.apromore.ui.spi.UIPlugin;
 import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.user.UserService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zul.Window;
 
 /**
  * {@link UIPlugin} for the Account/Login command.
  */
 @Component(service = {UIPlugin.class})
 public final class LoginAccountUIPlugin extends AbstractUIPlugin {
+
+    /** Used to authenticate the user. */
+    @SuppressWarnings("nullness")
+    @Reference
+    private UserService userService;
 
     /** Sole constructor. */
     public LoginAccountUIPlugin() {
@@ -55,12 +67,24 @@ public final class LoginAccountUIPlugin extends AbstractUIPlugin {
      *
      * This implementation prompts the user to authorize the user session.
      */
+    @SuppressWarnings("nullness")
     @Override
     public void execute(final UIPluginContext context) {
-        context.authenticate("", new Runnable() {
-            public void run() { }
-        }, new Runnable() {
-            public void run() { }
-        });
+        try {
+            Reader reader = new InputStreamReader(
+                LoginAccountUIPlugin.class
+                    .getClassLoader()
+                    .getResourceAsStream("zul/login.zul"),
+                "UTF-8"
+            );
+            Window window = (Window) Executions.createComponentsDirectly(reader,
+                "zul", null, null);
+            window.setAttribute("UserService", userService);
+            window.doModal();
+
+        } catch (IOException e) {
+            throw new Error("ZUL resource login.zul could not be created as a "
+                + "ZK component", e);
+        }
     }
 }
