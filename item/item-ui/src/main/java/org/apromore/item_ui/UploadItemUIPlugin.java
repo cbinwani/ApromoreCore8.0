@@ -50,6 +50,16 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
         LoggerFactory.getLogger(UploadItemUIPlugin.class);
 
     /**
+     * The maximum allowed number of files that an user can upload at
+     * once.
+     *
+     * If non-positive, 1 is assumed.
+     *
+     * @see {@link org.zkoss.zul.Fileupload#get(int)}
+     */
+    static final int  MAX_ALLOWED_FILES = 100;
+
+    /**
      * Used to store uploaded items.
      */
     @Reference
@@ -73,54 +83,33 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     /** {@inheritDoc}
      *
      * This implementation prompts the user to upload a file.
-     *
-     * Upload is only permitted when the user is authenticated.
-     * If the user session isn't yet authenticated, they will be prompted
-     * to do so.
-     * Upload will be aborted if the authentication fails.
      */
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        context.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
-            new Runnable() {
 
-            /**
-             * The maximal allowed number of files that an user can upload at
-             * once.
-             * If non-positive, 1 is assumed.
-             *
-             * @see {@link org.zkoss.zul.Fileupload#get(int)}
-             */
-            static final int  MAX_ALLOWED_FILES = 100;
+        Fileupload.get(MAX_ALLOWED_FILES, new EventListener<UploadEvent>() {
 
-            public void run() {  // perform the upload if login is successful
-                Fileupload.get(MAX_ALLOWED_FILES,
-                    new EventListener<UploadEvent>() {
+            public void onEvent(final UploadEvent uploadEvent) {
+                for (Media media: uploadEvent.getMedias()) {
+                    LOGGER.debug("Upload file " + media.getName());
+                    try {
+                        itemService.create(media.getStreamData(),
+                                           context.caller());
 
-                    public void onEvent(final UploadEvent uploadEvent) {
-                        for (Media media: uploadEvent.getMedias()) {
-                            LOGGER.debug("Upload file " + media.getName());
-                            try {
-                                itemService.create(media.getStreamData(),
-                                    context.caller());
+                    } catch (IOException
+                        | ItemFormatException
+                        | NotAuthorizedException e) {
 
-                            } catch (IOException | ItemFormatException
-                                | NotAuthorizedException e) {
-                                e.printStackTrace();
-                                Messagebox.show("Upload failed for "
-                                    + media.getName() + "\n" + e.getMessage(),
-                                    "Attention",
-                                    Messagebox.OK,
-                                    Messagebox.ERROR);
-                            }
-                        }
+                        e.printStackTrace();
+                        Messagebox.show("Upload failed for " + media.getName()
+                                            + "\n" + e.getMessage(),
+                                        "Attention",
+                                        Messagebox.OK,
+                                        Messagebox.ERROR);
                     }
-                });
+                }
             }
-        },
-        new Runnable() {
-            public void run() { }  // do nothing if login is cancelled
         });
     }
 }

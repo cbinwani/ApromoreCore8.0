@@ -46,7 +46,7 @@ import org.zkoss.zul.Messagebox;
 /**
  * {@link UIPlugin} for the Item/Upload File to Folder command.
  */
-@Component(service = {UIPlugin.class})
+@Component(service = UIPlugin.class)
 public final class UploadItemUIPlugin extends AbstractUIPlugin {
 
     /**
@@ -60,6 +60,15 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(UploadItemUIPlugin.class);
+
+    /**
+     * The maximal allowed number of files that an user can upload at
+     * once.
+     * If non-positive, 1 is assumed.
+     *
+     * @see {@link org.zkoss.zul.Fileupload#get(int)}
+     */
+    static final int MAX_ALLOWED_FILES = 100;
 
     /**
      * Used to store uploaded items.
@@ -92,91 +101,68 @@ public final class UploadItemUIPlugin extends AbstractUIPlugin {
     /** {@inheritDoc}
      *
      * This implementation prompts the user to upload a file.
-     *
-     * Upload is only permitted when the user is authenticated.
-     * If the user session isn't yet authenticated, they will be prompted
-     * to do so.
-     * Upload will be aborted if the authentication fails.
      */
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        context.authenticate(getLocalizedString("uploadItem.mustHaveOwner"),
-            new Runnable() {
+        //getLocalizedString("uploadItem.mustHaveOwner"),
 
-            /**
-             * The maximal allowed number of files that an user can upload at
-             * once.
-             * If non-positive, 1 is assumed.
-             *
-             * @see {@link org.zkoss.zul.Fileupload#get(int)}
-             */
-            static final int  MAX_ALLOWED_FILES = 100;
+        Fileupload.get(MAX_ALLOWED_FILES, new EventListener<UploadEvent>() {
 
-            public void run() {  // perform the upload if login is successful
-                Fileupload.get(MAX_ALLOWED_FILES,
-                    new EventListener<UploadEvent>() {
+            public void onEvent(final UploadEvent uploadEvent) {
+                for (Media media: uploadEvent.getMedias()) {
+                    LOGGER.debug("Upload file " + media.getName());
 
-                    public void onEvent(final UploadEvent uploadEvent) {
-                        for (Media media: uploadEvent.getMedias()) {
-                            LOGGER.debug("Upload file " + media.getName());
+                    int counter = 1;
+                    String newItemName = "New item";
+                    Folder parentFolder = (Folder) context.getSessionAttribute(
+                        SelectItemUIPlugin.USER_FOLDER_ATTRIBUTE);
 
-                            int counter = 1;
-                            String newItemName = "New item";
-                            Folder parentFolder = (Folder) context
-                                .getSessionAttribute(
-                                    SelectItemUIPlugin.USER_FOLDER_ATTRIBUTE);
+                    // Beware: this loop is awful code and you need to
+                    // be particularly alert while modifying it
+                    do {
+                        try {
+                            Item item = itemService.create(
+                                media.getStreamData(),
+                                context.caller());
+                            folderService.createPath(
+                                parentFolder,
+                                newItemName,
+                                item,
+                                context.caller());
 
-                            // Beware: this loop is awful code and you need to
-                            // be particularly alert while modifying it
-                            do {
-                                try {
-                                    Item item = itemService.create(
-                                        media.getStreamData(),
-                                        context.caller());
-                                    folderService.createPath(
-                                        parentFolder,
-                                        newItemName,
-                                        item,
-                                        context.caller());
+                            context.getParentComponent().invalidate();
+                            return;
 
-                                    context.getParentComponent().invalidate();
-                                    return;
+                        } catch (PathAlreadyExistsException e) {
+                            // Generate a new folder name and retry
+                            counter++;
+                            newItemName = "New item " + counter;
+                            continue;
 
-                                } catch (PathAlreadyExistsException e) {
-                                    // Generate a new folder name and retry
-                                    counter++;
-                                    newItemName = "New item " + counter;
-                                    continue;
+                        } catch (IOException
+                            | ItemFormatException
+                            | NotAuthorizedException e) {
 
-                                } catch (IOException
-                                    | ItemFormatException
-                                    | NotAuthorizedException e) {
-
-                                    e.printStackTrace();
-                                    Messagebox.show("Upload failed for "
-                                        + media.getName() + "\n"
-                                        + e.getMessage(),
-                                        "Attention",
-                                        Messagebox.OK,
-                                        Messagebox.ERROR);
-                                    return;
-                                }
-                            } while (counter <= ITEM_NAME_RETRY_LIMIT);
-
-                            // Achievement!  Created more than
-                            // ITEM_NAME_RETRY_LIMIT items without renaming any.
-                            // Proud of yourself?
-                            Messagebox.show("Too many new items.\n"
-                                + "Rename or delete some items.",
-                                "Attention", Messagebox.OK, Messagebox.ERROR);
+                            e.printStackTrace();
+                            Messagebox.show("Upload failed for "
+                                + media.getName() + "\n"
+                                + e.getMessage(),
+                                "Attention",
+                                Messagebox.OK,
+                                Messagebox.ERROR);
+                            return;
                         }
-                    }
-                });
+                    } while (counter <= ITEM_NAME_RETRY_LIMIT);
+
+                    // Achievement!  Created more than
+                    // ITEM_NAME_RETRY_LIMIT items without renaming any.
+                    // Proud of yourself?
+                    Messagebox.show("Too many new items.\n"
+                        + "Rename or delete some items.",
+                        "Attention", Messagebox.OK, Messagebox.ERROR);
+                }
             }
-        },
-        new Runnable() {
-            public void run() { }  // do nothing if login is cancelled
         });
     }
 }

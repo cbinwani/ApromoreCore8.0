@@ -68,37 +68,24 @@ public final class DeleteItemUIPlugin extends AbstractUIPlugin {
     /** {@inheritDoc}
      *
      * This implementation deletes the selected items.
-     *
-     * Deletion is only permitted when the user is authenticated.
-     * If the user session isn't yet authenticated, they will be prompted
-     * to do so.
-     * Deletion will be aborted if the authentication fails.
      */
     @Override
     @SuppressWarnings("checkstyle:JavadocMethod")  // buggy @inheritDoc warning
     public void execute(final UIPluginContext context) {
-        context.authenticate(
-            getLocalizedString("uploadItem.mustHaveOwner"),
-            new Runnable() {
-                public void run() {  // delete if login is successful
-                    for (Item item: Selection.getSelection()) {
-                        try {
-                            itemService.remove(item, context.caller());
+            //getLocalizedString("uploadItem.mustHaveOwner")
 
-                        } catch (Throwable e) {
-                            LOGGER.error("Item deletion failed", e);
-                            Messagebox.show("Item deletion failed",
+        for (Item item: Selection.getSelection()) {
+            try {
+                itemService.remove(item, context.caller());
+
+            } catch (Throwable e) {
+                LOGGER.error("Item deletion failed", e);
+                Messagebox.show("Item deletion failed",
                                 "Attention",
                                 Messagebox.OK,
                                 Messagebox.ERROR);
-                            return;
-                        }
-                    }
-                }
-            },
-            new Runnable() {
-                public void run() { }  // do nothing if login is cancelled
+                return;
             }
-        );
+        }
     }
 }

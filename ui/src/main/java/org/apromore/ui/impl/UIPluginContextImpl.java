@@ -25,9 +25,7 @@ package org.apromore.ui.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Map;
-import javax.security.auth.login.LoginException;
 import org.apromore.Caller;
 import org.apromore.ui.spi.UIPluginContext;
 import org.apromore.user.UserService;
@@ -39,13 +37,9 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.osgi.service.useradmin.Authorization;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Window;
 
 /** {@inheritDoc UIPluginContext}. */
 class UIPluginContextImpl implements UIPluginContext {
@@ -135,71 +129,6 @@ class UIPluginContextImpl implements UIPluginContext {
                                     final Object newValue) {
 
         Sessions.getCurrent().setAttribute(attribute, newValue);
-    }
-
-    @Override
-    @SuppressWarnings({"checkstyle:TodoComment", "nullness"})
-    public void authenticate(final String reason, final Runnable success,
-        final Runnable failure) {
-
-        Window window;
-
-        if (getUser() != null) {
-            if (success != null) {
-                success.run();
-            }
-            return;
-        }
-
-        try {
-            Reader reader = new InputStreamReader(getClass()
-                .getClassLoader()
-                .getResourceAsStream("zul/login.zul"), "UTF-8");
-            window = (Window) Executions.createComponentsDirectly(reader, "zul",
-                null, null);
-
-        } catch (IOException e) {
-            throw new Error("ZUL resource login.zul could not be created as as "
-                + "ZK component", e);
-        }
-        assert window != null;
-
-        ((Label) window.getFellow("reasonLabel")).setValue(reason);
-
-        window.getFellow("loginButton").addEventListener("onClick",
-            new EventListener<Event>() {
-
-            public void onEvent(final Event event) throws LoginException {
-                String username =
-                    ((Textbox) window.getFellow("username")).getValue();
-                String password =
-                    ((Textbox) window.getFellow("password")).getValue();
-                LOGGER.debug("Login user " + username);
-                User user = userService.authenticate(username, password);
-                window.detach();
-                setUser(user);
-
-                // TODO: failure isn't invoked in the case of a
-                // LoginException
-
-                if (success != null) {
-                    success.run();
-                }
-            }
-        });
-
-        window.getFellow("cancelButton").addEventListener("onClick",
-            new EventListener<Event>() {
-
-            public void onEvent(final Event event) throws Exception {
-                window.detach();
-                if (failure != null) {
-                    failure.run();
-                }
-            }
-        });
-
-        window.doModal();
     }
 
     /**
