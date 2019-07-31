@@ -43,6 +43,10 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
+      <artifactId>ui-session-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
       <artifactId>ui-spi</artifactId>
     </dependency>
     <dependency>

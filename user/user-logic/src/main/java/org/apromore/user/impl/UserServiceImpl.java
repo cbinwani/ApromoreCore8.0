@@ -37,6 +37,8 @@ import javax.security.auth.login.LoginException;
 import org.apromore.user.UserService;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Activate;
+//import org.osgi.service.component.annotations.Component;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
@@ -50,7 +52,48 @@ import org.slf4j.LoggerFactory;
 /**
  * User account management service.
  */
+//@Component(service = { UserAdmin.class, UserService,class })
 public final class UserServiceImpl implements UserAdmin, UserService {
+
+    /** Configuration. */
+    public @interface Config {
+        /**
+         * @return which login configuration to use
+         * @see {@link javax.security.auth.login.Configuration}
+         */
+        String jaas_loginConfigurationName() default "karaf";
+
+        /** @return which {@link Principal} class identifies a group? */
+        String jaas_groupPrincipalClass()
+            default "org.apache.karaf.jaas.boot.principal.GroupPrincipal";
+
+        /** @return which {@link Principal} class identifies a role? */
+        String jaas_rolePrincipalClass()
+            default "org.apache.karaf.jaas.boot.principal.RolePrincipal";
+
+        /**
+         * Which {@link Principal} class identifies a user?
+         *
+         * These classes are typically proprietary to the login module.
+         * There may be more than one reasonable choice, e.g.
+         * <code>com.sun.security.auth.UserPrincipal</code> with name
+         * <code>jsmith</code> versus
+         * <code>com.sun.security.auth.LdapPrincipal</code> with name
+         * <code>uid=jsmith,ou=staff,o=acme</code>.
+         *
+         * @return which {@link Principal} class identifies a user?
+         */
+        String jaas_userPrincipalClass()
+            default "org.apache.karaf.jaas.boot.principal.UserPrincipal";
+    }
+
+    /** @param config  automatically supplied by OSGi runtime */
+    @Activate
+    protected void activate(final Config config) {
+        LOGGER.info("Activate with config " + config);
+        setLoginConfigurationName(config.jaas_loginConfigurationName());
+        //setGroupPrincipalClass(config.jaas_groupPrincipalClass
+    }
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =

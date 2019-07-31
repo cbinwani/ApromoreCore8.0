@@ -22,8 +22,16 @@ package org.apromore.user_ui;
  * #L%
  */
 
-import org.osgi.service.useradmin.User;
+//import java.util.Arrays;
+import javax.servlet.http.HttpSession;
+import org.apromore.ui.session.UISession;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.blueprint.container.BlueprintContainer;
+import org.osgi.service.useradmin.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -32,6 +40,10 @@ import org.zkoss.zk.ui.event.EventQueues;
  * {@link User} attributes of the ZK session.
  */
 public abstract class Users {
+
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(Users.class);
 
     /**
      * Key of the authenticated user attribute on the ZK session.
@@ -44,9 +56,9 @@ public abstract class Users {
      * @return the currently authenticated user, or <code>null</code> for an
      *     anonymous user session
      */
-    @Nullable
-    public static User getUser() {
-        return (User) Sessions.getCurrent().getAttribute(ATTRIBUTE);
+    public static @Nullable User getUser() {
+        //return (User) Sessions.getCurrent().getAttribute(ATTRIBUTE);
+        return (User) uiSession().get(ATTRIBUTE);
     }
 
     /**
@@ -60,8 +72,44 @@ public abstract class Users {
      */
     @SuppressWarnings("nullness")  // Session.setAttribute not annotated
     public static void setUser(final @Nullable User newUser) {
-        Sessions.getCurrent().setAttribute(ATTRIBUTE, newUser);
+        //Sessions.getCurrent().setAttribute(ATTRIBUTE, newUser);
+        uiSession().put(ATTRIBUTE, newUser);
+
         EventQueues.lookup("q", Sessions.getCurrent(), true)
                    .publish(new Event("onLogin"));
+    }
+
+    /** @return the singleton session attribute map */
+    private static UISession uiSession() {
+        LOGGER.info("UISESSIONing");
+        HttpSession httpSession = (HttpSession)
+            Sessions.getCurrent().getNativeSession();
+        LOGGER.info("UISESSIONing HTTP session {}", httpSession);
+        BundleContext bundleContext = (BundleContext)
+            httpSession.getServletContext().getAttribute("osgi-bundlecontext");
+        LOGGER.info("UISESSIONing bundle context {}", bundleContext);
+        /*
+        UISession result = (UISession)
+            Arrays.asList(bundleContext.getBundle().getRegisteredServices())
+                  .stream()
+                  .filter(ref -> ref instanceof BlueprintContainer)
+                  .map(ref -> (BlueprintContainer) ref)
+                  .findAny()
+                  .get()
+                  .getComponentInstance("uiSession");
+        */
+        for (ServiceReference ref: bundleContext.getBundle()
+                                                .getRegisteredServices()) {
+            LOGGER.info("UISESSIONed reference {}", ref);
+            Object service = bundleContext.getService(ref);
+            if (service instanceof BlueprintContainer) {
+                LOGGER.info("UISESSIONed component ids "
+                    + ((BlueprintContainer) service).getComponentIds());
+                return (UISession) ((BlueprintContainer) service)
+                    .getComponentInstance("uiSession");
+            }
+        }
+
+        throw new RuntimeException("Unable to find a BlueprintContainer");
     }
 }

@@ -21,6 +21,7 @@
   <modules>
     <module>ui-menubar</module>
     <module>ui-spi</module>
+    <module>ui-session-api</module>
   </modules>
 
 </project>

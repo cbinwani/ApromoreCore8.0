@@ -267,6 +267,7 @@
         <feature>http-whiteboard</feature>
         <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.runtime.HttpServiceRuntime)</requirement>
         <!-- <bundle>mvn:org.apache.felix/org.apache.felix.useradmin/1.0.4-SNAPSHOT</bundle> -->
+        <bundle>mvn:org.apromore/ui-session-api/1.0-SNAPSHOT</bundle>
         <bundle>mvn:org.apromore/ui-bpmn-editor/1.0-SNAPSHOT</bundle>
         <bundle>mvn:org.apromore/ui-menubar/1.0-SNAPSHOT</bundle>
     </feature>

@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.Map;
 import org.apromore.Caller;
 import org.apromore.ui.spi.UIPluginContext;
-import org.apromore.user.UserService;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,24 +56,18 @@ class UIPluginContextImpl implements UIPluginContext {
     /** A canvas just about anyone is allowed to scribble upon. */
     private Component parent;
 
-    /** Used for login. */
+    /** Used to determine authorization. */
     private UserAdmin userAdmin;
-
-    /** Used for login. */
-    private UserService userService;
 
     /**
      * @param newParent  parent for plugins to add content to
      * @param newUserAdmin  used to authorize access to business logic
-     * @param newUserService  used to authenicate login attempts
      */
     UIPluginContextImpl(final Component newParent,
-                        final UserAdmin newUserAdmin,
-                        final UserService newUserService) {
+                        final UserAdmin newUserAdmin) {
 
         this.parent = newParent;
         this.userAdmin = newUserAdmin;
-        this.userService = newUserService;
     }
 
     @Override
