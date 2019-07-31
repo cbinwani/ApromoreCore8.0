@@ -29,7 +29,7 @@
               org.apromore.ui.bpmn_io,
               web.js.org.apromore
             </Export-Package>
-            <Fragment-Host>org.apromore.ui;bundle-version="[1.0,2)"</Fragment-Host>
+            <Fragment-Host>org.apromore.ui-menubar;bundle-version="[1.0,2)"</Fragment-Host>
           </instructions>
         </configuration>
       </plugin>
