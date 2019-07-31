@@ -3,7 +3,7 @@
 
   <parent>
     <groupId>org.apromore</groupId>
-    <artifactId>apromore</artifactId>
+    <artifactId>ui</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
 
@@ -13,9 +13,7 @@
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Apromore :: ui-spi</name>
-  <description>
-     SPI for adding item viewers and menu items to the user interface.
-  </description>
+  <description>SPI for adding item viewers and menu items to the user interface.</description>
   <inceptionYear>2018</inceptionYear>
 
   <build>

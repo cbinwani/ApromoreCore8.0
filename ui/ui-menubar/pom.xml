@@ -1,20 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apromore</groupId>
-    <artifactId>folder</artifactId>
+    <artifactId>ui</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
 
+  <modelVersion>4.0.0</modelVersion>
   <groupId>org.apromore</groupId>
-  <artifactId>folder-ui</artifactId>
+  <artifactId>ui-menubar</artifactId>
   <packaging>bundle</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Apromore :: folder :: folder-ui</name>
-  <description>UI for operations on folders and their contents.</description>
-  <inceptionYear>2018</inceptionYear>
+  <name>Apromore :: ui-menubar</name>
+  <description>
+    Provides a web landing page for the overall system.
+    Presents a desktop for organizing and selecting the various content types (e.g. models, logs) provided by content plugins.
+    Presents a menubar dynamically populated by menu items to access tool plugins.
+  </description>
+  <inceptionYear>2019</inceptionYear>
 
   <build>
     <plugins>
@@ -27,14 +31,17 @@
           <instructions>
             <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
             <Import-Package>
-              org.apromore.ui.impl,
               *
             </Import-Package>
             <DynamicImport-Package>
+              <!-- Packages dynamically referenced by UIPlugins.  TODO: figure out a way for ZK to do dynamic loading in UIPlugins without this -->
               *
             </DynamicImport-Package>
             <Export-Package>
-              org.apromore.folder_ui
+              metainfo.zk;-split-package:=merge-first,
+              web.js.org.apromore,
+
+              org.apromore.ui.impl
             </Export-Package>
           </instructions>
         </configuration>
@@ -42,9 +49,13 @@
       <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
+        <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
+          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+          <packagingExcludes>%regex[WEB-INF/lib/.*jar]</packagingExcludes>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
         </configuration>
       </plugin>
       -->
@@ -62,28 +73,35 @@
     </dependency>
     <dependency>
       <groupId>org.apromore</groupId>
-      <artifactId>folder-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>item-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apromore</groupId>
-      <artifactId>ui-menubar</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apromore</groupId>
       <artifactId>ui-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>user-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.annotation</artifactId>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.zkoss.common</groupId>
       <artifactId>zcommon</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
     </dependency>
     <dependency>
       <groupId>org.zkoss.zk</groupId>
