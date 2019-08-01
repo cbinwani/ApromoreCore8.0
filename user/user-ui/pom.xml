@@ -34,10 +34,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
@@ -56,14 +52,6 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zcommon</artifactId>
     </dependency>
     <dependency>
       <groupId>org.zkoss.zk</groupId>

@@ -22,39 +22,40 @@ package org.apromore.folder_ui;
  * #L%
  */
 
-//import java.util.List;
+import java.util.List;
 import java.util.ResourceBundle;
-//import org.apromore.NotAuthorizedException;
-//import org.apromore.folder.Folder;
+import org.apromore.Caller;
+import org.apromore.NotAuthorizedException;
+import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
-//import org.apromore.folder.PathAlreadyExistsException;
-//import org.apromore.item.Item;
-//import org.apromore.item.ItemService;
-//import org.apromore.ui.spi.Selection;
+import org.apromore.item.Item;
+import org.apromore.ui.spi.Selection;
 import org.apromore.ui.impl.Util;
-import org.apromore.ui.spi.UIPluginContext;
+import org.apromore.ui.session.UISession;
+import org.osgi.service.useradmin.Authorization;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-//import org.zkoss.zk.ui.event.EventListener;
-//import org.zkoss.zk.ui.event.KeyEvent;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
-//import org.zkoss.zk.ui.event.SelectEvent;
+import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
-//import org.zkoss.zul.Listcell;
-//import org.zkoss.zul.Listitem;
-//import org.zkoss.zul.ListitemRenderer;
-//import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.ListitemRenderer;
+import org.zkoss.zul.ListModelList;
 //import org.zkoss.zul.Messagebox;
-//import org.zkoss.zul.Paging;
+import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
-//import org.zkoss.zul.ext.Selectable;
+import org.zkoss.zul.ext.Selectable;
 
 /**
  * Controller for <code>selectItem.zul</code>.
@@ -92,26 +93,20 @@ public class SelectItemController2 extends SelectorComposer<Component> {
     @SuppressWarnings("nullness")
     private Window win;
 
-    /** UI plugin context. */
-    @SuppressWarnings("nullness")
-    private UIPluginContext context = (UIPluginContext)
-        Executions.getCurrent().getArg().get("UIPluginContext");
-
     /** Used to access the details of the selected folders. */
     @SuppressWarnings("nullness")
     private FolderService folderService/* = (FolderService)
         Executions.getCurrent().getArg().get("FolderService")*/;
 
-    /** Used to access the details of the selected items. */
-/*
+    /** User to access the authorizations of the current user. */
     @SuppressWarnings("nullness")
-    private ItemService itemService*//* = (ItemService)
-        Executions.getCurrent().getArg().get("ItemService")*//*;
-*/
+    private UserAdmin userAdmin;
 
     /** @param context2 */
+/*
     private void refresh(final UIPluginContext context2) {
     }
+*/
 
     /** @param mouseEvent  clicked home */
     @Listen("onClick = #homeButton")
@@ -220,22 +215,43 @@ public class SelectItemController2 extends SelectorComposer<Component> {
                 .getComponentInstance("folderService");
         LOGGER.info("Folder service [{}]" + folderService);
 
-/*
-        itemService = (ItemService)
+        userAdmin = (UserAdmin)
             Util.blueprintContainer(this.getSelf())
-                .getComponentInstance("itemService");
-        LOGGER.info("Item service [{}]" + itemService);
+                .getComponentInstance("userAdmin");
+        LOGGER.info("User admin [{}]" + userAdmin);
 
-        //Item item = folderService.findItemByPath("/", caller);
-        //LOGGER.info("Item [{}]", item);
+        User user = (User) UISession.getCurrent().get("user");
+        Caller caller = new Caller() {
+            /**
+             * Evaluating the authorization here means that this instance
+             * can be passed outside of the thread holding the ZK session.
+             */
+            @SuppressWarnings("nullness")  // UserAdmin.getAuthorization
+                                           // isn't annotated
+            private final Authorization authorization2 =
+                userAdmin.getAuthorization(user);
+
+            @Override
+            public Authorization authorization() {
+                return authorization2;
+            }
+        };
+
+        try {
+            Item item = folderService.findItemByPath("/", caller);
+            LOGGER.info("Item " + item);
+
+        } catch (NotAuthorizedException e) {
+            LOGGER.error("Unable to access item", e);
+        }
 
         //Label currentFolderLabel =
         //    (Label) window.getFellow("currentFolderLabel");
-        Folder currentFolder =
-            (Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+        Folder currentFolder = null;
+            //(Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
         currentFolderLabel.setValue(currentFolder == null
             ? "/"
-            : folderService.findPathByItem(currentFolder, context.caller()));
+            : folderService.findPathByItem(currentFolder, caller));
 
         //Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
@@ -249,7 +265,7 @@ public class SelectItemController2 extends SelectorComposer<Component> {
 
                 if (item != null) {
                     String path =
-                        folderService.findPathByItem(item, context.caller());
+                        folderService.findPathByItem(item, caller);
                     name = path.substring(path.lastIndexOf("/") + 1,
                         path.length());
                     itemId = item.getId();
@@ -268,10 +284,10 @@ public class SelectItemController2 extends SelectorComposer<Component> {
         ListModelList<Item> model = new ListModelList<>();
 
         Folder folder = (Folder)
-            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+            null; //context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
         List<String> paths;
         if (folder == null) {
-            paths = folderService.getRootFolderPaths(context.caller());
+            paths = folderService.getRootFolderPaths(caller);
             LOGGER.info("Got root folder paths " + paths);
 
         } else {
@@ -284,7 +300,7 @@ public class SelectItemController2 extends SelectorComposer<Component> {
                 Item item =
                     folderService.findItemByFolderAndName(folder,
                                                           path,
-                                                          context.caller());
+                                                          caller);
                 if (item == null) {
                     throw new AssertionError("getPaths returned non-Item");
                 }
@@ -324,6 +340,5 @@ public class SelectItemController2 extends SelectorComposer<Component> {
                 );
             }
         });
-*/
     }
 }
