@@ -49,7 +49,9 @@ public interface FolderService {
      * @throws PathAlreadyExistsException if the <i>parentPath</i> already
      *     contains an item with the given <i>name</i>
      */
-    Folder createFolder(Folder parentFolder, String name, Caller caller)
+    Folder createFolder(@Nullable Folder parentFolder,
+                        String           name,
+                        Caller           caller)
         throws NotAuthorizedException, PathAlreadyExistsException;
 
     /**
@@ -64,10 +66,10 @@ public interface FolderService {
      * @throws PathAlreadyExistsException if the <i>parentPath</i> already
      *     contains an item with the given <i>name</i>
      */
-    void createPath(Folder parentFolder,
-                    String name,
-                    Item   content,
-                    Caller caller)
+    void createPath(@Nullable Folder parentFolder,
+                    String           name,
+                    Item             content,
+                    Caller           caller)
         throws NotAuthorizedException, PathAlreadyExistsException;
 
     /**
@@ -80,10 +82,10 @@ public interface FolderService {
      * @throws NotAuthorizedException if the caller's credentials do not permit
      *     item modification
      */
-    void updatePath(Folder parentFolder,
-                    String name,
-                    Item   content,
-                    Caller caller) throws NotAuthorizedException;
+    void updatePath(@Nullable Folder parentFolder,
+                    String           name,
+                    Item             content,
+                    Caller           caller) throws NotAuthorizedException;
 
     /**
      * @param id  primary key

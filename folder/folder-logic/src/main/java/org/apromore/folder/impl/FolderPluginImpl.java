@@ -103,9 +103,9 @@ public final class FolderPluginImpl
     // FolderService implementation
 
     @Override
-    public Folder createFolder(final Folder parentFolder,
-                               final String name,
-                               final Caller caller)
+    public Folder createFolder(final @Nullable Folder parentFolder,
+                               final String           name,
+                               final Caller           caller)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
         try {
@@ -123,10 +123,10 @@ public final class FolderPluginImpl
     }
 
     @Override
-    public void createPath(final Folder parentFolder,
-                           final String name,
-                           final Item   content,
-                           final Caller caller)
+    public void createPath(final @Nullable Folder parentFolder,
+                           final String           name,
+                           final Item             content,
+                           final Caller           caller)
         throws NotAuthorizedException, PathAlreadyExistsException {
 
         if (name.contains(SEPARATOR)) {
@@ -154,10 +154,10 @@ public final class FolderPluginImpl
     }
 
     @Override
-    public void updatePath(final Folder parentFolder,
-                           final String name,
-                           final Item content,
-                           final Caller caller)
+    public void updatePath(final @Nullable Folder parentFolder,
+                           final String           name,
+                           final Item             content,
+                           final Caller           caller)
         throws NotAuthorizedException {
 
         throw new UnsupportedOperationException();

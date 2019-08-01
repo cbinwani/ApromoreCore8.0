@@ -24,10 +24,12 @@ package org.apromore.folder_ui;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.servlet.http.HttpServletRequest;
 import org.apromore.Caller;
 import org.apromore.NotAuthorizedException;
 import org.apromore.folder.Folder;
 import org.apromore.folder.FolderService;
+import org.apromore.folder.PathAlreadyExistsException;
 import org.apromore.item.Item;
 import org.apromore.ui.spi.Selection;
 import org.apromore.ui.impl.Util;
@@ -39,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -52,7 +55,7 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListModelList;
-//import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Selectable;
@@ -102,6 +105,34 @@ public class SelectItemController2 extends SelectorComposer<Component> {
     @SuppressWarnings("nullness")
     private UserAdmin userAdmin;
 
+    /** @return the caller */
+    private Caller getCaller() {
+        return new Caller() {
+
+            /**
+             * Evaluating the authorization here means that this instance
+             * can be passed outside of the thread holding the ZK session.
+             */
+            @SuppressWarnings("nullness")  // UserAdmin.getAuthorization
+                                           // isn't annotated
+            private final Authorization authorization2 =
+                userAdmin.getAuthorization((User) UISession.getCurrent()
+                                                           .get("user"));
+
+            @Override
+            public Authorization authorization() {
+                return authorization2;
+            }
+        };
+    }
+
+    /** @return the selected path */
+    private String getPath() {
+        HttpServletRequest request = (HttpServletRequest)
+            Executions.getCurrent().getNativeRequest();
+        return (String) request.getAttribute(FolderServlet.PATH_ATTRIBUTE);
+    }
+
     /** @param context2 */
 /*
     private void refresh(final UIPluginContext context2) {
@@ -112,6 +143,7 @@ public class SelectItemController2 extends SelectorComposer<Component> {
     @Listen("onClick = #homeButton")
     @SuppressWarnings("nullness")
     public void onClickHomeButton(final MouseEvent mouseEvent) {
+        Executions.getCurrent().sendRedirect("/folder/");
 /*
         context.putSessionAttribute(USER_FOLDER_ATTRIBUTE, null);
         refresh(context);
@@ -121,11 +153,10 @@ public class SelectItemController2 extends SelectorComposer<Component> {
     /** @param mouseEvent  clicked create folder */
     @Listen("onClick = #createFolderButton")
     public void onClickCreateFolderButton(final MouseEvent mouseEvent) {
- /*
         int counter = 1;
         String newFolderName = "New folder";
         Folder parentFolder = (Folder)
-            context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
+            null; //context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
 
         // Beware: this loop is awful code and you need to be
         // particularly alert while modifying it
@@ -133,8 +164,8 @@ public class SelectItemController2 extends SelectorComposer<Component> {
             try {
                 folderService.createFolder(parentFolder,
                                            newFolderName,
-                                           context.caller());
-                refresh(context);
+                                           getCaller());
+                //refresh(context);
                 return;
 
             } catch (PathAlreadyExistsException e) {
@@ -157,7 +188,6 @@ public class SelectItemController2 extends SelectorComposer<Component> {
         Messagebox.show("Too many new folders.\n"
             + "Rename or delete some folders.",
             "Attention", Messagebox.OK, Messagebox.ERROR);
-*/
     }
 
     /** @param mouseEvent  clicked enter folder */
@@ -206,9 +236,9 @@ public class SelectItemController2 extends SelectorComposer<Component> {
 
     /** {@inheritDoc} */
     @Override
-    @SuppressWarnings("checkstyle:AvoidInlineConditionals")
     public void doFinally() {
         LOGGER.info("Finally [{}]", this.getSelf());
+        LOGGER.info("Path [{}]", getPath());
 
         folderService = (FolderService)
             Util.blueprintContainer(this.getSelf())
@@ -220,40 +250,8 @@ public class SelectItemController2 extends SelectorComposer<Component> {
                 .getComponentInstance("userAdmin");
         LOGGER.info("User admin [{}]" + userAdmin);
 
-        User user = (User) UISession.getCurrent().get("user");
-        Caller caller = new Caller() {
-            /**
-             * Evaluating the authorization here means that this instance
-             * can be passed outside of the thread holding the ZK session.
-             */
-            @SuppressWarnings("nullness")  // UserAdmin.getAuthorization
-                                           // isn't annotated
-            private final Authorization authorization2 =
-                userAdmin.getAuthorization(user);
+        currentFolderLabel.setValue(getPath());
 
-            @Override
-            public Authorization authorization() {
-                return authorization2;
-            }
-        };
-
-        try {
-            Item item = folderService.findItemByPath("/", caller);
-            LOGGER.info("Item " + item);
-
-        } catch (NotAuthorizedException e) {
-            LOGGER.error("Unable to access item", e);
-        }
-
-        //Label currentFolderLabel =
-        //    (Label) window.getFellow("currentFolderLabel");
-        Folder currentFolder = null;
-            //(Folder) context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-        currentFolderLabel.setValue(currentFolder == null
-            ? "/"
-            : folderService.findPathByItem(currentFolder, caller));
-
-        //Listbox listbox = (Listbox) window.getFellow("listbox");
         listbox.setItemRenderer(new ListitemRenderer<Item>() {
             public void render(final Listitem listitem,
                                final Item     item,
@@ -265,7 +263,7 @@ public class SelectItemController2 extends SelectorComposer<Component> {
 
                 if (item != null) {
                     String path =
-                        folderService.findPathByItem(item, caller);
+                        folderService.findPathByItem(item, getCaller());
                     name = path.substring(path.lastIndexOf("/") + 1,
                         path.length());
                     itemId = item.getId();
@@ -283,33 +281,37 @@ public class SelectItemController2 extends SelectorComposer<Component> {
 
         ListModelList<Item> model = new ListModelList<>();
 
-        Folder folder = (Folder)
-            null; //context.getSessionAttribute(USER_FOLDER_ATTRIBUTE);
-        List<String> paths;
-        if (folder == null) {
-            paths = folderService.getRootFolderPaths(caller);
-            LOGGER.info("Got root folder paths " + paths);
+        try {
+            Folder folder = (Folder)
+                folderService.findItemByPath(getPath(), getCaller());
+            List<String> paths;
+            if (folder == null) {
+                paths = folderService.getRootFolderPaths(getCaller());
+                LOGGER.info("Got root folder paths " + paths);
 
-        } else {
-            paths = folder.getPaths();
-            LOGGER.info("Got folder paths " + paths);
-        }
-
-        for (String path: paths) {
-            try {
-                Item item =
-                    folderService.findItemByFolderAndName(folder,
-                                                          path,
-                                                          caller);
-                if (item == null) {
-                    throw new AssertionError("getPaths returned non-Item");
-                }
-                model.add(item);
-
-            } catch (NotAuthorizedException e) {
-                // Silently hide unauthorized content
-                LOGGER.warn("Unauthorized path " + path, e);
+            } else {
+                paths = folder.getPaths();
+                LOGGER.info("Got folder paths " + paths);
             }
+
+            for (String path: paths) {
+                try {
+                    Item item =
+                        folderService.findItemByFolderAndName(folder,
+                                                              path,
+                                                              getCaller());
+                    if (item == null) {
+                        throw new AssertionError("getPaths returned non-Item");
+                    }
+                    model.add(item);
+
+                } catch (NotAuthorizedException e) {
+                    // Silently hide unauthorized content
+                    LOGGER.warn("Unauthorized path " + path, e);
+                }
+            }
+        } catch (NotAuthorizedException e) {
+            LOGGER.error("Unable to access item", e);
         }
 
         model.setSelection(Selection.getSelection());

@@ -23,7 +23,7 @@ package org.apromore.folder_ui;
  */
 
 import java.io.IOException;
-import java.util.Arrays;
+//import java.util.Arrays;
 //import java.util.ResourceBundle;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -52,9 +52,18 @@ import static org.osgi.service.http.whiteboard.HttpWhiteboardConstants
         HTTP_WHITEBOARD_SERVLET_NAME + "=folder" })
 public class FolderServlet extends HttpServlet {
 
+    /**
+     * This HTTP servlet request attribute tells the forwarded servlet what
+     * the original {@link HttpServletRequest#getPathInfo} was.
+     *
+     * In this particular case, the path info identifies the folder to
+     * display.
+     */
+    static final String PATH_ATTRIBUTE = "org.apromore.folder_ui.PathInfo";
+
     /** {@inheritDoc}
      *
-     * This implementation produces a plain text constant.
+     * This implementation forwards the request to <code>folder.zul</code>.
      */
     @Override
     public void doGet(final HttpServletRequest req,
@@ -63,6 +72,7 @@ public class FolderServlet extends HttpServlet {
 
         String path = req.getPathInfo();
 
+        /*
         if (req.getCookies() != null) {
             String sessionId = Arrays.asList(req.getCookies())
                 .stream()
@@ -75,12 +85,13 @@ public class FolderServlet extends HttpServlet {
         if (req.getSession() != null) {
             log("GET session.id " + req.getSession().getId());
         }
+        */
 
         if (path == null) {
             resp.sendRedirect(req.getServletPath() + "/");
 
         } else {
-            req.setAttribute(FolderController.PATH_ATTRIBUTE, path);
+            req.setAttribute(PATH_ATTRIBUTE, path);
             req.getServletContext()
                .getNamedDispatcher("zkLoader")
                .forward(new RequestWrapper(req, null, "/folder.zul"), resp);
