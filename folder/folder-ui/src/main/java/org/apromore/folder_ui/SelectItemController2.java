@@ -84,7 +84,7 @@ public class SelectItemController2 extends SelectorComposer<Component> {
      * This will be a {@link Folder} instance, or <code>null</code> if the user
      * is at the root of the folder hierarchy.
      */
-    public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
+    //public static final String USER_FOLDER_ATTRIBUTE = "user.folder";
 
     /** @return localized text catalogue */
     public ResourceBundle getLabels() {
@@ -193,20 +193,20 @@ public class SelectItemController2 extends SelectorComposer<Component> {
     /** @param mouseEvent  clicked enter folder */
     @Listen("onClick = #enterFolderButton")
     public void onClickEnterFolderButton(final MouseEvent mouseEvent) {
-/*
         for (Item selectedItem: Selection.getSelection()) {
             if (selectedItem instanceof Folder) {
                 LOGGER.info("Entering folder " + selectedItem.getId());
-                context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
-                    selectedItem);
-                refresh(context);
+                //context.putSessionAttribute(USER_FOLDER_ATTRIBUTE,
+                //    selectedItem);
+                //refresh(context);
+                Executions.getCurrent().sendRedirect(folderService
+                    .findPathByItem(selectedItem, getCaller()));
 
             } else {
                 Messagebox.show("Selection is not a folder",
                     "Attention", Messagebox.OK, Messagebox.ERROR);
             }
         }
-*/
     }
 
     /** @param mouseEvent  clicked remove item */
